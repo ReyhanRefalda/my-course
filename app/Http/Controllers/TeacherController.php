@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreTeacherRequest;
+use Illuminate\Validation\ValidationException;
 
 class TeacherController extends Controller
 {
@@ -12,7 +16,11 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        //
+        $teachers = Teacher::orderBy('id', 'desc')->get();
+
+        return view('admin.teachers.index', [
+            'teachers' => $teachers
+        ]);
     }
 
     /**
@@ -20,15 +28,43 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.teachers.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTeacherRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $user = User::where('email', $validated['email'])->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Data tidak ditemukan'
+            ]);
+        }
+
+        if ($user->hasRole('teacher')) {
+            return back()->withErrors([
+                'email' => 'Email teresebut sudah menjadi Guru'
+            ]);
+        }
+
+        DB::transaction(function () use ($validated, $user) {
+            $validated['user_id'] = $user->id;
+            $validated['is_active'] = true;
+
+            $teacher = Teacher::create($validated);
+
+            if ($user->hasRole('student')) {
+                $user->removeRole('student');
+            }
+            $user->assignRole('teacher');
+        });
+
+        return redirect()->route('admin.teachers.index');
     }
 
     /**
@@ -60,6 +96,20 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        try {
+            $teacher->delete();
+
+            $user = User::find($teacher->user_id);
+            $user->removeRole('teacher');
+            $user->assignRole('student');
+
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $error = ValidationException::withMessages([
+                'system_error' => ['System error!' . $e->getMessage()],
+            ]);
+            throw $error;
+        }
     }
 }

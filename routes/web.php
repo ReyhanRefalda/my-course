@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CourseVideoController;
-use App\Http\Controllers\FrontController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SubscribeTransactionController;
-use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FrontController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CourseVideoController;
+use App\Http\Controllers\SubscribeTransactionController;
 
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/details/{course:slug}', [FrontController::class, 'detail'])->name('front.details');
@@ -56,6 +57,9 @@ Route::middleware('auth')->group(function () {
         ->name('front.add_video.save');
 
         Route::resource('course_videos', CourseVideoController::class)
+        ->middleware('role:owner|teacher');
+
+        Route::resource('artikel', ArtikelController::class)
         ->middleware('role:owner|teacher');
     });
 });
