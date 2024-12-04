@@ -15,21 +15,28 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @role('owner|teacher')
+                    <x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.index')">
+                        {{ __('Manage Course') }}
+                    </x-nav-link>
+                    @endrole
+
+                    @role('owner')
                     <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
-                        {{ __('Menage Category') }}
+                        {{ __('Manage Category') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.artikel.index')" :active="request()->routeIs('admin.artikel.index')">
-                        {{ __('Menage Artikel') }}
+                        {{ __('Manage Artikel') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.index')">
-                        {{ __('Menage Course') }}
-                    </x-nav-link>
+                    
                     <x-nav-link :href="route('admin.teachers.index')" :active="request()->routeIs('admin.teachers.index')">
-                        {{ __('Menage Teacher') }}
+                        {{ __('Manage Teacher') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.subscribe_transactions.index')" :active="request()->routeIs('admin.subscribe_transactions.index')">
-                        {{ __('Menage Suscribetion') }}
+                        {{ __('Manage Suscribetion') }}
                     </x-nav-link>
+                    @endrole
                 </div>
 
             </div>
