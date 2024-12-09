@@ -26,7 +26,7 @@
                     </div>
                     <div>
                         <p class="text-slate-500 text-sm">Date</p>
-                        <h3 class="text-indigo-950 text-xl font-bold">{{ $transaction->created_at }}</h3>
+                        <h3 class="text-indigo-950 text-xl font-bold">{{ $transaction->created_at->isoFormat('dddd, D MMMM YYYY') }}</h3>
                     </div>
                     <div>
                         <p class="text-slate-500 text-sm mb-2">Status</p>

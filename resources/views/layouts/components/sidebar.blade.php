@@ -26,39 +26,50 @@
                     </a>
                 </li>
 
+                @role('owner')
                 <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                         href="{{ route('admin.categories.index') }}">
                         <i class="ti ti-stack-front ps-2 text-2xl"></i> <span>Manage Category</span>
                     </a>
                 </li>
+                @endrole
 
+                @role('owner')
                 <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                         href="{{ route('admin.artikel.index') }}">
                         <i class="ti ti-news ps-2 text-2xl"></i> <span>Manage Artikel</span>
                     </a>
                 </li>
+                @endrole
 
+                @role('owner|teacher')
                 <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                         href="{{ route('admin.courses.index') }}">
                         <i class="ti ti-folder-open ps-2 text-2xl"></i> <span>Manage Course</span>
                     </a>
                 </li>
+                @endrole
+
+                @role('owner')
                 <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                         href="{{ route('admin.teachers.index') }}">
                         <i class="ti ti-school ps-2 text-2xl"></i> <span>Manage Teacher</span>
                     </a>
                 </li>
+                @endrole
 
+                @role('owner')
                 <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                         href="{{ route('admin.subscribe_transactions.index') }}">
                         <i class="ti ti-coin ps-2 text-2xl"></i> <span>Manage Transaction</span>
                     </a>
                 </li>
+                @endrole
 
             </ul>
         </nav>
