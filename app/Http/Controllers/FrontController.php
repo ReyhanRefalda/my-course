@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSubscribeTransactionRequest;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Package;
 use App\Models\SubscribeTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -43,11 +44,14 @@ class FrontController extends Controller
     }
 
     public function pricing(){
-        return view('front.pricing');
+        $packages = Package::all();
+
+        return view('front.pricing', compact('packages'));
     }
 
-    public function checkout(){
-        return view('front.checkout');
+    public function checkout($packageId){
+        $package = Package::findOrFail($packageId);
+        return view('front.checkout', compact('package'));
     }
 
     public function checkout_store(StoreSubscribeTransactionRequest $request){
@@ -60,13 +64,15 @@ class FrontController extends Controller
         DB::transaction(function () use ($request, $user){
             $validated = $request->validated();
 
+            $package = Package::findOrFail($validated['package_id']);
+
             if($request->hasFile('proof')){
                 $proofPath = $request->file('proof')->store('proofs', 'public');
                 $validated['proof'] = $proofPath;
             }
 
             $validated['user_id'] = $user->id;
-            $validated['total_amount'] = 429000;
+            $validated['total_amount'] = $package->harga;
             $validated['is_paid'] = false;
 
             $transaction = SubscribeTransaction::create($validated);

@@ -22,6 +22,7 @@ class StoreSubscribeTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
+             'package_id' => 'required|exists:packages,id',
             'proof' => 'required|image|mimes:jpeg,png,jpg',
         ];
     }
