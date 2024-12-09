@@ -18,37 +18,27 @@
                 <div class="flex items-center justify-between w-full">
                     <div class="flex items-center gap-3">
                         <div class="flex flex-col gap-[2px]">
-                            <p class="font-semibold">Premium</p>
-                            <p class="text-sm text-[#6D7786]">30 days access</p>
+                            <p class="font-semibold">{{$package->name}}</p>
                         </div>
                     </div>
                     <p class="p-[4px_12px] rounded-full bg-[#FF6129] font-semibold text-xs text-white text-center">Popular</p>
                 </div>
                 <hr>
                 <div class="flex flex-col gap-5">
-                    <div class="flex gap-3">
-                        <div class="w-6 h-6 flex shrink-0">
-                            <img src="{{asset('assets/icon/tick-circle.svg')}}" class="w-full h-full object-cover" alt="icon">
-                        </div>
-                        <p class="text-[#475466]">Access all course materials</p>
-                    </div>
-                    <div class="flex gap-3">
-                        <div class="w-6 h-6 flex shrink-0">
-                            <img src="{{asset('assets/icon/tick-circle.svg')}}" class="w-full h-full object-cover" alt="icon">
-                        </div>
-                        <p class="text-[#475466]">Unlock all course badges for jobs</p>
-                    </div>
-                    <div class="flex gap-3">
-                        <div class="w-6 h-6 flex shrink-0">
-                            <img src="{{asset('assets/icon/tick-circle.svg')}}" class="w-full h-full object-cover" alt="icon">
-                        </div>
-                        <p class="text-[#475466]">Receive premium rewards</p>
-                    </div>
+                    @foreach ($package->benefits as $benefit)
+                            <div class="flex gap-3">
+                                <div class="w-6 h-6 flex shrink-0">
+                                    <img src="{{ asset('assets/icon/tick-circle.svg') }}" class="w-full h-full object-cover" alt="icon">
+                                </div>
+                                <p class="text-[#475466]">{{ $benefit->name }}</p>
+                            </div>
+                    @endforeach
                 </div>
-                <p class="font-semibold text-[28px] leading-[42px]">Rp 429000</p>
+                <p class="font-semibold text-[28px] leading-[42px]">Rp {{ number_format($package->harga, 0, ',', '.') }}</p>
             </div>
             <form action="{{route('front.checkout.store')}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col bg-white rounded-2xl p-5 gap-5">
                 @csrf
+                <input type="hidden" name="package_id" value="{{ $package->id }}">
                 <p class="font-bold text-lg">Send Payment</p>
                 <div class="flex flex-col gap-5">
                     <div class="flex items-center justify-between">
