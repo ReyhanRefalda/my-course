@@ -1,9 +1,8 @@
-<x-app-layout>
+<x-user>
     <main class="pt-4 pb-16 lg:pt-4 lg:pb-24 antialiased">
 
 
-        <div
-            class="grid [grid-template-columns:1fr] md:[grid-template-columns:2fr_.9fr] pt-8 px-4 mx-auto max-w-screen-xl ">
+        <div class="grid [grid-template-columns:1fr] md:[grid-template-columns:2fr_.9fr] pt-8 px-4 mx-auto max-w-screen-xl ">
             <article
                 class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
                 <header class="mb-4 lg:mb-6 not-format">
@@ -58,7 +57,7 @@
                     <!-- Article Sidebar Items -->
                     @forelse ($artikleSidebar as $artikel)
                         <div class="mb-2 pb-2 [border-bottom:1px_solid_#424242]">
-                            <a href="{{ route('user.artikel.show', ['slug' => $artikel->slug]) }}"
+                            <a href="{{ route('artikel.show', ['slug' => $artikel->slug]) }}"
                                 class="space-x-4 overflow-hidden rounded-lg">
                                 <div>
                                     <p class="text-lg font-semibold hover:underline">
@@ -75,10 +74,10 @@
                             </a>
                         </div>
                     @empty
-                        <p class="text-[#f7f9fa]">Belum ada artikel terbaru...</p>
+                        <p class="text-[#181818]">Belum ada artikel terbaru...</p>
                     @endforelse
                 </div>
             </div>
         </div>
     </main>
-</x-app-layout>
+</x-user>

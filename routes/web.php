@@ -17,7 +17,7 @@ Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/details/{course:slug}', [FrontController::class, 'detail'])->name('front.details');
 Route::get('/category/{category:slug}', [FrontController::class, 'category'])->name('front.category');
 Route::get('/pricing', [FrontController::class, 'pricing'])->name('front.pricing');
-Route::get('/artikel', [UserArtikelController::class, 'index'])->name('user.artikel.index'); // Daftar artikel
+Route::get('/artikel', [UserArtikelController::class, 'index'])->name('artikel.index'); // Daftar artikel
 
 
 
@@ -75,4 +75,4 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('/artikel/{slug}', [UserArtikelController::class, 'detail'])->name('user.artikel.show'); // Detail
+Route::get('/artikel/{slug}', [UserArtikelController::class, 'detail'])->name('artikel.show'); // Detail

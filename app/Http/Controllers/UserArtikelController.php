@@ -24,7 +24,7 @@ class UserArtikelController extends Controller
         $lastData = $query->orderBy('id', 'desc')->latest()->first();
 
         if (!$lastData) {
-            return view('user.artikel.index', [
+            return view('artikel.index', [
                 'artikels' => $query->paginate(12),
                 'lastData' => null,
                 'secondToFifthData' => collect()
@@ -40,7 +40,7 @@ class UserArtikelController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(12);
 
-        return view('user.artikel.index', compact('artikels', 'lastData', 'secondToFifthData'));
+        return view('artikel.index', compact('artikels', 'lastData', 'secondToFifthData'));
     }
 
 
@@ -49,7 +49,7 @@ class UserArtikelController extends Controller
     {
         $artikleSidebar = Artikel::where('status', 'publish')->latest()->get();
         $artikels = Artikel::where('status', 'publish')->where('slug', $slug)->firstOrFail();
-        return view('user.artikel.show', compact('artikels', 'artikleSidebar'));
+        return view('artikel.show', compact('artikels', 'artikleSidebar'));
     }
 
     public function lastData()

@@ -1,7 +1,14 @@
 <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
 <x-app-layout>
-    <div class="flex justify-between items-center space-x-4 mx-12 my-4">
+    <x-slot name="navbarLink">
+        <div class="flex flex-row justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Manage Artikel') }}
+            </h2>
+        </div>
+    </x-slot>
+
+    <div class="flex justify-between items-center space-x-4">
         <div class="w-[300px]">
             <form action="{{ route('admin.artikel.index') }}" method="GET" class="m-0">
                 <div
@@ -14,13 +21,13 @@
                         </svg>
                     </button>
                     <input type="text" name="search" placeholder="Search Artikel" value="{{ request('search') }}"
-                    class="block w-full px-4 text-[#898D93] bg-[#fff] [border:2px_solid_#fff] focus:ring-[#fff] focus:border-[#fff] sm:text-sm">
+                        class="block w-full px-4 text-[#898D93] bg-[#fff] [border:2px_solid_#fff] focus:ring-[#fff] focus:border-[#fff] sm:text-sm">
                 </div>
             </form>
         </div>
         <a href="{{ route('admin.artikel.create') }}"
             class="px-4 py-2.5 text-white bg-[#3525B3] rounded-2xl hover:bg-indigo-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            Add Article
+            Add New
         </a>
     </div>
 
@@ -49,7 +56,7 @@
         </div>
     @endif
 
-    <div class="mx-12 overflow-x-auto rounded-[30px] shadow-md bg-white">
+    <div class="overflow-x-auto rounded-[30px] shadow-md bg-white">
         <table class="w-full text-left bg-white rounded-lg p-4">
             <thead>
                 <tr class="border-b border-gray-300 p-4 [&>th]:px-6 [&>tb]:py4 [&>th]:pt-8">
@@ -68,8 +75,8 @@
                             <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $artikel->tumbnail) }}"
                                 alt="Artikel Thumbnail" class="w-[90px] h-[90px] rounded-2xl object-cover shadow-md">
                             <div>
-                                <h2 class="text-xl font-bold text-gray-900">{{ $artikel->title }}</h2>
-                                <p class="trix-content-admin text-sm [&>p]:text-gray-200 mt-1">
+                                <h2 class="text-[16px] font-bold text-gray-900">{{ $artikel->title }}</h2>
+                                <p class="trix-content-admin mt-1 text-sm">
                                     {!! Str::limit($artikel->content, 120) !!}
                                 </p>
                             </div>
@@ -182,3 +189,4 @@
         });
     </script>
 </x-app-layout>
+
