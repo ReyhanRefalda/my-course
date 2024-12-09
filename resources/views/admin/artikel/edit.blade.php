@@ -26,16 +26,9 @@
                                 </div>
 
                                 <div class="md:col-span-2">
-                                    <label for="description" class="font-medium">Ringkasan</label>
-                                    <input type="text" name="description" id="description"
-                                        value="{{ old('description', $artikel->description) }}"
-                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50">
-                                    <x-input-error :messages="$errors->get('description')" />
-                                </div>
-
-                                <div class="md:col-span-2">
                                     <label for="content" class="font-medium">Isi Artikel</label>
-                                    <input id="content" type="hidden" name="content" value="{{ old('content', $artikel->content) }}">
+                                    <input id="content" type="hidden" name="content"
+                                        value="{{ old('content', $artikel->content) }}">
                                     <trix-editor input="content"
                                         class="trix-content border-gray-300 rounded-lg shadow-sm min-h-80">{!! old('content', $artikel->content) !!}</trix-editor>
                                     <x-input-error :messages="$errors->get('content')" />

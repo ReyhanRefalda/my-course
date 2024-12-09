@@ -1,29 +1,27 @@
+<link rel="stylesheet" href="{{ mix('css/app.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
 <x-app-layout>
-    <h1 class="text-lg mb-4 text-gray-500 text-start">
-        DASHBOARD ADMIN <span class="text-gray-900"><b>/ DAFTAR ARTIKEL</b></span>
-    </h1>
-
-    <div class="w-full flex justify-between items-center mb-4 space-x-4">
-        <a href="{{ route('admin.artikel.create') }}"
-            class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            Tambah Artikel
-        </a>
-        <div class="w-full max-w-md">
-            <form action="{{ route('admin.artikel.index') }}" method="GET">
-                <div class="flex items-center space-x-2">
-                    <input type="text" name="search" placeholder="Cari artikel" value="{{ request('search') }}"
-                        class="w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-100 dark:text-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out">
-                    <button type="submit"
-                        class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+    <div class="flex justify-between items-center space-x-4 mx-12 my-4">
+        <div class="w-[300px]">
+            <form action="{{ route('admin.artikel.index') }}" method="GET" class="m-0">
+                <div
+                    class="flex items-center space-x-2 bg-white border border-gray-300 rounded-2xl px-4 py-[2px] shadow-md">
+                    <button type="submit" class="text-gray-400">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button>
+                    <input type="text" name="search" placeholder="Search Artikel" value="{{ request('search') }}"
+                    class="block w-full px-4 text-[#898D93] bg-[#fff] [border:2px_solid_#fff] focus:ring-[#fff] focus:border-[#fff] sm:text-sm">
                 </div>
             </form>
         </div>
+        <a href="{{ route('admin.artikel.create') }}"
+            class="px-4 py-2.5 text-white bg-[#3525B3] rounded-2xl hover:bg-indigo-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Add Article
+        </a>
     </div>
 
 
@@ -51,47 +49,72 @@
         </div>
     @endif
 
-    <div class="grid grid-cols-3 gap-4">
-        @foreach ($artikels as $artikel)
-            <div
-                class="max-w-sm mx-auto bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div class="relative">
-                    <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $artikel->tumbnail) }}"
-                        alt="Artikel Thumbnail" class="w-full h-48 object-cover">
-                </div>
+    <div class="mx-12 overflow-x-auto rounded-[30px] shadow-md bg-white">
+        <table class="w-full text-left bg-white rounded-lg p-4">
+            <thead>
+                <tr class="border-b border-gray-300 p-4 [&>th]:px-6 [&>tb]:py4 [&>th]:pt-8">
+                    <th class="px-6 py-4 text-[15px] font-semibold text-[#292D32]">Article</th>
+                    <th class="px-6 py-4 text-[15px] font-semibold text-[#292D32]">Writer</th>
+                    <th class="px-6 py-4 text-[15px] font-semibold text-[#292D32]">Date</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="border-b border-gray-300 divide-y divide-gray-300">
+                @foreach ($artikels as $artikel)
+                    <tr class="hover:bg-indigo-50">
+                        <!-- Artikel -->
+                        <td class="flex items-center px-6 py-4 space-x-4">
+                            <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $artikel->tumbnail) }}"
+                                alt="Artikel Thumbnail" class="w-[90px] h-[90px] rounded-2xl object-cover shadow-md">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-900">{{ $artikel->title }}</h2>
+                                <p class="trix-content-admin text-sm [&>p]:text-gray-200 mt-1">
+                                    {!! Str::limit($artikel->content, 120) !!}
+                                </p>
+                            </div>
+                        </td>
 
-                <div class="p-4">
-                    <h2 class="text-xl font-bold text-gray-800">{{ $artikel->title }}</h2>
-                    <p class="text-gray-600 text-sm mt-1">
-                        Ditulis oleh <span class="font-semibold">{{ $artikel->user->nama }}</span>
-                        pada <span class="font-semibold">{{ $artikel->created_at->isoFormat('dddd, D MMMM Y') }}</span>
-                    </p>
-                    <p class="mt-2 text-gray-700 line-clamp-3">{{ $artikel->description }}</p>
-                    <span
-                        class="mt-4 inline-block px-3 py-1 text-xs font-bold rounded
-                    {{ $artikel->status == 'publish' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
-                        {{ ucfirst($artikel->status) }}
-                    </span>
-                    <div class="mt-4 flex gap-4">
-                        {{-- <a href="{{ route('user.artikel.show', $artikel->slug) }}"
-                            class="text-blue-500 hover:underline">
-                            Show
-                        </a> --}}
-                        <a href="{{ route('admin.artikel.edit', $artikel->id) }}"
-                            class="text-yellow-500 hover:underline">
-                            Edit
-                        </a>
-                        <button type="button" data-modal-target="deleteModal-{{ $artikel->id }}"
-                            data-modal-toggle="deleteModal-{{ $artikel->id }}" class="text-red-500 hover:underline">
-                            Hapus
-                        </button>
-                    </div>
-                </div>
-            </div>
-        @endforeach
+                        <!-- Writer -->
+                        <td class="px-6 py-4 font-medium text-[#6D7786] text-start">{{ $artikel->user->name }}</td>
+
+                        <!-- Date -->
+                        <td class="px-6 py-4 font-medium text-[#6D7786] text-start">
+                            {{ $artikel->created_at->isoFormat('dddd, D MMMM YYYY') }}
+                        </td>
+
+                        <!-- Status -->
+                        <td class="px-6 py-4">
+                            <span
+                                class="px-6 py-3 text-xs font-semibold rounded-full
+                                {{ $artikel->status == 'publish' ? 'bg-[#BBFFC7] text-[#009C0A]' : 'bg-[#FFCB94] text-[#FF6129]' }}">
+                                {{ ucfirst($artikel->status) }}
+                            </span>
+                        </td>
+
+                        <!-- Action -->
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-x-4">
+                                <a href="{{ route('admin.artikel.edit', $artikel->id) }}"
+                                    class="px-6 py-2.5 text-sm text-white bg-[#3525B3] rounded-full hover:bg-indigo-800 transition duration-300 ease-in-out">
+                                    Edit
+                                </a>
+                                <button type="button" data-modal-target="deleteModal-{{ $artikel->id }}"
+                                    data-modal-toggle="deleteModal-{{ $artikel->id }}">
+                                    <i class="ti ti-trash text-[25px] text-red-500"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 
-    <div class="py-4">
+
+
+
+    <div class="py-4 px-12">
         {!! $artikels->links() !!}
     </div>
 
