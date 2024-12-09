@@ -39,8 +39,12 @@
                         <p class="text-sm ">My Task</p>
                     </a>
                     <div class="px-4 mt-[7px] grid">
-                        <a href="../../pages/authentication-login.html"
-                            class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">Logout</a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">
+                                Logout
+                            </button>
+                        </form>
                     </div>
 
                 </div>

@@ -46,7 +46,6 @@
                                         class="w-12 h-12 rounded-lg object-cover">
                                     <div>
                                         <h3 class="text-gray-900 font-semibold">{{ $category->name }}</h3>
-                                        <p class="text-gray-500 text-sm">Deskripsi untuk kategori ini</p>
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-gray-700 text-sm">
