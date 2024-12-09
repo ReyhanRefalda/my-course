@@ -1,63 +1,85 @@
 <x-app-layout>
-    <x-slot name="header">
+    <x-slot name="navbarLink">
         <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Manage Courses') }}
             </h2>
-            <a href="{{ route('admin.courses.create') }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                Add New
-            </a>
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
-                @forelse ($courses as $course)
-                    <div class="item-card flex flex-col md:flex-row gap-y-10 justify-between md:items-center">
-                        <div class="flex flex-row items-center gap-x-3">
-                            <img src="{{ Storage::url($course->thumbnail) }}"
-                                alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
-                            <div class="flex flex-col">
-                                <h3 class="text-indigo-950 text-xl font-bold">{{ $course->name }}</h3>
-                                <p class="text-slate-500 text-sm">{{ $course->category->name }}</p>
-                            </div>
-                        </div>
-                        <div class="hidden md:flex flex-col">
-                            <p class="text-slate-500 text-sm">Students</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">{{ $course->students->count() }}</h3>
-                        </div>
-                        <div class="hidden md:flex flex-col">
-                            <p class="text-slate-500 text-sm">Videos</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">{{ $course->course_videos->count() }}</h3>
-                        </div>
-                        <div class="hidden md:flex flex-col">
-                            <p class="text-slate-500 text-sm">Teacher</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">{{ $course->teacher->user->name }}</h3>
-                        </div>
-                        <div class="hidden md:flex flex-row items-center gap-x-3">
-                            <a href="{{ route('admin.courses.show', $course) }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                                Manage
-                            </a>
-                            <form action="{{ route('admin.courses.destroy', $course) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="font-bold py-4 px-6 bg-red-700 text-white rounded-full">
-                                    Delete
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                @empty
-                    <div class="flex flex-col items-center justify-center gap-y-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-12 h-12">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                        </svg>
-                        <p class="text-slate-500 text-sm">No Courses Found</p>
-                    </div>
-                @endforelse
+    <div class="flex justify-between items-center space-x-4 mb-6">
+        <form action="" method="GET" class="flex items-center bg-white shadow-lg rounded-full px-2 border border-gray-300 w-full max-w-xs">
+            <!-- Icon Search -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" class="w-5 h-5 text-gray-400">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35" />
+            </svg>
+            <!-- Input Field -->
+            <input type="text" name="query" placeholder="Search Courses"
+                class="text-sm outline-none text-gray-700 placeholder-gray-400 bg-transparent w-full border-none focus:ring-0 focus:border-none">
+        </form>
+
+        <a href="{{ route('admin.courses.create') }}" class="font-bold py-2 px-6 bg-indigo-700 text-white rounded-full shadow hover:bg-indigo-800">
+            Add New
+        </a>
+    </div>
+
+    <div class="py-2">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-white overflow-hidden shadow-sm rounded-xl p-8">
+                <table class="table-auto w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600 w-96">Course</th>
+                            <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600 w-2">Students</th>
+                            <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600 w-2">Videos</th>
+                            <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600 w-2">Teacher</th>
+                            <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600"></th>
+                        </tr>
+
+
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @forelse ($courses as $course)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-4 flex items-center gap-4">
+                                    <img src="{{ Storage::url($course->thumbnail) }}" alt="Thumbnail"
+                                        class="w-12 h-12 rounded-lg object-cover">
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold">{{ $course->name }}</h3>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-2 text-center text-sm text-gray-700">
+                                    {{ $course->students->count() }}
+                                </td>
+                                <td class="px-2 py-2 text-center text-sm text-gray-700">
+                                    {{ $course->course_videos->count() }}
+                                </td>
+                                <td class="px-2 py-2 text-center text-sm text-gray-700">
+                                    {{ $course->teacher->user->name }}
+                                </td>
+                                <td class="px-4 py-4 text-right flex gap-2">
+                                    <a href="{{ route('admin.courses.show', $course) }}"
+                                        class="px-6 py-3 rounded-full text-center font-semibold bg-indigo-600 hover:bg-indigo-700 text-white">
+                                        Manage
+                                    </a>
+                                    <form action="{{ route('admin.courses.destroy', $course) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
+                                            <i class="ti ti-trash text-3xl"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-gray-500">No Courses Found</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

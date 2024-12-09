@@ -32,7 +32,7 @@ class DashboardController extends Controller
         $categories = Category::count();
         $transactions = SubscribeTransaction::count();
         $teachers = Teacher::count();
-        
+
         return view('admin.dashboard', compact('categories', 'courses', 'transactions', 'students', 'teachers'));
     }
 }
