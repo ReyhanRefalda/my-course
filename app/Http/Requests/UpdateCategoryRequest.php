@@ -23,7 +23,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'icon' => 'sometimes|image|mimes:jpeg,png,jpg'
+            'icon' => 'sometimes|image'
         ];
     }
 }

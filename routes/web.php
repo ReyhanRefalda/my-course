@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SubscribeTransactionController;
+use App\Http\Controllers\PackageController;
 
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/details/{course:slug}', [FrontController::class, 'detail'])->name('front.details');
@@ -41,6 +42,9 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:owner');
 
         Route::resource('teachers', TeacherController::class)
+        ->middleware('role:owner');
+
+        Route::resource('packages', PackageController::class)
         ->middleware('role:owner');
 
         Route::resource('courses', CourseController::class)

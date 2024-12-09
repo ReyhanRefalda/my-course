@@ -17,7 +17,8 @@
                         <path d="M6.96027 18.5601H5.24023C4.83023 18.5601 4.49023 18.2201 4.49023 17.8101C4.49023 17.4001 4.83023 17.0601 5.24023 17.0601H6.96027C7.37027 17.0601 7.71027 17.4001 7.71027 17.8101C7.71027 18.2201 7.38027 18.5601 6.96027 18.5601Z" fill="#292D32"/>
                         <path d="M12.5494 18.5601H9.10938C8.69938 18.5601 8.35938 18.2201 8.35938 17.8101C8.35938 17.4001 8.69938 17.0601 9.10938 17.0601H12.5494C12.9594 17.0601 13.2994 17.4001 13.2994 17.8101C13.2994 18.2201 12.9694 18.5601 12.5494 18.5601Z" fill="#292D32"/>
                         <path d="M19 11.8599H2V13.3599H19V11.8599Z" fill="#292D32"/>
-                        </svg>
+                    </svg>
+
                     <div class="flex flex-col gap-y-10">
                         <div>
                             <p class="text-slate-500 text-sm">Total Amount</p>
@@ -40,15 +41,19 @@
                             <p class="text-slate-500 text-sm">Subscription Start At</p>
                             <h3 class="text-indigo-950 text-xl font-bold">{{ $subscribeTransaction->subscription_start_date }}</h3>
                         </div>
-                        <div class="">
+                        <div>
                             <p class="text-slate-500 text-sm">Student</p>
                             <h3 class="text-indigo-950 text-xl font-bold">{{ $subscribeTransaction->user->name }}</h3>
                         </div>
-                    </div>
-                    <div>
-                        <img src="{{ Storage::url($subscribeTransaction->proof) }}" alt="{{ $subscribeTransaction->proof }}">
+                        <!-- Pindahkan gambar ke bawah Student -->
+                        <div class="mt-5">
+                            <p class="text-slate-500 text-sm">Proof</p>
+                            <img src="{{ Storage::url($subscribeTransaction->proof) }}" alt="{{ $subscribeTransaction->proof }}" class="rounded shadow-md">
+                        </div>
                     </div>
                 </div>
+                @if($subscribeTransaction->is_paid)
+                @else
                 <hr class="my-5">
                 <form action="{{ route('admin.subscribe_transactions.update', $subscribeTransaction) }}" method="POST">
                     @csrf
@@ -57,6 +62,7 @@
                         Approve Transaction
                     </button>
                 </form>
+                @endif
             </div>
         </div>
     </div>
