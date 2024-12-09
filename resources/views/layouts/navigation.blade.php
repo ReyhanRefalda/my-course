@@ -34,7 +34,10 @@
                         {{ __('Manage Teacher') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.subscribe_transactions.index')" :active="request()->routeIs('admin.subscribe_transactions.index')">
-                        {{ __('Manage Suscribetion') }}
+                        {{ __('Manage Subscription') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.packages.index')" :active="request()->routeIs('admin.packages.index')">
+                        {{ __('Manage Packages') }}
                     </x-nav-link>
                     @endrole
                 </div>

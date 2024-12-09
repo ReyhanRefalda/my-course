@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="thumbnail" :value="__('thumbnail')" />
+                        <x-input-label for="thumbnail" :value="__('Thumbnail')" />
                         <img src="{{ Storage::url($course->thumbnail) }}"
                                 alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
                         <x-text-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail"
@@ -38,14 +38,14 @@
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="path_trailer" :value="__('path_trailer')" />
+                        <x-input-label for="path_trailer" :value="__('Path_trailer')" />
                         <x-text-input id="path_trailer" class="block mt-1 w-full" type="text" name="path_trailer"
                             :value=" $course->path_trailer " required autofocus autocomplete="path_trailer" />
                         <x-input-error :messages="$errors->get('path_trailer')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="category" :value="__('category')" />
+                        <x-input-label for="category" :value="__('Category')" />
 
                         <select name="category_id" id="category_id"
                             class="py-3 rounded-lg pl-3 w-full border border-slate-300">
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="about" :value="__('about')" />
+                        <x-input-label for="about" :value="__('About')" />
                         <textarea name="about" id="about" cols="30" rows="5" class="border border-slate-300 rounded-xl w-full">{{ $course->about }}</textarea>
                         <x-input-error :messages="$errors->get('about')" class="mt-2" />
                     </div>
@@ -68,9 +68,8 @@
                     <hr class="my-5">
 
                     <div class="mt-4">
-
                         <div class="flex flex-col gap-y-5">
-                            <x-input-label for="keypoints" :value="__('keypoints')" />
+                            <x-input-label for="keypoints" :value="__('Keypoints')" />
                             @forelse ( $course->course_keypoints as $keypoint )
                                 <input type="text" class="py-3 rounded-lg border-slate-300 border"
                                 value="{{ $keypoint->name }}" name="course_keypoints[]">
@@ -78,7 +77,7 @@
                                 
                             @endforelse
                         </div>
-                        <x-input-error :messages="$errors->get('keypoints')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('Keypoints')" class="mt-2" />
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
