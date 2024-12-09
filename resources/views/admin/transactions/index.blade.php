@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
+    <x-slot name="navbarLink">
         <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Product Transactions') }}
@@ -32,11 +32,11 @@
                         <p class="text-slate-500 text-sm mb-2">Status</p>
                         @if ($transaction->is_paid)
                             <span class="text-sm font-bold py-2 px-3 rounded-full bg-green-500 text-white">
-                                ACTIVE 
+                                ACTIVE
                             </span>
                         @else
                             <span class="text-sm font-bold py-2 px-3 rounded-full bg-orange-500 text-white">
-                                PENDING 
+                                PENDING
                             </span>
                         @endif
                     </div>

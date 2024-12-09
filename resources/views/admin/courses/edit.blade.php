@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
+    <x-slot name="navbarLink">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Edit Course') }}
         </h2>
@@ -75,7 +75,7 @@
                                 <input type="text" class="py-3 rounded-lg border-slate-300 border"
                                 value="{{ $keypoint->name }}" name="course_keypoints[]">
                             @empty
-                                
+
                             @endforelse
                         </div>
                         <x-input-error :messages="$errors->get('keypoints')" class="mt-2" />
