@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
+    <x-slot name="navbarLink">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Add Video to Course') }}
         </h2>
@@ -32,7 +32,7 @@
                 </div>
 
                 <hr class="my-5">
-                
+
                 <form method="POST" action="{{ route('admin.course.add_video.save', $course->id) }}" enctype="multipart/form-data">
                     @csrf
 
@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
-            
+
                         <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
                             Add New Video
                         </button>

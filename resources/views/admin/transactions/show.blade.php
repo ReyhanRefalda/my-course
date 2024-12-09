@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
+    <x-slot name="navbarLink">
         <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Details Informations') }}
@@ -18,6 +18,7 @@
                         <path d="M12.5494 18.5601H9.10938C8.69938 18.5601 8.35938 18.2201 8.35938 17.8101C8.35938 17.4001 8.69938 17.0601 9.10938 17.0601H12.5494C12.9594 17.0601 13.2994 17.4001 13.2994 17.8101C13.2994 18.2201 12.9694 18.5601 12.5494 18.5601Z" fill="#292D32"/>
                         <path d="M19 11.8599H2V13.3599H19V11.8599Z" fill="#292D32"/>
                     </svg>
+
                     <div class="flex flex-col gap-y-10">
                         <div>
                             <p class="text-slate-500 text-sm">Total Amount</p>
