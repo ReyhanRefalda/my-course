@@ -7,7 +7,7 @@
                 <a href="{{route('front.index')}}" class="font-semibold">Home</a>
             </li>
             <li>
-                <a href="pricing.html" class="font-semibold">Course</a>
+                <a href="{{route('front.course')}}" class="font-semibold">Course</a>
             </li>
             <li>
                 <a href="{{ route('artikel.index') }}" class="font-semibold">Article</a>
