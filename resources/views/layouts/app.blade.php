@@ -19,8 +19,11 @@
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
 
     {{-- fonts --}}
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
     <!-- Core Css -->
@@ -30,7 +33,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class=" bg-surface">
+<body class=" bg-gray-100">
     <main>
         <!--start the project-->
         <div id="main-wrapper" class=" flex p-5 xl:pr-0 min-h-screen">
@@ -44,7 +47,7 @@
                     <div class="container full-container p-0 flex flex-col gap-6">
                         <!--  Header Start -->
 
-                        <header class="bg-white shadow-lg rounded-xl w-full text-sm py-4 px-8">
+                        <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-6 px-8">
 
 
                             <!-- ========== HEADER ========== -->

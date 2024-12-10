@@ -4,19 +4,30 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Manage Teachers') }}
             </h2>
-            <a href="{{ route('admin.teachers.create') }}"
-                class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                Add New
-            </a>
+
         </div>
     </x-slot>
-    <div>
+    <div class="flex justify-between items-center space-x-4 mb-6">
+        <form action="" method="GET" class="">
+            <!-- Icon Search -->
+            {{-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" class="w-5 h-5 text-gray-400">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35" />
+            </svg>
+            <!-- Input Field -->
+            <input type="text" name="query" placeholder="Search Courses"
+                class="text-sm outline-none text-gray-700 placeholder-gray-400 bg-transparent w-full border-none focus:ring-0 focus:border-none"> --}}
+        </form>
 
+        <a href="{{ route('admin.teachers.create') }}" class="font-bold py-2 px-6 bg-indigo-700 text-white rounded-full shadow hover:bg-indigo-800">
+            Add New
+        </a>
     </div>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
-                @forelse ($teachers as $teacher)
+    <div class="py-2">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-white overflow-hidden shadow-sm rounded-xl p-8">
+                   @forelse ($teachers as $teacher)
                     <div class="item-card flex flex-row justify-between items-center">
                         <div class="flex flex-row items-center gap-x-3">
                             <img src="{{ Storage::url($teacher->user->avatar) }}" alt=""

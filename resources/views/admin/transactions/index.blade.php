@@ -7,9 +7,9 @@
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
+    <div class="py-2">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-white overflow-hidden shadow-sm rounded-xl p-8">
 
                 @forelse ($transactions as $transaction)
                 <div class="item-card flex flex-row justify-between items-center">
