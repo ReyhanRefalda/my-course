@@ -5,8 +5,8 @@
     <!-- ---------------------------------- -->
     <div class="p-4">
 
-        <a href="../" class="text-nowrap">
-            <img src="{{ asset('assets/images/logos/logo-light.svg') }}" alt="Logo-Dark" />
+        <a href="../" class="text-nowrap ">
+            <img clas src="{{ asset('assets/logo/logo-black.png') }}" alt="Logo-Dark" style="width: 200px; height: auto;  margin-left: 15px;"/>
         </a>
 
 
