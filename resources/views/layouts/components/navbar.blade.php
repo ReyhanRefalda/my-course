@@ -39,16 +39,17 @@
                         <p class="text-sm ">My Task</p>
                     </a>
                     <div class="px-4 mt-[7px] grid">
-                        <form method="POST" action="{{ route('logout') }}"
-                            class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">
-                            @csrf
+                        <a href="../../pages/authentication-login.html"
+                            class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">Logout</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
 
-                            <a href="route('logout')"
-                                onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </a>
-                        </form>
+                                <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                    {{ __('Log Out') }}
+                                </x-dropdown-link>
+                            </form>
                     </div>
 
                 </div>
