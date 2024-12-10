@@ -24,7 +24,7 @@ class ArtikelController extends Controller
                 $query->where('title', 'like', "%{$search}%")
                     ->orWhere('content', 'like', "%{$search}%");
             }
-        })->orderBy('id', 'desc')->paginate(9)->withQueryString();
+        })->orderBy('id', 'desc')->paginate(3)->withQueryString();
         return view('admin.artikel.index', compact('artikels'));
     }
 
@@ -52,7 +52,6 @@ class ArtikelController extends Controller
         // Proses data sebelum menyimpan
         $data = [
             'title' => $request->title,
-            'description' => $request->description,
             'content' =>  "<div class='trix-content'>" .  $request->content . "</div>",
             'status' => $request->status,
             'tumbnail' => isset($image_name) ? $image_name : null,
@@ -105,7 +104,6 @@ class ArtikelController extends Controller
 
         $data = [
             'title' => $request->title,
-            'description' => $request->description,
             'content' => "<div class='trix-content'>" . $request->content . "</div>",
             'status' => $request->status,
             'tumbnail' => isset($image_name) ? $image_name : $artikel->tumbnail,
@@ -116,9 +114,6 @@ class ArtikelController extends Controller
 
         return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil diupdate!');
     }
-
-
-
 
     /**
      * Remove the specified resource from storage.

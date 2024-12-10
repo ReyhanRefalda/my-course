@@ -23,7 +23,6 @@ class ArtikelRequest extends FormRequest
     {
         $rules = [
             'title' => 'required|string|max:255|regex:/^[a-zA-Z0-9\s\-_,\.;:()?!$@]+$/|min:10',
-            'description' => 'required|string|min:10|max:500',
             'content' => 'required|string|min:15',
             'tumbnail' => 'nullable|image|mimes:jpeg,png,jpg,svg,gif,webp|max:10240|dimensions:min_width=300,min_height=300',
         ];
@@ -43,10 +42,6 @@ class ArtikelRequest extends FormRequest
             'title.max' => 'Judul maksimal 255 karakter.',
             'title.regex' => 'Judul hanya boleh mengandung huruf, angka, spasi, dan beberapa karakter khusus (-_,.;:()).',
             'title.min' => 'Judul harus memiliki minimal 10 karakter.',
-            'description.required' => 'Deskripsi wajib diisi.',
-            'description.string' => 'Deskripsi harus berupa teks.',
-            'description.min' => 'Deskripsi harus memiliki minimal 10 karakter.',
-            'description.max' => 'Deskripsi maksimal 500 karakter.',
             'content.required' => 'Konten wajib diisi.',
             'content.string' => 'Konten harus berupa teks.',
             'content.min' => 'Konten harus memiliki minimal 15 karakter.',

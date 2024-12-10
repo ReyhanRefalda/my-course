@@ -51,7 +51,9 @@
                             class="py-3 rounded-lg pl-3 w-full border border-slate-300">
                             <option value="">Choose category</option>
                             @forelse($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" {{ $category->id == old('category_id', $course->category_id) ? 'selected' : ''}}>
+                                {{ $category->name }}
+                            </option>
                             @empty
                             @endforelse
                         </select>

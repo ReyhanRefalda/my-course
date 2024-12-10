@@ -26,7 +26,7 @@ class StoreCourseRequest extends FormRequest
             'path_trailer' => 'required|string|max:255',
             'about' => 'required|string',
             'category_id' => 'required|integer',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg',
+            'thumbnail' => 'required|image',
             'course_keypoints.*' => 'required|string|max:255'
         ];
     }

@@ -31,6 +31,12 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- <style>
+        * {
+            border: 1px solid red;
+        }
+    </style> --}}
 </head>
 
 <body class=" bg-gray-100">
