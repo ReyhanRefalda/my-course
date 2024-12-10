@@ -19,14 +19,12 @@
                     <span class="text-xs text-gray-400 font-semibold">MASTER</span>
                 </li>
 
-                @role('owner')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                             href="{{ route('dashboard') }}">
                             <i class="ti ti-layout-dashboard ps-2  text-2xl"></i> <span>Dashboard</span>
                         </a>
                     </li>
-                @endrole
 
                 @role('owner')
                     <li class="sidebar-item">
@@ -85,7 +83,7 @@
                 @role('owner')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
-                            href="{{ route('admin.packages.index') }}">
+                            href="{{ route('admin.payments.index') }}">
                             <i class="ti ti-wallet ps-2 text-2xl"></i> <span>Manage Payment </span>
                         </a>
                     </li>

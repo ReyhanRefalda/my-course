@@ -39,7 +39,11 @@
                         </div>
                         <div>
                             <p class="text-slate-500 text-sm">Subscription Start At</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">{{ $subscribeTransaction->subscription_start_date->isoFormat('dddd, D MMMM YYYY') }}</h3>
+                            @if ($subscribeTransaction->subscription_start_date)
+                                <h3 class="text-indigo-950 text-xl font-bold">{{ $subscribeTransaction->subscription_start_date->isoFormat('dddd, D MMMM YYYY') }}</h3>
+                            @else
+                                <h3 class="text-indigo-950 text-xl font-bold">Doesn't started yet</h3>                                
+                            @endif
                         </div>
                         <div>
                             <p class="text-slate-500 text-sm">Student</p>
