@@ -16,7 +16,7 @@ class UserArtikelController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'LIKE', "%$search%")
                     ->orWhereHas('user', function ($q) use ($search) {
-                        $q->where('nama', 'LIKE', "%$search%");
+                        $q->where('name', 'LIKE', "%$search%");
                     });
             });
         }
@@ -47,7 +47,7 @@ class UserArtikelController extends Controller
 
     public function detail($slug)
     {
-        $artikleSidebar = Artikel::where('status', 'publish')->latest()->get();
+        $artikleSidebar = Artikel::where('status', 'publish')->latest()->take(6)->get();
         $artikels = Artikel::where('status', 'publish')->where('slug', $slug)->firstOrFail();
         return view('artikel.show', compact('artikels', 'artikleSidebar'));
     }
