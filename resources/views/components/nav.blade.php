@@ -1,6 +1,6 @@
 <nav class="flex justify-between items-center pt-6 px-[50px]">
         <a href="">
-            <img src="{{asset('assets/logo/logo-white.png')}}" alt="logo" style="width: 256px; height: auto;">
+            <img src="{{asset('assets/logo/logo-white2.png')}}" alt="logo" style="width: 256px; height: auto;">
         </a>
         <ul class="flex items-center gap-[30px] text-white">
             <li>
