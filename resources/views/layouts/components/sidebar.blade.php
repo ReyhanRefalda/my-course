@@ -6,7 +6,11 @@
     <div class="p-4">
 
         <a href="../" class="text-nowrap">
+<<<<<<< Updated upstream
             <img src="{{ asset('assets/images/logos/logo-light.svg') }}" alt="Logo-Dark" />
+=======
+            <img src="{{asset('assets/images/logos/logo-light.svg')}}" alt="Logo-Dark" />
+>>>>>>> Stashed changes
         </a>
 
 
@@ -71,6 +75,14 @@
                             <i class="ti ti-coin ps-2 text-2xl"></i> <span>Manage Transaction</span>
                         </a>
                     </li>
+                @endrole
+                @role('owner')
+                <li class="sidebar-item">
+                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
+                        href="{{ route('admin.payments.index') }}">
+                        <i class="ti ti-cash-banknote ps-2 text-2xl"></i> <span>Manage Payment   </span>
+                    </a>
+                </li>
                 @endrole
 
                 @role('owner')
