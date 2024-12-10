@@ -18,6 +18,10 @@ class SubscribeTransaction extends Model
         'subscription_start_date'
     ];
 
+    protected $casts = [
+        'subscription_start_date' => 'datetime',
+    ];    
+
     public function user(){
         return $this->belongsTo(User::class);
     }

@@ -1,4 +1,4 @@
-<nav class=" w-ful flex items-center justify-between" aria-label="Global">
+<nav class="w-ful flex items-center justify-between" aria-label="Global">
     <ul class="icon-nav flex items-center gap-4">
         <li class="relative xl:hidden">
             <a class="text-xl  icon-hover cursor-pointer text-heading" id="headerCollapse"
@@ -17,8 +17,8 @@
     <div class="flex items-center gap-4">
         <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
             <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
-                <img class="object-cover w-9 h-9 rounded-full" src="{{ Storage::url(Auth::user()->avatar) }}" alt=""
-                    aria-hidden="true">
+                <img class="object-cover w-9 h-9 rounded-full" src="{{ Storage::url(Auth::user()->avatar) }}"
+                    alt="" aria-hidden="true">
             </a>
             <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
                 aria-labelledby="hs-dropdown-custom-icon-trigger">

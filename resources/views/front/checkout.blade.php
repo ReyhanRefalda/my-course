@@ -48,7 +48,7 @@
                             </div>
                             <p class="text-[#475466]">Bank Name</p>
                         </div>
-                        <p class="font-semibold">Angga Capital</p>
+                        <p class="font-semibold">{{$payment->bank_name}}</p>
                         <input type="hidden" name="bankName" value="Angga Capital">
                     </div>
                     <div class="flex items-center justify-between">
@@ -58,7 +58,7 @@
                             </div>
                             <p class="text-[#475466]">Account Number</p>
                         </div>
-                        <p class="font-semibold">22081996202191404</p>
+                        <p class="font-semibold">{{$payment->number}}</p>
                         <input type="hidden" name="accountNumber" value="22081996202191404">
                     </div>
                     <div class="flex items-center justify-between">
@@ -68,18 +68,8 @@
                             </div>
                             <p class="text-[#475466]">Account Name</p>
                         </div>
-                        <p class="font-semibold">Alqowy Education First</p>
+                        <p class="font-semibold">{{$payment->account_name}}</p>
                         <input type="hidden" name="accountName" value="Alqowy Education First">
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-3">
-                            <div class="w-6 h-6 flex shrink-0">
-                                <img src="{{asset('assets/icon/tick-circle.svg')}}" class="w-full h-full object-cover" alt="icon">
-                            </div>
-                            <p class="text-[#475466]">Code Swift</p>
-                        </div>
-                        <p class="font-semibold">ACEFIRSTBANK</p>
-                        <input type="hidden" name="swift" value="ACEFIRSTBANK">
                     </div>
                 </div>
                 <hr>
