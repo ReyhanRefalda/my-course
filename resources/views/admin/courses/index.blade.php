@@ -27,7 +27,7 @@
 
     <div class="py-2">
         <div class="max-w-7xl mx-auto">
-            <div class="bg-white overflow-hidden shadow-sm rounded-xl p-8">
+            <div class="bg-white overflow-hidden shadow-sm rounded-[30px] p-8">
                 <table class="table-auto w-full">
                     <thead>
                         <tr class="border-b border-gray-200">
