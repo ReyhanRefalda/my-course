@@ -91,4 +91,9 @@ class FrontController extends Controller
 
         return view('front.category', compact('courses', 'category'));
     }
+
+    public function course(){
+        $courses = Course::all();
+        return view('front.course', compact('courses'));
+    }
 }
