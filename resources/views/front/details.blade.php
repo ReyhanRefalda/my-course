@@ -70,9 +70,7 @@
         <div class="max-w-[1100px] w-full mx-auto mt-10 tablink-container flex gap-3 px-4 sm:p-0 no-scrollbar overflow-x-scroll">
             <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('About', this)"  id="defaultOpen">About</div>
             <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('Resources', this)">Resources</div>
-            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('Reviews', this)">Reviews</div>
             <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('Discussions', this)">Discussions</div>
-            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('Rewards', this)">Rewards</div>
         </div>
         <div class="bg-[#F5F8FA] py-[50px]">
             <div class="max-w-[1100px] w-full mx-auto flex flex-col gap-[70px]">
@@ -118,8 +116,11 @@
                             <div class="flex flex-col gap-5 w-[700px] shrink-0">
                                 <h3 class="font-bold text-2xl">Discussions</h3>
                                 <p class="font-medium leading-[30px]">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt eos et accusantium quia exercitationem reiciendis? Doloribus, voluptate natus voluptas deserunt aliquam nesciunt blanditiis ipsum porro hic! Iusto maxime ullam soluta.
+                                    Bergabunglah dengan server Discord kami, forum diskusi interaktif yang dirancang untuk siswa dan mentor agar dapat bertukar ide, berdiskusi tentang materi kursus, mendapatkan panduan langsung dari mentor berpengalaman, serta membangun koneksi dengan sesama peserta belajar. Klik tombol di bawah untuk menjadi bagian dari komunitas belajar yang inspiratif ini!
                                 </p>
+                                <div class="flex gap-6 w-fit">
+                                    <a href="https://discord.gg/JsGNBjmTKE" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Join Forum</a>
+                                </div>
                             </div>
                         </div>
                         <div id="Rewards" class="tabcontent hidden">
@@ -264,74 +265,11 @@
             </div>
         </div>
     </section>
-    <footer class="max-w-[1200px] mx-auto flex flex-col pt-[70px] pb-[50px] px-[100px] gap-[50px] bg-[#F5F8FA] rounded-[32px]">
-        <div class="flex justify-between">
-            <a href="">
-                <div>
-                    <img src="{{asset('assets/logo/logo-black.svg')}}" alt="logo">
-                </div>
-            </a>
-            <div class="flex flex-col gap-5">
-                <p class="font-semibold text-lg">Products</p>
-                <ul class="flex flex-col gap-[14px]">
-                    <li>
-                        <a href="" class="text-[#6D7786]">Online Courses</a>
-                    </li>
-                    <li>
-                        <a href="" class="text-[#6D7786]">Career Guidance</a>
-                    </li>
-                    <li>
-                        <a href="" class="text-[#6D7786]">Expert Handbook</a>
-                    </li>
-                    <li>
-                        <a href="" class="text-[#6D7786]">Interview Simulations</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="flex flex-col gap-5">
-                <p class="font-semibold text-lg">Company</p>
-                <ul class="flex flex-col gap-[14px]">
-                    <li>
-                        <a href="" class="text-[#6D7786]">About Us</a>
-                    </li>
-                    <li>
-                        <a href="" class="text-[#6D7786]">Media Press</a>
-                    </li>
-                    <li class="flex items-center gap-[10px]">
-                        <a href="" class="text-[#6D7786]">Careers</a>
-                        <div class="gradient-badge w-fit p-[6px_10px] rounded-full border border-[#FED6AD] flex items-center">
-                            <p class="font-medium text-xs text-[#FF6129]">We’re Hiring</p>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="" class="text-[#6D7786]">Developer APIs</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="flex flex-col gap-5">
-                <p class="font-semibold text-lg">Resources</p>
-                <ul class="flex flex-col gap-[14px]">
-                    <li>
-                        <a href="" class="text-[#6D7786]">Blog</a>
-                    </li>
-                    <li>
-                        <a href="" class="text-[#6D7786]">FAQ</a>
-                    </li>
-                    <li>
-                        <a href="" class="text-[#6D7786]">Help Center</a>
-                    </li>
-                    <li>
-                        <a href="" class="text-[#6D7786]">Terms & Conditions</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="w-full h-[51px] flex items-end border-t border-[#E7EEF2]">
-            <p class="mx-auto text-sm text-[#6D7786] -tracking-[2%]">All Rights Reserved Alqowy BuildWithAngga 2024</p>
-        </div>
-    </footer>
+    <x-footer/>
 
     <!-- JavaScript -->
+
+
 
 </body>
 @endsection
