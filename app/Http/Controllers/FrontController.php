@@ -27,13 +27,7 @@ class FrontController extends Controller
     }
 
     public function detail(Course $course){
-        $totalStudent = $course->students->count();
-        $benefit = $totalStudent * 10000;
-        $teacher = $course->teacher->user;
 
-        $teacher->update([
-            'balance' => $benefit
-        ]);
 
         return view('front.details', compact('course'));
     }
@@ -49,6 +43,14 @@ class FrontController extends Controller
 
         $user->courses()->syncWithoutDetaching($course->id);
 
+        $totalStudent = $course->students->count();
+        $benefit = $totalStudent * 10000;
+        $teacher = $course->teacher->user;
+
+        $teacher->update([
+            'balance' => $benefit
+        ]);
+        dd($teacher->balance);
         return view('front.learning', compact('course', 'video'));
     }
 
