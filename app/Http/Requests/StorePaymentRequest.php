@@ -32,7 +32,7 @@ class StorePaymentRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'bank_name.required' => '',
+            'bank_name.required' => 'Bank number is required',
             'number.required' => 'Account number is required.',
             'number.numeric' => 'Account number must be a numeric value.',
             'number.digits_between' => 'Account number must be between 1 to 20 digits.',

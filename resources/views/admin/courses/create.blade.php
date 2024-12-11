@@ -35,10 +35,17 @@
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="path_trailer" :value="__('Path_trailer')" />
+                        <x-input-label for="path_trailer" :value="__('Path Trailer')" />
                         <x-text-input id="path_trailer" class="block mt-1 w-full" type="text" name="path_trailer"
                             :value="old('path_trailer')" required autofocus autocomplete="path_trailer" />
                         <x-input-error :messages="$errors->get('path_trailer')" class="mt-2" />
+                    </div>
+
+                    <div class="mt-4">
+                        <x-input-label for="resource" :value="__('Path Resource')" />
+                        <x-text-input id="resource" class="block mt-1 w-full" type="text" name="resource"
+                            :value="old('resource')" required autofocus autocomplete="resource" />
+                        <x-input-error :messages="$errors->get('resource')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">

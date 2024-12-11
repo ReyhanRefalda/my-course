@@ -18,6 +18,7 @@ Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/details/{course:slug}', [FrontController::class, 'detail'])->name('front.details');
 Route::get('/category/{category:slug}', [FrontController::class, 'category'])->name('front.category');
 Route::get('/pricing', [FrontController::class, 'pricing'])->name('front.pricing');
+Route::get('/course', [FrontController::class, 'course'])->name('front.course');
 Route::get('/article', [UserArtikelController::class, 'index'])->name('artikel.index'); // Daftar artikel
 
 

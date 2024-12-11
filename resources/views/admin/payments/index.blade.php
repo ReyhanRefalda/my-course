@@ -62,6 +62,8 @@
     </div>
 </div>
 
+            
+
 
 
 
@@ -154,6 +156,7 @@
         function closeModal() {
             const modal = document.getElementById('modal');
             const modalContent = document.getElementById('modal-content');
+
 
             modalContent.classList.remove('translate-y-0', 'scale-100');
             modalContent.classList.add('translate-y-10', 'scale-95');

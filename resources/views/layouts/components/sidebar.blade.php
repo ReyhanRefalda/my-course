@@ -5,7 +5,7 @@
     <!-- ---------------------------------- -->
     <div class="p-4">
 
-        <a href="../" class="text-nowrap ">
+        <a href="{{route('front.index')}}" class="text-nowrap ">
             <img clas src="{{ asset('assets/logo/logo-black.png') }}" alt="Logo-Dark" style="width: 200px; height: auto;  margin-left: 15px;"/>
         </a>
 
@@ -35,7 +35,7 @@
                     </li>
                 @endrole
 
-                @role('owner|teacher')
+                @role('teacher')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                             href="{{ route('admin.artikel.index') }}">
@@ -44,7 +44,7 @@
                     </li>
                 @endrole
 
-                @role('owner|teacher')
+                @role('teacher')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                             href="{{ route('admin.courses.index') }}">
