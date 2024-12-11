@@ -16,12 +16,12 @@
                 </div>
 
                 <div class="mb-4">
-                    <h2 class="text-lg font-semibold">Harga</h2>
+                    <h2 class="text-lg font-semibold">Price</h2>
                     <p>Rp {{ number_format($package->harga, 0, ',', '.') }}</p>
                 </div>
 
                 <div class="mb-4">
-                    <h2 class="text-lg font-semibold">Tipe</h2>
+                    <h2 class="text-lg font-semibold">Type</h2>
                     <p>{{ ucfirst($package->tipe) }}</p>
                 </div>
 

@@ -24,9 +24,16 @@ class StorePackageRequest extends FormRequest
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'harga' => 'required|integer|min:0',
-            'tipe' => 'nullable|in:daily,monthly,yearly',
+            'tipe' => 'required|in:daily,monthly,yearly',
             'package_benefits' => 'required|array|min:1',
             'package_benefits.*' => 'nullable|string|max:255', // Elemen boleh kosong
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+          'harga.required' => 'The price field is required.',
         ];
     }
     
