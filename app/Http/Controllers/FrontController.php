@@ -27,6 +27,14 @@ class FrontController extends Controller
     }
 
     public function detail(Course $course){
+        $totalStudent = $course->students->count();
+        $benefit = $totalStudent * 10000;
+        $teacher = $course->teacher->user;
+
+        $teacher->update([
+            'balance' => $benefit
+        ]);
+
         return view('front.details', compact('course'));
     }
 
