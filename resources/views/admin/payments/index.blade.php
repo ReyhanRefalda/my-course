@@ -30,8 +30,10 @@
                             <form action="{{ route('admin.payments.destroy', $payment) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="font-bold py-4 px-6 bg-red-700 text-white rounded-full">
-                                    Delete
+                                <button type="submit"
+                                    onclick="return confirm('Are you sure you want to delete this payments?')"
+                                    class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
+                                    <i class="ti ti-trash text-3xl"></i>
                                 </button>
                             </form>
                         </div>
@@ -74,7 +76,7 @@
                     <x-input-label for="bank_name" :value="__('Bank Name')" />
                     <x-text-input id="bank_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                        type="text" name="bank_name"  value="{{ old('bank_name') }}" />
+                        type="text" name="bank_name" value="{{ old('bank_name') }}" />
                     <x-input-error :messages="$errors->get('bank_name')" class="mt-2" />
                 </div>
 
@@ -90,7 +92,7 @@
                     <x-input-label for="account_name" :value="__('Account Name')" />
                     <x-text-input id="account_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                        type="text" name="account_name" value="{{ old('account_name') }}"  />
+                        type="text" name="account_name" value="{{ old('account_name') }}" />
                     <x-input-error :messages="$errors->get('account_name')" class="mt-2" />
                 </div>
 
@@ -112,7 +114,7 @@
             const modalTitle = document.getElementById('modal-title');
             const modalForm = document.getElementById('modal-form');
             const methodInput = document.getElementById('_method');
-    
+
             if (mode === 'create') {
                 modalTitle.textContent = 'Create Payment';
                 modalForm.action = "{{ route('admin.payments.store') }}";
@@ -126,18 +128,18 @@
                 document.getElementById('number').value = data.number;
                 document.getElementById('account_name').value = data.account_name;
             }
-    
+
             modal.classList.remove('pointer-events-none', 'opacity-0');
             modalContent.classList.remove('translate-y-10', 'scale-95');
             setTimeout(() => {
                 modalContent.classList.add('translate-y-0', 'scale-100');
             }, 10);
         }
-    
+
         function closeModal() {
             const modal = document.getElementById('modal');
             const modalContent = document.getElementById('modal-content');
-    
+
             modalContent.classList.remove('translate-y-0', 'scale-100');
             modalContent.classList.add('translate-y-10', 'scale-95');
             setTimeout(() => {
@@ -145,5 +147,5 @@
             }, 300);
         }
     </script>
-    
+
 </x-app-layout>
