@@ -8,38 +8,30 @@
         </div>
     </x-slot>
 
-    <div class="flex justify-end items-center space-x-4 mb-6">
-    <button onclick="openModal('add')" class="font-bold py-2 px-6 text-white rounded-full shadow bg-[#3525B3]">
-        Add New
-    </button>
-</div>
-
-<div class="py-2">
-    <div class="max-w-7xl mx-auto">
-        <div class="bg-white overflow-hidden shadow-sm rounded-[30px] p-8">
-            <table class="table-auto w-full">
-                <thead>
-                    <tr class="border-b border-gray-200">
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-950">Bank Information</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-950">Date</th>
-                        <th class="px-4 py-3 text-right text-sm font-semibold text-gray-950"></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @forelse ($payments as $payment)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-4 flex flex-col gap-2">
-                                <h3 class="text-gray-900 font-semibold">{{ $payment->bank_name }}</h3>
-                                <p class="text-gray-950 text-sm">: {{ $payment->number }}</p>
-                                <p class="text-gray-950 text-sm">: {{ $payment->account_name }}</p>
-                            </td>
-                            <td class="px-4 py-4 text-gray-950 font-bold text-sm">
-                                {{ $payment->created_at->isoFormat('ddd, D/MM/YYYY') }}
-                            </td>
-                            <td class="p-4 flex justify-end gap-x-2">
-                                <button onclick="openModal('edit', @json($payment))"
-                                    class="px-6 py-3 rounded-full text-center font-semibold bg-indigo-600 hover:bg-indigo-700 text-white">
-                                    Edit
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
+                @forelse ($payments as $payment)
+                    <div class="item-card flex flex-row justify-between items-center">
+                        <div class="flex flex-row items-center gap-x-3">
+                            <div class="flex flex-col">
+                                <h3 class="text-indigo-950 text-xl font-bold">{{ $payment->bank_name }}</h3>
+                                <p class="text-slate-500 text-sm">Account Number: {{ $payment->number }}</p>
+                                <p class="text-slate-500 text-sm">Account Name: {{ $payment->account_name }}</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:flex flex-row items-center gap-x-3">
+                            <button onclick="openModal('edit', {{ $payment }})"
+                                class="font-bold py-4 px-6 bg-blue-700 text-white rounded-full">
+                                Edit
+                            </button>
+                            <form action="{{ route('admin.payments.destroy', $payment) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    onclick="return confirm('Are you sure you want to delete this payments?')"
+                                    class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
+                                    <i class="ti ti-trash text-3xl"></i>
                                 </button>
                                 <form action="{{ route('admin.payments.destroy', $payment) }}" method="POST" class="inline">
                                     @csrf
@@ -93,7 +85,7 @@
                     <x-input-label for="bank_name" :value="__('Bank Name')" />
                     <x-text-input id="bank_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                        type="text" name="bank_name"  value="{{ old('bank_name') }}" />
+                        type="text" name="bank_name" value="{{ old('bank_name') }}" />
                     <x-input-error :messages="$errors->get('bank_name')" class="mt-2" />
                 </div>
 
@@ -109,7 +101,7 @@
                     <x-input-label for="account_name" :value="__('Account Name')" />
                     <x-text-input id="account_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                        type="text" name="account_name" value="{{ old('account_name') }}"  />
+                        type="text" name="account_name" value="{{ old('account_name') }}" />
                     <x-input-error :messages="$errors->get('account_name')" class="mt-2" />
                 </div>
 
@@ -156,7 +148,6 @@
         function closeModal() {
             const modal = document.getElementById('modal');
             const modalContent = document.getElementById('modal-content');
-
 
             modalContent.classList.remove('translate-y-0', 'scale-100');
             modalContent.classList.add('translate-y-10', 'scale-95');
