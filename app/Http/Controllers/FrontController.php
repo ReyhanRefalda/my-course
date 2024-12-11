@@ -50,7 +50,6 @@ class FrontController extends Controller
         $teacher->update([
             'balance' => $benefit
         ]);
-        dd($teacher->balance);
         return view('front.learning', compact('course', 'video'));
     }
 
