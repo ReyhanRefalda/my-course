@@ -19,23 +19,7 @@
             <a href="" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Explore Courses</a>
         </div>
     </div>
-    <div class="flex gap-[70px] items-center justify-center">
-        <div>
-            <img src="assets/icon/logo-55.svg" alt="icon">
-        </div>
-        <div>
-            <img src="assets/icon/logo.svg" alt="icon">
-        </div>
-        <div>
-            <img src="assets/icon/logo-54.svg" alt="icon">
-        </div>
-        <div>
-            <img src="assets/icon/logo.svg" alt="icon">
-        </div>
-        <div>
-            <img src="assets/icon/logo-52.svg" alt="icon">
-        </div>
-    </div>
+
 </div>
     <section id="Top-Categories" class="max-w-[1200px] mx-auto flex flex-col p-[70px_50px] gap-[30px]">
         <div class="flex flex-col gap-[30px]">
