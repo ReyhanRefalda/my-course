@@ -17,7 +17,8 @@ class Course extends Model
         'path_trailer',
         'thumbnail',
         'teacher_id',
-        'category_id'
+        'category_id',
+        'resource',
     ];
 
     public function category()
