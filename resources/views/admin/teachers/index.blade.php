@@ -4,19 +4,20 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Manage Teachers') }}
             </h2>
-
         </div>
     </x-slot>
+
     <div class="flex justify-between items-center space-x-4 mb-6">
         <form action="" method="GET" class="">
-
+            <!-- Add search form if needed -->
         </form>
 
-        <a href="{{ route('admin.teachers.create') }}"
+        <button onclick="openModal()"
             class="font-bold py-2 px-6 bg-indigo-700 text-white rounded-full shadow hover:bg-indigo-800">
             Add New
-        </a>
+        </button>
     </div>
+
     <div class="py-2">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden shadow-sm rounded-[30px] p-8">
@@ -64,5 +65,70 @@
         </div>
     </div>
 
+    @if ($errors->any())
+        <script>
+            setTimeout(() => {
+                openModal('edit');
+            }, 500);
+        </script>
+    @endif
 
+    <!-- Modal -->
+    <div id="modal"
+        class="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 opacity-0 pointer-events-none backdrop-blur-sm">
+        <div id="modal-content"
+            class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md transform transition-transform duration-300 translate-y-10 scale-95">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="modal-title" class="text-xl font-semibold text-gray-800">Add New Teacher</h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">&times;</button>
+            </div>
+
+            <form id="modal-form" method="POST" action="{{ route('admin.teachers.store') }}"
+                enctype="multipart/form-data">
+                @csrf
+
+                <div class="mb-4">
+                    <x-input-label for="email" :value="__('Email')" />
+                    <x-text-input id="email" class="block mt-1 w-full" type="text" name="email" 
+                        value="{{ old('email') }}" autofocus />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
+                
+
+                <div class="flex items-center justify-end">
+                    <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modal-content');
+
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            modalContent.classList.remove('translate-y-10', 'scale-95');
+
+            // Tambahkan animasi dengan sedikit delay
+            setTimeout(() => {
+                modalContent.classList.add('translate-y-0', 'scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modal-content');
+
+            modalContent.classList.remove('translate-y-0', 'scale-100');
+            modalContent.classList.add('translate-y-10', 'scale-95');
+
+            // Setelah animasi selesai, sembunyikan modal
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none', 'opacity-0');
+            }, 300); // Durasi sesuai dengan `transition-duration`
+        }
+    </script>
 </x-app-layout>
