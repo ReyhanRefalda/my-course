@@ -4,9 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Manage Payments') }}
             </h2>
-            <button onclick="openModal('create')" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                Add New
-            </button>
+
         </div>
     </x-slot>
 
@@ -35,17 +33,28 @@
                                     class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
                                     <i class="ti ti-trash text-3xl"></i>
                                 </button>
-                            </form>
-                        </div>
-                    </div>
-                @empty
-                    <div class="flex flex-col items-center justify-center">
-                        <h2 class="text-gray-700 text-xl font-bold">No payments available</h2>
-                    </div>
-                @endforelse
-            </div>
+                                <form action="{{ route('admin.payments.destroy', $payment) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
+                                        <i class="ti ti-trash text-3xl"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center py-4 text-gray-500">No payments available</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
+
+            
 
 
 
