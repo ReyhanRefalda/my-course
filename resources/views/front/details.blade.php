@@ -104,6 +104,7 @@
                                 <p class="font-medium leading-[30px]">
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt eos et accusantium quia exercitationem reiciendis? Doloribus, voluptate natus voluptas deserunt aliquam nesciunt blanditiis ipsum porro hic! Iusto maxime ullam soluta.
                                 </p>
+                                <a href="https://drive.google.com/drive/folders/{{$course->resource}}"></a>
                             </div>
                         </div>
                         <div id="Reviews" class="tabcontent hidden">

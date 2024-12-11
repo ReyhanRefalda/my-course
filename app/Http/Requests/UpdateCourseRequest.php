@@ -26,8 +26,9 @@ class UpdateCourseRequest extends FormRequest
             'path_trailer' => 'required|string|max:255',
             'about' => 'required|string',
             'category_id' => 'required|integer',
-            'tumbnail' => 'sometimes|image',
-            'course_keypoints.*' => 'required|string|max:255'
+            'thumbnail' => 'sometimes|image',
+            'course_keypoints.*' => 'required|string|max:255',
+            'resource' => 'required|string|unique:courses,resource,' . $this->course->id,
         ];
     }
 }
