@@ -102,7 +102,9 @@
                                 <p class="font-medium leading-[30px]">
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt eos et accusantium quia exercitationem reiciendis? Doloribus, voluptate natus voluptas deserunt aliquam nesciunt blanditiis ipsum porro hic! Iusto maxime ullam soluta.
                                 </p>
-                                <a href="https://drive.google.com/drive/folders/{{$course->resource}}"></a>
+                                <div class="flex gap-6 w-fit">
+                                    <a href="https://drive.google.com/drive/folders/{{$course->resource}}" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Download Resource</a>
+                                </div>
                             </div>
                         </div>
                         <div id="Reviews" class="tabcontent hidden">
