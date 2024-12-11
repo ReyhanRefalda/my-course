@@ -178,7 +178,7 @@
                 <!--  Header End -->
 
                 @role('owner')
-                    <div class="card">
+                    <div class="card mt-10">
                         <div class="card-body w-full">
                             <div class="flex  justify-between">
                                 <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">Transactions</h4>
