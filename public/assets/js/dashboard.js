@@ -8,7 +8,7 @@ $(function () {
     series: [
       {
         name: "Pixel ",
-        data: [9, 5, 3, 7, 5, 10, 3, 6, 8, 4, 7, 9], 
+        data: [9, 5, 3, 7, 5, 10, 3, 6, 8, 4, 7, 9],
       },
       {
         name: "Ample ",
@@ -69,7 +69,7 @@ $(function () {
     },
     fill: {
       opacity: 1,
-      colors: ["#0085db", "#fb977d"],
+      colors: ["#3525B3", "#FF6129"],
     },
     tooltip: {
       theme: "dark",
@@ -218,7 +218,7 @@ $(function () {
       series: [
         {
           name: "Earnings",
-          color: "#8763da",
+          color: "#3525B3",
           data: [25, 66, 20, 40, 12, 58, 20],
         },
       ],
