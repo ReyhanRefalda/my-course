@@ -43,13 +43,6 @@ class FrontController extends Controller
 
         $user->courses()->syncWithoutDetaching($course->id);
 
-        $totalStudent = $course->students->count();
-        $benefit = $totalStudent * 500;
-        $teacher = $course->teacher->user;
-
-        $teacher->update([
-            'balance' => $benefit
-        ]);
         return view('front.learning', compact('course', 'video'));
     }
 
