@@ -29,6 +29,7 @@ class RolePermissionSeeder extends Seeder
             'occupation' => 'CEO',
             'avatar' => 'images/default-avatar.png',
             'email' => 'team@mycourse.com',
+            'balance'=> 0,
             'password' => bcrypt('teamutama'),
         ]);
 
