@@ -7,55 +7,61 @@
 
         </div>
     </x-slot>
-
+    <div class="flex justify-end items-center space-x-4 mb-6">
+        <button onclick="openModal('create')" class="font-bold py-2 px-6 text-white rounded-full shadow bg-[#3525B3]">
+            Add New
+        </button>
+    </div>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
-                @forelse ($payments as $payment)
-                    <div class="item-card flex flex-row justify-between items-center">
-                        <div class="flex flex-row items-center gap-x-3">
-                            <div class="flex flex-col">
-                                <h3 class="text-indigo-950 text-xl font-bold">{{ $payment->bank_name }}</h3>
-                                <p class="text-slate-500 text-sm">Account Number: {{ $payment->number }}</p>
-                                <p class="text-slate-500 text-sm">Account Name: {{ $payment->account_name }}</p>
-                            </div>
-                        </div>
-                        <div class="hidden md:flex flex-row items-center gap-x-3">
-                            <button onclick="openModal('edit', {{ $payment }})"
-                                class="font-bold py-4 px-6 bg-blue-700 text-white rounded-full">
-                                Edit
-                            </button>
-                            <form action="{{ route('admin.payments.destroy', $payment) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    onclick="return confirm('Are you sure you want to delete this payments?')"
-                                    class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
-                                    <i class="ti ti-trash text-3xl"></i>
-                                </button>
-                                <form action="{{ route('admin.payments.destroy', $payment) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
-                                        <i class="ti ti-trash text-3xl"></i>
+            <div class="bg-white overflow-hidden shadow-sm rounded-[30px] p-8">
+                <table class="table-auto w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Payment Details</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
+                            <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @forelse ($payments as $payment)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-4 flex items-center gap-4">
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold">{{ $payment->bank_name }}</h3>
+                                        <p class="text-slate-500 text-sm">Account Number: {{ $payment->number }}</p>
+                                        <p class="text-slate-500 text-sm">Account Name: {{ $payment->account_name }}</p>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4 text-gray-700 text-sm">
+                                    {{ $payment->created_at->isoFormat('ddd, D/MM/YYYY') }}
+                                </td>
+                                <td class="p-4 flex justify-end gap-x-2">
+                                    <button type="button" onclick="openModal('edit', {{ json_encode($payment) }})"
+                                        class="px-6 py-3 rounded-full text-center font-semibold bg-indigo-600 hover:bg-indigo-700 text-white">
+                                        Edit
                                     </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="text-center py-4 text-gray-500">No payments available</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                                    <form action="{{ route('admin.payments.destroy', $payment) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            onclick="return confirm('Are you sure you want to delete this payment?')"
+                                            class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
+                                            <i class="ti ti-trash text-3xl"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-gray-500">No payments available</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-
-            
-
 
 
 
@@ -82,7 +88,11 @@
                 <input type="hidden" id="_method" name="_method" value="">
 
                 <div class="mb-4">
+
+                    <x-input-label for="bank_name" :value="('Bank Name')" />
+
                     <x-input-label for="bank_name" :value="__('Bank Name')" />
+
                     <x-text-input id="bank_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         type="text" name="bank_name" value="{{ old('bank_name') }}" />
@@ -90,7 +100,10 @@
                 </div>
 
                 <div class="mb-4">
+                    <x-input-label for="number" :value="('Account Number')" />
+
                     <x-input-label for="number" :value="__('Account Number')" />
+
                     <x-text-input id="number"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         type="number" name="number" value="{{ old('number') }}" />
@@ -98,6 +111,9 @@
                 </div>
 
                 <div class="mb-4">
+
+                    <x-input-label for="account_name" :value="('Account Name')" />
+
                     <x-input-label for="account_name" :value="__('Account Name')" />
                     <x-text-input id="account_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -131,6 +147,8 @@
                 modalForm.reset();
             } else if (mode === 'edit' && data) {
                 modalTitle.textContent = 'Edit Payment';
+              
+
                 modalForm.action = `/admin/payments/${data.id}`;
                 methodInput.value = 'PUT';
                 document.getElementById('bank_name').value = data.bank_name;
