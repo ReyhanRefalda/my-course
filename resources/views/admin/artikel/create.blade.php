@@ -29,7 +29,7 @@
                     <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Isi Artikel</label>
                     <input id="content" type="hidden" name="content" value="{{ old('content') }}">
                     <trix-editor input="content"
-                        class="trix-content border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 min-h-[150px]">{!! old('content') !!}</trix-editor>
+                        class="trix-content border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 min-h-[150px]"></trix-editor>
                     <x-input-error :messages="$errors->get('content')" />
                 </div>
 
@@ -65,6 +65,5 @@
         </div>
     </div>
 
+
 </x-app-layout>
-
-

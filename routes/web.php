@@ -18,7 +18,8 @@ Route::get('/', [FrontController::class, 'index'])->name('front.index');
 Route::get('/details/{course:slug}', [FrontController::class, 'detail'])->name('front.details');
 Route::get('/category/{category:slug}', [FrontController::class, 'category'])->name('front.category');
 Route::get('/pricing', [FrontController::class, 'pricing'])->name('front.pricing');
-Route::get('/artikel', [UserArtikelController::class, 'index'])->name('artikel.index'); // Daftar artikel
+Route::get('/course', [FrontController::class, 'course'])->name('front.course');
+Route::get('/article', [UserArtikelController::class, 'index'])->name('artikel.index'); // Daftar artikel
 
 
 
@@ -33,7 +34,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/checkout/{packageId}', [FrontController::class, 'checkout'])->name('front.checkout')
-    ->middleware('role:student');
+        ->middleware('role:student');
 
     Route::post('/checkout/store', [FrontController::class, 'checkout_store'])->name('front.checkout.store')
         ->middleware('role:student');
@@ -49,10 +50,10 @@ Route::middleware('auth')->group(function () {
             ->middleware('role:owner');
 
         Route::resource('packages', PackageController::class)
-        ->middleware('role:owner');
+            ->middleware('role:owner');
 
         Route::resource('payments', PaymentController::class)
-        ->middleware('role:owner');
+            ->middleware('role:owner');
 
         Route::resource('courses', CourseController::class)
             ->middleware('role:owner|teacher');
@@ -80,4 +81,4 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('/artikel/{slug}', [UserArtikelController::class, 'detail'])->name('artikel.show'); // Detail
+Route::get('/article/{slug}', [UserArtikelController::class, 'detail'])->name('artikel.show'); // Detail

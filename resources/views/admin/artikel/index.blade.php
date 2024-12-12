@@ -68,7 +68,7 @@
                 </tr>
             </thead>
             <tbody class="border-b border-gray-300 divide-y divide-gray-300">
-                @foreach ($artikels as $artikel)
+                @forelse ($artikels as $artikel)
                     <tr class="hover:bg-indigo-50">
                         <!-- Artikel -->
                         <td class="flex items-center px-6 py-4 space-x-4">
@@ -76,7 +76,7 @@
                                 alt="Artikel Thumbnail" class="w-[90px] h-[90px] rounded-2xl object-cover shadow-md">
                             <div>
                                 <h2 class="text-[16px] font-bold text-gray-900">{{ $artikel->title }}</h2>
-                                <p class="trix-content-admin mt-1 text-sm">
+                                <p class="trix-content mt-1 text-sm">
                                     {!! Str::limit($artikel->content, 120) !!}
                                 </p>
                             </div>
@@ -113,7 +113,17 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <div class="col-12 text-center flex justify-center">
+                                <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
+                                    class="img-fluid" style="width: clamp(150px, 50vw, 300px);">
+                            </div>
+                            <p class="pb-4 text-gray-500">No data avilable</p>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
@@ -189,4 +199,3 @@
         });
     </script>
 </x-app-layout>
-

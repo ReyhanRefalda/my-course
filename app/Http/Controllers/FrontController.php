@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSubscribeTransactionRequest;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Package;
+use App\Models\Payment;
 use App\Models\SubscribeTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -26,6 +27,8 @@ class FrontController extends Controller
     }
 
     public function detail(Course $course){
+
+
         return view('front.details', compact('course'));
     }
 
@@ -51,7 +54,11 @@ class FrontController extends Controller
 
     public function checkout($packageId){
         $package = Package::findOrFail($packageId);
-        return view('front.checkout', compact('package'));
+        $payment = Payment::first();
+        if (!$payment) {
+            abort(404, 'Payment details not found.');
+        }
+        return view('front.checkout', compact('package', 'payment'));
     }
 
     public function checkout_store(StoreSubscribeTransactionRequest $request){
@@ -85,5 +92,10 @@ class FrontController extends Controller
         $courses = $category->courses()->get();
 
         return view('front.category', compact('courses', 'category'));
+    }
+
+    public function course(){
+        $courses = Course::all();
+        return view('front.course', compact('courses'));
     }
 }

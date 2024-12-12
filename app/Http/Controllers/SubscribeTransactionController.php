@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Spatie\Permission\Models\Role;
 use App\Models\SubscribeTransaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,18 +56,41 @@ class SubscribeTransactionController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, SubscribeTransaction $subscribeTransaction)
-    {
-        DB::transaction(function () use ($subscribeTransaction){
+{
+    DB::transaction(function () use ($subscribeTransaction) {
+        
+        $totalAmount = $subscribeTransaction->total_amount;
+        $owners = User::role('owner')->get();
+        $teachers = User::role('teacher')->get();
 
-            $subscribeTransaction->update([
-                'is_paid'=>true,
-                'subscription_start_date'=>Carbon::now()
-            ]);
+        $totalOwner = $owners->count();
+        $totalTeacher = $teachers->count();
 
-        });
+        $benefitOwner = $totalAmount * 0.5;
+        $benefitTeacherTotal = $totalAmount * 0.5;
+        $teacherPerShare = $totalTeacher > 0 ? $benefitTeacherTotal / 50 : 0;
+        $distributedBenefitTeacher = $teacherPerShare * $totalTeacher;
+        $remainingMoney = $benefitTeacherTotal - $distributedBenefitTeacher;
 
-        return redirect()->route('admin.subscribe_transactions.show', $subscribeTransaction);
-    }
+        $benefitOwner += $remainingMoney;
+
+        foreach ($owners as $owner) {
+            $owner->increment('balance', $benefitOwner / $totalOwner);
+        }
+
+        foreach ($teachers as $teacher) {
+            $teacher->increment('balance', $teacherPerShare);
+        }
+
+        $subscribeTransaction->update([
+            'is_paid' => true,
+            'subscription_start_date' => Carbon::now(),
+        ]);
+    });
+
+    return redirect()->route('admin.subscribe_transactions.show', $subscribeTransaction);
+}
+
 
     /**
      * Remove the specified resource from storage.

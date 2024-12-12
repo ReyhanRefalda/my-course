@@ -36,7 +36,7 @@
 
 
                     <div class="mb-4">
-                        <x-input-label for="harga" :value="__('Harga')" />
+                        <x-input-label for="harga" :value="__('Price')" />
                         <x-text-input id="harga" class="block mt-1 w-full" type="number" name="harga" 
                             value="{{ old('harga', $package->harga) }}" required />
                         <x-input-error :messages="$errors->get('harga')" class="mt-2" />

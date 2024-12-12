@@ -18,8 +18,11 @@
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 
@@ -34,7 +37,7 @@
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
-    <link rel="stylesheet" href="{{ asset('aset/css/app.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}" />
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
     <!-- Scripts -->
@@ -44,9 +47,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-surface">
+<body class="bg-[#F5F8FA] [font-family:Poppins,_sans-serif]">
     <div class="min-h-screen">
-        @include('layouts.navigation')
+        <div id="hero-section"
+            class="max-w-[1200px] mt-10 mx-auto w-full flex flex-col gap-10 bg-[url('{{ asset('assets/background/Hero-Banner.png') }}')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">
+            <x-navcat />
+        </div>
+
         <!-- Page Content -->
         <main class="mt-2">
             {{ $slot }}

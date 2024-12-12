@@ -1,16 +1,16 @@
 <nav class="flex justify-between items-center py-6 px-[50px]">
     <a href="">
-        <img src="{{asset('assets/logo/logo.svg')}}" alt="logo">
+        <img src="{{asset('assets/logo/logo-white.png')}}" alt="logo " style="width: 256px; height: auto;">
     </a>
     <ul class="flex items-center gap-[30px] text-white">
         <li>
             <a href="{{route('front.index')}}" class="font-semibold">Home</a>
         </li>
         <li>
-            <a href="pricing.html" class="font-semibold">Course</a>
+            <a href="{{route('front.course')}}" class="font-semibold">Course</a>
         </li>
         <li>
-            <a href="" class="font-semibold">Article</a>
+            <a href="{{ route('artikel.index') }}" class="font-semibold">Article</a>
         </li>
         <li>
             <a href="{{route('front.pricing')}}" class="font-semibold">Pricing</a>
