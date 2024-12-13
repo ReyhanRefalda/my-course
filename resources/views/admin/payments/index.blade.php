@@ -4,16 +4,17 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Manage Payments') }}
             </h2>
-
         </div>
     </x-slot>
+
     <div class="flex justify-end items-center space-x-4 mb-6">
         <button onclick="openModal('create')" class="font-bold py-2 px-6 text-white rounded-full shadow bg-[#3525B3]">
             Add New
         </button>
     </div>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+    <div class="py-2">
+        <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden shadow-sm rounded-[30px] p-8">
                 <table class="table-auto w-full">
                     <thead>
@@ -63,11 +64,9 @@
         </div>
     </div>
 
-
-
     <!-- Modal -->
     <div id="modal"
-        class="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 opacity-0 pointer-events-none backdrop-blur-sm">
+        class="fixed inset-0 z-[1050] flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 opacity-0 pointer-events-none backdrop-blur-sm">
         <div id="modal-content"
             class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md transform transition-transform duration-300 translate-y-10 scale-95">
             <div class="flex justify-between items-center mb-4 border-b pb-4">
@@ -88,11 +87,7 @@
                 <input type="hidden" id="_method" name="_method" value="">
 
                 <div class="mb-4">
-
                     <x-input-label for="bank_name" :value="('Bank Name')" />
-
-                    <x-input-label for="bank_name" :value="__('Bank Name')" />
-
                     <x-text-input id="bank_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         type="text" name="bank_name" value="{{ old('bank_name') }}" />
@@ -101,9 +96,6 @@
 
                 <div class="mb-4">
                     <x-input-label for="number" :value="('Account Number')" />
-
-                    <x-input-label for="number" :value="__('Account Number')" />
-
                     <x-text-input id="number"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         type="number" name="number" value="{{ old('number') }}" />
@@ -111,10 +103,7 @@
                 </div>
 
                 <div class="mb-4">
-
                     <x-input-label for="account_name" :value="('Account Name')" />
-
-                    <x-input-label for="account_name" :value="__('Account Name')" />
                     <x-text-input id="account_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         type="text" name="account_name" value="{{ old('account_name') }}" />
@@ -131,7 +120,6 @@
         </div>
     </div>
 
-
     <script>
         function openModal(mode, data = null) {
             const modal = document.getElementById('modal');
@@ -147,8 +135,6 @@
                 modalForm.reset();
             } else if (mode === 'edit' && data) {
                 modalTitle.textContent = 'Edit Payment';
-              
-
                 modalForm.action = `/admin/payments/${data.id}`;
                 methodInput.value = 'PUT';
                 document.getElementById('bank_name').value = data.bank_name;
@@ -174,5 +160,4 @@
             }, 300);
         }
     </script>
-
 </x-app-layout>
