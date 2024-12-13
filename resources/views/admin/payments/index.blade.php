@@ -19,9 +19,9 @@
                 <table class="table-auto w-full">
                     <thead>
                         <tr class="border-b border-gray-200">
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Payment Details</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
-                            <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600"></th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-950">Payment Details</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-950">Date</th>
+                            <th class="px-4 py-3 text-right text-sm font-semibold text-gray-950"></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -30,11 +30,11 @@
                                 <td class="px-4 py-4 flex items-center gap-4">
                                     <div>
                                         <h3 class="text-gray-900 font-semibold">{{ $payment->bank_name }}</h3>
-                                        <p class="text-slate-500 text-sm">Account Number: {{ $payment->number }}</p>
-                                        <p class="text-slate-500 text-sm">Account Name: {{ $payment->account_name }}</p>
+                                        <p class="text-slate-900 font-bold">Account Number: {{ $payment->number }}</p>
+                                        <p class="text-slate-900 font-bold">Account Name: {{ $payment->account_name }}</p>
                                     </div>
                                 </td>
-                                <td class="px-4 py-4 text-gray-700 text-sm">
+                                <td class="px-4 py-4 text-gray-900  font-bold">
                                     {{ $payment->created_at->isoFormat('ddd, D/MM/YYYY') }}
                                 </td>
                                 <td class="p-4 flex justify-end gap-x-2">
