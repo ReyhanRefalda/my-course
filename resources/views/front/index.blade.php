@@ -12,11 +12,11 @@
         </div>
         <div class="flex flex-col gap-[10px]">
             <h1 class="font-semibold text-[80px] leading-[82px] text-center gradient-text-hero">Build Future Career.</h1>
-            <p class="text-center text-xl leading-[36px] text-[#F5F8FA]">Alqowy provides high quality online courses for you to grow <br>
+            <p class="text-center text-xl leading-[36px] text-[#F5F8FA]">My Course provides high quality online courses for you to grow <br>
                 your skills and build outstanding portfolio to tackle job interviews</p>
         </div>
         <div class="flex gap-6 w-fit">
-            <a href="" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Explore Courses</a>
+            <a href="{{route('front.course')}}" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Explore Courses</a>
         </div>
     </div>
 
@@ -154,9 +154,9 @@
             </div>
         </div>
         <div class="flex flex-col text-left gap-[30px]">
-            <h2 class="font-bold text-[36px] leading-[52px]">Learn From Anywhere,<br>Anytime You Want</h2>
+            <h2 class="font-bold text-[36px] leading-[52px]">Be a Teacher And,<br>Get Some Benefits</h2>
             <p class="text-[#475466] text-lg leading-[34px]">Growing new skills would be more flexible without <br> limit we help you to access all course materials.</p>
-            <a href="" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980] w-fit">Check Pricing</a>
+            <a href="{{route('register')}}" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980] w-fit">Check Pricing</a>
         </div>
     </section>
     <section id="Zero-to-Success" class="max-w-[1200px] mx-auto flex flex-col py-[70px] px-[50px] gap-[30px] bg-[#F5F8FA] rounded-[32px]">
@@ -184,7 +184,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -210,7 +210,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -236,7 +236,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -262,7 +262,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -293,7 +293,7 @@
                         </div>
                         <p class="font-semibold">Shayna</p>
                     </div>
-                    <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                    <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                     <div class="flex gap-[2px]">
                         <div>
                             <img src="assets/icon/star.svg" alt="star">
@@ -319,7 +319,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -345,7 +345,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -371,7 +371,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -399,7 +399,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -425,7 +425,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -451,7 +451,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
@@ -477,7 +477,7 @@
                             </div>
                             <p class="font-semibold">Shayna</p>
                         </div>
-                        <p class="text-sm text-[#475466]">Alqowy has helped me to grow from zero to perfect career, thank you!</p>
+                        <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career, thank you!</p>
                         <div class="flex gap-[2px]">
                             <div>
                                 <img src="assets/icon/star.svg" alt="star">
