@@ -32,7 +32,7 @@
     </div>
 
 
-    @if (session('success'))
+    {{-- @if (session('success'))
         <div class="flex items-center p-4 mb-4 text-blue-800 border-t-4 border-blue-300 bg-blue-50 rounded-lg"
             role="alert">
             <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -54,7 +54,7 @@
                 </svg>
             </button>
         </div>
-    @endif
+    @endif --}}
 
     <div class="overflow-x-auto rounded-[30px] shadow-md bg-white">
         <table class="w-full text-left bg-white rounded-lg p-4">
@@ -87,7 +87,7 @@
 
                         <!-- Date -->
                         <td class="px-6 py-4 font-medium text-[#6D7786] text-start">
-                            {{ $artikel->created_at->isoFormat('dddd, D MMMM YYYY') }}
+                            {{ $artikel->created_at->isoFormat('ddd, D/MM/YYYY') }}
                         </td>
 
                         <!-- Status -->
@@ -178,6 +178,9 @@
         </div>
     @endforeach
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Ambil elemen input hidden dan editor
@@ -197,5 +200,25 @@
                 hiddenInput.value = trixEditor.editor.getDocument().toString();
             });
         });
+    </script>
+    <script>
+        //message with sweetalert
+        @if (session('success'))
+            Swal.fire({
+                icon: "success",
+                title: "SUCCESS",
+                text: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        @elseif (session('error'))
+            Swal.fire({
+                icon: "error",
+                title: "ERROR!",
+                text: "{{ session('error') }}",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        @endif
     </script>
 </x-app-layout>
