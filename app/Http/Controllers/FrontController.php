@@ -55,6 +55,7 @@ class FrontController extends Controller
     public function checkout($packageId){
         $package = Package::findOrFail($packageId);
         $payment = Payment::first();
+        // $payments = Payment::all();
         if (!$payment) {
             abort(404, 'Payment details not found.');
         }

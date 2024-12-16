@@ -18,13 +18,20 @@ class StorePackageRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
+     protected function prepareForValidation()
+    {
+        $this->merge([
+            'harga' => str_replace('.', '', $this->input('harga')),
+        ]);
+    }
     public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'harga' => 'required|integer|min:0',
-            'tipe' => 'required|in:daily,monthly,yearly',
+            'tipe' => 'required|in:daily,monthly,yearly,weekly,',
             'package_benefits' => 'required|array|min:1',
             'package_benefits.*' => 'nullable|string|max:255', // Elemen boleh kosong
         ];
