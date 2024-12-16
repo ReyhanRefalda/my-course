@@ -5,8 +5,9 @@
     <!-- ---------------------------------- -->
     <div class="p-4">
 
-        <a href="{{route('front.index')}}" class="text-nowrap ">
-            <img clas src="{{ asset('assets/logo/logo-black.png') }}" alt="Logo-Dark" style="width: 200px; height: auto;  margin-left: 15px;"/>
+        <a href="{{ route('front.index') }}" class="text-nowrap ">
+            <img clas src="{{ asset('assets/logo/logo-black.png') }}" alt="Logo-Dark"
+                style="width: 200px; height: auto;  margin-left: 15px;" />
         </a>
 
 
@@ -19,12 +20,12 @@
                     <span class="text-xs text-gray-400 font-semibold">MASTER</span>
                 </li>
 
-                    <li class="sidebar-item">
-                        <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
-                            href="{{ route('dashboard') }}">
-                            <i class="ti ti-layout-dashboard ps-2  text-2xl"></i> <span>Dashboard</span>
-                        </a>
-                    </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
+                        href="{{ route('dashboard') }}">
+                        <i class="ti ti-layout-dashboard ps-2  text-2xl"></i> <span>Dashboard</span>
+                    </a>
+                </li>
 
                 @role('owner')
                     <li class="sidebar-item">
@@ -35,7 +36,7 @@
                     </li>
                 @endrole
 
-                @role('teacher')
+                @role('owner|teacher')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                             href="{{ route('admin.artikel.index') }}">
@@ -44,7 +45,7 @@
                     </li>
                 @endrole
 
-                @role('teacher')
+                @role('owner|teacher')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                             href="{{ route('admin.courses.index') }}">
@@ -88,13 +89,13 @@
                         </a>
                     </li>
                 @endrole
-                @role('student')
-                <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
-                        href="{{ route('profile.edit') }}">
-                        <i class="ti ti-settings ps-2 text-2xl"></i> <span>Account Setting </span>
-                    </a>
-                </li>
+                @role('owner|teacher|student')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
+                            href="{{ route('profile.edit') }}">
+                            <i class="ti ti-settings ps-2 text-2xl"></i> <span>Account Setting </span>
+                        </a>
+                    </li>
                 @endrole
             </ul>
         </nav>
