@@ -12,14 +12,21 @@
         <li>
             <a href="{{ route('artikel.index') }}" class="font-semibold">Article</a>
         </li>
-        <li>
-            <a href="{{route('front.pricing')}}" class="font-semibold">Pricing</a>
-        </li>
-        @auth
-        <li>
-            <a href="{{route('dashboard')}}" class="font-semibold">Dashboard</a>
-        </li>
-        @endauth
+        @if (!Auth::check() || (Auth::check() && !Auth::user()->hasActiveSubscription()))
+                    <li>
+                        <a href="{{ route('front.pricing') }}" class="font-semibold">Pricing</a>
+                    </li>
+        @endif
+        @role('student')
+            <li>
+                <a href="{{route('front.progress')}}" class="font-semibold">Progress</a>
+            </li>
+            @endrole
+            @role('teacher|owner')
+            <li>
+                <a href="{{route('dashboard')}}" class="font-semibold">Dashboard</a>
+            </li>
+            @endrole
     </ul>
     @guest
     <div class="flex gap-[10px] items-center">
@@ -40,5 +47,18 @@
         </div>
     </div>
     @endauth
+
+    <div class="px-4 mt-[7px] mb-2 grid">
+        <a href="#"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+            class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">
+            Logout
+        </a>
+
+        <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
+            @csrf
+        </form>
+
+    </div>
 </nav>
 
