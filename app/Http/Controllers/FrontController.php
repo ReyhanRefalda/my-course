@@ -54,12 +54,12 @@ class FrontController extends Controller
 
     public function checkout($packageId){
         $package = Package::findOrFail($packageId);
-        // $payment = Payment::first();
-        $payments = Payment::all();
-        if (!$payments) {
+        $payment = Payment::first();
+        // $payments = Payment::all();
+        if (!$payment) {
             abort(404, 'Payment details not found.');
         }
-        return view('front.checkout', compact('package', 'payments'));
+        return view('front.checkout', compact('package', 'payment'));
     }
 
     public function checkout_store(StoreSubscribeTransactionRequest $request){
