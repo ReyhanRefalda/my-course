@@ -34,17 +34,23 @@
             <a
                 class="relative flex items-center justify-center hs-dropdown-toggle cursor-pointer align-middle rounded-full">
                 <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
-                    alt="Profile Picture" class="object-cover w-10 h-10 rounded-full">
+                    alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
             </a>
-            <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
+            <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[30px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
                 aria-labelledby="hs-dropdown-custom-icon-trigger">
                 <div class="card-body p-0 py-2">
-                    <a href="javscript:void(0)"
-                        class="flex gap-2 items-center font-medium px-4 py-1.5 hover:bg-gray-200 text-gray-400">
-                        <i class="ti ti-user  text-xl "></i>
-                        <p class="text-sm ">My Profile</p>
-                    </a>
-                    <div class="px-4 mt-[7px] grid">
+                    <div class="grid grid-cols-[1fr_2fr] gap-2 p-4 justify-center items-center">
+                        <div class="w-[80px] h-[80px] rounded-full overflow-hidden">
+                            <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
+                                alt="Profile Picture" class="object-cover w-full h-full rounded-full">
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <h2 class="text-xl font-bold text-gray-900">{{ Auth::user()->name }}</h2>
+                            <p class="text-sm text-gray-700">{{ Auth::user()->occupation }}</p>
+                            <p class="text-sm text-gray-700">{{ Auth::user()->email }}</p>
+                        </div>
+                    </div>
+                    <div class="px-4 mt-[7px] mb-2 grid">
                         <a href="#"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">

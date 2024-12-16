@@ -1,47 +1,50 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+@extends('../layouts.master')
+@section('content')
+	<body class="font-poppins text-[#0E0140]">
+		<main class="min-h-dvh">
+			<div id="left-side" class="fixed top-0 left-0 h-dvh w-[640px] outline outline-1 outline-[#E8E4F8]">
+				<img src="{{asset('assets/background/benefit_illustration.png')}}" class="size-full object-cover" alt="background image" />
+			</div>
+			<section id="right-side" class="w-dvw h-dvh flex flex-col items-center justify-center pl-[640px] py-[140px]">
+				<a href="{{route('front.index')}}" class="flex shrink-0 justify-start w-[500px] h-[10] mb-[70px]">
+					<img src="{{asset('assets/logo/logo-black.png')}}" class="object-contain" alt="logo"  style="width: 200px; height: auto;"/>
                 </a>
-            @endif
+                @if ($errors->any())
+                <div class="py-3 px-4 w-[500px] mb-5 text-center rounded-3xl bg-red-600 text-black border border-red-700">
+                    {{$errors->first()}}
+                </div>
+                 @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+				<form id="form-signin" method="POST" action="{{ route('login') }}" class="w-[500px] flex flex-col gap-[30px]">
+                    @csrf
+					<h1 class="text-[26px] leading-[39px] font-bold">Sign In</h1>
+					<div class="flex flex-col gap-2">
+						<label for="email" class="text-base font-semibold">Email Address</label>
+						<div class="flex items-center rounded-full py-[14px] px-[24px] gap-[10px] ring-1 ring-[#0E0140] focus-within:ring-2 focus-within:ring-[#FF6B2C] transition-all duration-300">
+							<div class="flex shrink-0 size-6">
+								<img src="assets/icon/sms.svg" alt="email icon" />
+							</div>
+							<input type="email" name="email" id="email" class="w-full focus:outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140]" placeholder="Write your email address"  />
+						</div>
+					</div>
+					<div class="flex flex-col gap-2">
+						<label for="password" class="text-base font-semibold">Password</label>
+						<div class="flex items-center rounded-full py-[14px] px-[24px] gap-[10px] ring-1 ring-[#0E0140] focus-within:ring-2 focus-within:ring-[#FF6B2C] transition-all duration-300">
+							<div class="flex shrink-0 size-6">
+								<img src="assets/icon/lock.svg" alt="password icon" />
+							</div>
+							<input type="password" name="password" id="password" class="w-full focus:outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140]" placeholder="Write your password"  />
+						</div>
+						<a href="#" class="text-sm leading-[21px] hover:underline">Forgot Password</a>
+					</div>
+					<div class="flex flex-col gap-3">
+						<button type="submit" class="flex items-center justify-center py-[14px] px-[30px] bg-[#FF6B2C] font-semibold text-white rounded-full hover:shadow-[0px_10px_20px_0px_#FF6B2C66] transition-all duration-300">
+							Sign In to My Account
+						</button>
+						<a href="{{route('register')}}" class="flex items-center justify-center py-[14px] px-[30px] font-semibold text-[#0E0140] outline outline-1 outline-[#0E0140] rounded-full">Create New Account</a>
+					</div>
+				</form>
+			</section>
+		</main>
+	</body>
+@endsection

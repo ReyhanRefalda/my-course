@@ -63,7 +63,7 @@
                                 <td class="px-2 py-2 text-center text-sm text-gray-700">
                                     {{ $course->teacher->user->name }}
                                 </td>
-                                <td class="px-4 py-4 text-right flex gap-2">
+                                <td class="px-2 py-2 text-right flex gap-2 justify-end">
                                     <a href="{{ route('admin.courses.show', $course) }}"
                                         class="px-6 py-3 rounded-full text-center font-semibold bg-indigo-600 hover:bg-indigo-700 text-white">
                                         Manage
