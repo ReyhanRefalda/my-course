@@ -15,11 +15,16 @@
             <li>
                 <a href="{{route('front.pricing')}}" class="font-semibold">Pricing</a>
             </li>
-            @auth
+            @role('student')
+            <li>
+                <a href="{{route('front.progress')}}" class="font-semibold">Progress</a>
+            </li>
+            @endrole
+            @role('teacher|owner')
             <li>
                 <a href="{{route('dashboard')}}" class="font-semibold">Dashboard</a>
             </li>
-            @endauth
+            @endrole
         </ul>
         @guest
         <div class="flex gap-[10px] items-center">
