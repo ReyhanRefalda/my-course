@@ -77,24 +77,28 @@
                 <div class="flex flex-col gap-2">
                     <p class="font-semibold">Account Type</p>
                     <div class="grid grid-cols-2 gap-[30px]">
+                        <!-- Opsi Student -->
                         <label class="relative group bg-white rounded-3xl p-[30px_24px] flex flex-col items-center justify-center gap-5 ring-1 ring-[#0E0140] has-[:checked]:ring-2 has-[:checked]:ring-[#FF6B2C] transition-all duration-300">
                             <div class="w-[46px] h-[46px] flex shrink-0">
-                                <img src="assets/icon/briefcase.svg" alt="icon">
+                                <img src="{{ asset('assets/icon/student-icon.svg') }}" alt="Student Icon">
                             </div>
-                            <p class="font-semibold">As an Employee</p>
-                            <img src="assets/icon/tick-circle-orange.svg" class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300" alt="icon">
-                            <input type="radio" name="account_type" id="Employee" class="absolute -z-10 top-1/2 left-1/2" value="Employee" >
+                            <p class="font-semibold">As a Student</p>
+                            <img src="{{ asset('assets/icon/tick-circle-orange.svg') }}" class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300" alt="Checked Icon">
+                            <input type="radio" name="account_type" id="student" value="student" class="absolute -z-10 top-1/2 left-1/2" required>
                         </label>
+                
+                        <!-- Opsi Teacher -->
                         <label class="relative group bg-white rounded-3xl p-[30px_24px] flex flex-col items-center justify-center gap-5 ring-1 ring-[#0E0140] has-[:checked]:ring-2 has-[:checked]:ring-[#FF6B2C] transition-all duration-300">
                             <div class="w-[46px] h-[46px] flex shrink-0">
-                                <img src="{{asset('assets/icon/avatar-group.png')}}" alt="icon">
+                                <img src="{{ asset('assets/icon/teacher-icon.svg') }}" alt="Teacher Icon">
                             </div>
-                            <p class="font-semibold">As an Employer</p>
-                            <img src="assets/icon/tick-circle-orange.svg" class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300" alt="icon">
-                            <input type="radio" name="account_type" id="Employer" class="absolute -z-10 top-1/2 left-1/2" value="Employer" >
+                            <p class="font-semibold">As a Teacher</p>
+                            <img src="{{ asset('assets/icon/tick-circle-orange.svg') }}" class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300" alt="Checked Icon">
+                            <input type="radio" name="account_type" id="teacher" value="teacher" class="absolute -z-10 top-1/2 left-1/2" required>
                         </label>
                     </div>
                 </div>
+                
                 <div class="flex flex-col gap-3">
                     <button type="submit" class="rounded-full p-[14px_30px] bg-[#FF6B2C] font-semibold text-white text-nowrap hover:shadow-[0_10px_20px_0_#FF6B2C66] transition-all duration-300">Sign Up Now</button>
                     <a href="{{route('login')}}" class="rounded-full border border-[#0E0140] p-[14px_30px] font-semibold text-[#0E0140] text-center">Sign In to My Account</a>
