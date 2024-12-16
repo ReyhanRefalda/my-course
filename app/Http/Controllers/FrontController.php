@@ -27,6 +27,8 @@ class FrontController extends Controller
     }
 
     public function detail(Course $course){
+
+
         return view('front.details', compact('course'));
     }
 

@@ -47,10 +47,11 @@
                                         class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit"
-                                            class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
-                                            <i class="ti ti-trash text-3xl"></i>
-                                        </button>
+                                        <button type="submit" 
+                                        onclick="return confirm('Are you sure you want to delete this teacher?')"
+                                        class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
+                                        <i class="ti ti-trash text-3xl"></i>
+                                    </button>
                                     </form>
                                 </td>
                             </tr>
