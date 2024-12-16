@@ -37,35 +37,48 @@ class TeacherController extends Controller
     public function store(StoreTeacherRequest $request)
     {
         $validated = $request->validated();
-
+    
+        // Mencari user berdasarkan email
         $user = User::where('email', $validated['email'])->first();
-
+    
+        // Jika user tidak ditemukan, kembalikan error
         if (!$user) {
             return back()->withErrors([
                 'email' => 'Data tidak ditemukan'
             ]);
         }
-
+    
+        // Jika user sudah memiliki role 'teacher', kembalikan error
         if ($user->hasRole('teacher')) {
             return back()->withErrors([
-                'email' => 'Email teresebut sudah menjadi Guru'
+                'email' => 'Email tersebut sudah menjadi Guru'
             ]);
         }
-
+    
+        // Transaksi untuk memastikan konsistensi data
         DB::transaction(function () use ($validated, $user) {
             $validated['user_id'] = $user->id;
             $validated['is_active'] = true;
-
+    
+            // Buat data teacher baru
             $teacher = Teacher::create($validated);
-
+    
+            // Jika user sudah memiliki role 'student', hilangkan role tersebut
             if ($user->hasRole('student')) {
                 $user->removeRole('student');
             }
+    
+            // Assign role 'teacher' tetapi dengan status belum terverifikasi
             $user->assignRole('teacher');
+            $user->is_verified = false;  // User masih menunggu persetujuan admin
+            $user->save();
         });
-
-        return redirect()->route('admin.teachers.index');
+    
+        // Redirect ke halaman pemberitahuan approval
+        return redirect()->route('teachers.approval.notice')
+                         ->with('warning', 'Akun Teacher Anda sedang menunggu persetujuan admin.');
     }
+    
 
     /**
      * Display the specified resource.
