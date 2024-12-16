@@ -71,7 +71,7 @@
 
                     <hr class="my-5">
 
-                    <div class="mt-4">  
+                    <div class="mt-4">
 
                         <div class="flex flex-col gap-y-5">
                             <x-input-label for="keypoints" :value="__('Keypoints')" />
@@ -95,4 +95,3 @@
         </div>
     </div>
 </x-app-layout>
-    

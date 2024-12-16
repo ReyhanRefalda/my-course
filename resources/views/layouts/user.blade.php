@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 
     {{-- favicon --}}
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/mycourse.png" />
 
     {{-- flowbite --}}
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />

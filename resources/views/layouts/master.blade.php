@@ -15,6 +15,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"
     />
+
+    {{-- favicon --}}
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/mycourse.png" />
 </head>
 @yield('content')
 @stack('before-scripts')

@@ -16,7 +16,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 
     {{-- favicon --}}
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/mycourse.png" />
 
     {{-- fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
