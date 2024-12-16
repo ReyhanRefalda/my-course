@@ -120,26 +120,25 @@
 
         {{-- social media --}}
         <div
-            class="gradient-badge px-6 py-3 rounded-lg flex justify-between items-center leading-[170%] border-[2px] border-[#FED6AD]">
+            class="bg-gradient-to-r from-[#4e36ff] to-[#3525B3] px-6 py-3 rounded-lg flex justify-between items-center leading-[170%] border-[2px]">
             <div class="flex md:flex-row sm:flex-col items-center md:justify-between sm:justify-center w-full px-6">
-                <h3 class="m-0 p-0 text-[16px] font-semibold text-[#FF6129] [letter-spacing:1px;]">FOLLOW US FOR
-                    THE LATEST NEWS</h3>
+                <h3 class="m-0 p-0 text-[16px] font-semibold text-[#fff] [letter-spacing:1px;]">MYCOURSE IN YOUR SOCIAL FEED</h3>
                 <div class="flex items-center justify-center gap-6">
                     <a href="#">
                         <img src="{{ asset('assets/socialmedia/instagram-logo.png') }}" alt="instagram"
-                            class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#404040] hover:[border:1px_solid_#f7f9fa] hover:bg-[#FF6129] transition-all duration-300">
+                            class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#fff] hover:[border:1px_solid_#f7f9fa] hover:bg-[#fff] transition-all duration-300">
                     </a>
                     <a href="#">
                         <img src="{{ asset('assets/socialmedia/facebook-logo.png') }}" alt="facebook"
-                            class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#404040] hover:[border:1px_solid_#f7f9fa] hover:bg-[#FF6129] transition-all duration-300">
+                            class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#fff] hover:[border:1px_solid_#f7f9fa] hover:bg-[#fff] transition-all duration-300">
                     </a>
                     <a href="#">
                         <img src="{{ asset('assets/socialmedia/X-logo.png') }}" alt="X"
-                            class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#404040] hover:[border:1px_solid_#f7f9fa] hover:bg-[#FF6129] transition-all duration-300">
+                            class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#fff] hover:[border:1px_solid_#f7f9fa] hover:bg-[#fff] transition-all duration-300">
                     </a>
                     <a href="#">
                         <img src="{{ asset('assets/socialmedia/telegram-logo.png') }}" alt="telegram"
-                            class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#404040] hover:[border:1px_solid_#f7f9fa] hover:bg-[#FF6129] transition-all duration-300">
+                            class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#fff] hover:[border:1px_solid_#f7f9fa] hover:bg-[#fff] transition-all duration-300">
                     </a>
                 </div>
             </div>
