@@ -53,7 +53,7 @@
                     <div class="container full-container p-0 flex flex-col gap-6">
                         <!--  Header Start -->
 
-                        <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-6 px-8">
+                        <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
 
 
                             <!-- ========== HEADER ========== -->
@@ -79,6 +79,9 @@
 
     {{-- trix editor --}}
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+
+    {{-- flowbite --}}
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js') }}"></script>

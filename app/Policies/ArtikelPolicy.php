@@ -45,6 +45,10 @@ class ArtikelPolicy
      */
     public function delete(User $user, Artikel $artikel): bool
     {
+        if ($user->hasRole('owner')) {
+            return true;
+        }
+
         return $user->id === $artikel->users_id;
     }
 
@@ -66,6 +70,10 @@ class ArtikelPolicy
 
     public function edit(User $user, Artikel $artikel): bool
     {
+        if ($user->hasRole('owner')) {
+            return true;
+        }
+
         return $user->id === $artikel->users_id;
     }
 }
