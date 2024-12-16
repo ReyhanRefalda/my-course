@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/progress', [FrontController::class, 'progress'])->name('front.progress');
 });
 
 require __DIR__ . '/auth.php';
