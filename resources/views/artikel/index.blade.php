@@ -3,7 +3,7 @@
     <div class="max-w-[1200px] mx-auto">
 
         {{-- social media --}}
-        <div class="mb-4 px-6 py-3 flex justify-between items-center leading-[170%] border-y-2 border-[#3525B3]">
+        <div class="my-4 px-6 py-3 flex justify-between items-center leading-[170%] border-y-2 border-[#3525B3]">
             <div class="flex items-center gap-6">
                 <h3 class="text-xl font-semibold text-[#3525B3] [letter-spacing:3px;]">FOLLOW US</h3>
                 <a href="#">

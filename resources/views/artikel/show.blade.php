@@ -114,18 +114,21 @@
                     <p class="trix-content">
                         {!! Str::limit($artikels->content, 340) !!}</p>
 
-                    <div class="login-invitation flex flex-col items-center justify-center">
+                    <div
+                        class="login-invitation flex items-center justify-center w-full [position:_relative] [backdrop-filter:blur(2px)] [padding-top:100px] [top:-85px]">
                         <p class="text-center text-[#f7f9fa] font-semibold mb-4">Ingin tahu lebih banyak?<br>
                             Login sekarang untuk membaca artikel ini secara lengkap!</p>
-                        <a href="{{ route('login') }}"
-                            class="text-white bg-[#FF6129] py-2 px-4 rounded-lg text-center no-underline hover:underline hover:bg-[#e75c29] hover:scale-105 active:scale-110 transition-all duration-300">Login</a>
+                        <div class="w-full flex justify-center items-center">
+                            <a href="{{ route('login') }}"
+                                class="text-white bg-[#FF6129] w-[100px] py-2 px-4 rounded-lg text-center no-underline hover:bg-[#e75c29] hover:scale-105 active:scale-110 transition-all duration-300">Login</a>
+                        </div>
                     </div>
                 @endauth
             </article>
 
             <!-- Sidebar -->
             <div class="hidden md:flex flex-col">
-                <div class="sticky top-[80px] space-y-6 m-4">
+                <div class="sticky top-4 space-y-6 m-4">
                     <h3 class="border-b border-[#FF6129] pb-2 text-sm lg:text-lg font-semibold text-[#FF6129] italic">
                         LATEST NEWS</h3>
                     @forelse ($artikleSidebar as $artikel)

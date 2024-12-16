@@ -47,7 +47,10 @@
                         <div class="flex flex-col gap-1">
                             <h2 class="text-xl font-bold text-gray-900">{{ Auth::user()->name }}</h2>
                             <p class="text-sm text-gray-700">{{ Auth::user()->occupation }}</p>
-                            <p class="text-sm text-gray-700">{{ Auth::user()->email }}</p>
+                            <p class="text-sm text-gray-700 flex justify-start items-center gap-x-1">
+                                <i class="ti ti-mail text-lg"></i>
+                                {{ Auth::user()->email }}
+                            </p>
                         </div>
                     </div>
                     <div class="px-4 mt-[7px] mb-2 grid">
