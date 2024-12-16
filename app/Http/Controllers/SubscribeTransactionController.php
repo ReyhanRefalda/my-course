@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Package;
 use Spatie\Permission\Models\Role;
 use App\Models\SubscribeTransaction;
 use App\Models\User;
@@ -82,9 +83,19 @@ class SubscribeTransactionController extends Controller
             $teacher->increment('balance', $teacherPerShare);
         }
 
+        $package = Package::findOrFail($subscribeTransaction->package_id); // Mengambil package berdasarkan package_id dari transaksi
+
+        // Update transaksi langganan
         $subscribeTransaction->update([
             'is_paid' => true,
             'subscription_start_date' => Carbon::now(),
+            'expired_at' => Carbon::now()->addDays(match ($package->tipe) {
+                'daily' => 1,
+                'weekly' => 7,
+                'monthly' => 30,
+                'yearly' => 365,
+                default => 0,
+            }),
         ]);
     });
 

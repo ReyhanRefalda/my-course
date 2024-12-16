@@ -12,14 +12,24 @@
             <li>
                 <a href="{{ route('artikel.index') }}" class="font-semibold">Article</a>
             </li>
+                @if (!Auth::check() || (Auth::check() && !Auth::user()->hasActiveSubscription()))
+                    <li>
+                        <a href="{{ route('front.pricing') }}" class="font-semibold">Pricing</a>
+                    </li>
+                @endif
+
+
+
+            @role('student')
             <li>
-                <a href="{{route('front.pricing')}}" class="font-semibold">Pricing</a>
+                <a href="{{route('front.progress')}}" class="font-semibold">Progress</a>
             </li>
-            @auth
+            @endrole
+            @role('teacher|owner')
             <li>
                 <a href="{{route('dashboard')}}" class="font-semibold">Dashboard</a>
             </li>
-            @endauth
+            @endrole
         </ul>
         @guest
         <div class="flex gap-[10px] items-center">

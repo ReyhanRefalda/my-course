@@ -98,6 +98,16 @@
         crossorigin="anonymous">
     </script>
     <script src="{{asset('build/js/main.js')}}"></script>
+    <script>
+        function updateFileName(input) {
+            const fileLabel = document.getElementById('fileLabel');
+            if (input.files && input.files[0]) {
+                fileLabel.textContent = input.files[0].name;
+            } else {
+                fileLabel.textContent = "Add a file attachment";
+            }
+        }
+    </script>
 
 </body>
 @endsection

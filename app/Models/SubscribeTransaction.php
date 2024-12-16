@@ -15,14 +15,22 @@ class SubscribeTransaction extends Model
         'is_paid',
         'user_id',
         'proof',
-        'subscription_start_date'
+        'subscription_start_date',
+        'expired_at',
+        'package_id',
     ];
 
     protected $casts = [
         'subscription_start_date' => 'datetime',
+        'expired_at' => 'datetime',
     ];    
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
     }
 }
