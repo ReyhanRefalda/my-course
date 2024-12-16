@@ -26,7 +26,7 @@
                         </div>
                         <div class="flex flex-col gap-1">
                             <p class="font-semibold text-4xl leading-[54px]">Rp {{ number_format($package->harga, 0, ',', '.') }}</p>
-                            <p class="text-[#475466] text-lg">{{ $package->tipe }}</p>
+                            <p class="text-[#475466] text-lg">{{ ucfirst($package->tipe) }}</p>
                         </div>
                         <div class="flex flex-col gap-4">
                             @foreach ($package->benefits as $benefit)
@@ -39,11 +39,24 @@
                             @endforeach
                         </div>
                     </div>
-                    <!-- Perbaikan pada tautan -->
-                    <a href="{{ route('front.checkout', $package->id) }}"
-                       class="p-[20px_32px] bg-[#FF6129] text-white rounded-full text-center font-semibold text-xl transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">
-                        Subscribe Now
-                    </a>
+                    <!-- Kondisi tombol -->
+                    @if (Auth::check())
+                            @if (Auth::user()->hasActiveSubscription())
+                                <div class="p-[20px_32px] bg-gray-500 text-white rounded-full text-center font-semibold text-xl cursor-not-allowed">
+                                    Already Subscribed
+                                </div>
+                            @else
+                                <a href="{{ route('front.checkout', $package->id) }}"
+                                class="p-[20px_32px] bg-[#FF6129] text-white rounded-full text-center font-semibold text-xl transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">
+                                    Subscribe Now
+                                </a>
+                            @endif
+                        @else
+                        <a href="{{ route('login') }}"
+                        class="p-[20px_32px] bg-blue-500 text-white rounded-full text-center font-semibold text-xl transition-all duration-300 hover:shadow-[0_10px_20px_0_#00000080]">
+                            Login to Subscribe
+                        </a>
+                    @endif
                 </div>
                 @empty
                 <p>No packages available</p>

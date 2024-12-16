@@ -55,6 +55,7 @@ class FrontController extends Controller
     public function checkout($packageId){
         $package = Package::findOrFail($packageId);
         $payment = Payment::first();
+        // $payments = Payment::all();
         if (!$payment) {
             abort(404, 'Payment details not found.');
         }
@@ -97,5 +98,10 @@ class FrontController extends Controller
     public function course(){
         $courses = Course::all();
         return view('front.course', compact('courses'));
+    }
+
+    public function progress(){
+        $courses = Course::all();
+        return view('front.progress', compact('courses'));
     }
 }

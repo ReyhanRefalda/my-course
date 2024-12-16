@@ -19,14 +19,24 @@ class ArtikelController extends Controller
     {
         $user = Auth::user();
         $search = $request->search;
-        $artikels = Artikel::where('users_id', $user->id)->where(function ($query) use ($search) {
-            if ($search) {
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('content', 'like', "%{$search}%");
-            }
-        })->orderBy('id', 'desc')->paginate(3)->withQueryString();
+
+        $artikels = Artikel::query()
+            ->when(!$user->hasRole('owner'), function ($query) use ($user) {
+                $query->where('users_id', $user->id);
+            })
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('content', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(3)
+            ->withQueryString();
+
         return view('admin.artikel.index', compact('artikels'));
     }
+
 
     /**
      * Show the form for creating a new resource.

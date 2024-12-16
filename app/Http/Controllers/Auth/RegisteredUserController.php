@@ -39,9 +39,11 @@ class RegisteredUserController extends Controller
             'account_type' => ['required', 'in:student,teacher'],
         ]);
 
-        $avatarPath = $request->hasFile('avatar') 
-            ? $request->file('avatar')->store('avatars', 'public') 
-            : 'images/avatar-default.png';
+        if($request->hasFile('avatar')){
+            $avatarPath = $request->file('avatar')->store('avatar', 'public');
+        } else {
+            $avatarPath = 'images/avatar-default.png';
+        }
 
         $user = User::create([
             'name' => $request->name,

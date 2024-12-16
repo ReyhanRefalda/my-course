@@ -17,7 +17,7 @@ class PackageController extends Controller
      */
     public function index(): View
     {
-        $packages = Package::with('benefits')->paginate(1);
+        $packages = Package::with('benefits')->paginate(5);
         return view('admin.packages.index', compact('packages'));
     }
 
