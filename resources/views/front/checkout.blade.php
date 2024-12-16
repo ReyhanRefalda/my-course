@@ -26,12 +26,12 @@
                 <hr>
                 <div class="flex flex-col gap-5">
                     @foreach ($package->benefits as $benefit)
-                            <div class="flex gap-3">
-                                <div class="w-6 h-6 flex shrink-0">
-                                    <img src="{{ asset('assets/icon/tick-circle.svg') }}" class="w-full h-full object-cover" alt="icon">
-                                </div>
-                                <p class="text-[#475466]">{{ $benefit->name }}</p>
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 flex shrink-0">
+                                <img src="{{ asset('assets/icon/tick-circle.svg') }}" class="w-full h-full object-cover" alt="icon">
                             </div>
+                            <p class="text-[#475466]">{{ $benefit->name }}</p>
+                        </div>
                     @endforeach
                 </div>
                 <p class="font-semibold text-[28px] leading-[42px]">Rp {{ number_format($package->harga, 0, ',', '.') }}</p>
@@ -39,40 +39,29 @@
             <form action="{{route('front.checkout.store')}}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col bg-white rounded-2xl p-5 gap-5">
                 @csrf
                 <input type="hidden" name="package_id" value="{{ $package->id }}">
-                <p class="font-bold text-lg">Send Payment</p>
-                <div class="flex flex-col gap-5">
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-3">
+
+                <!-- Bagian Memilih Metode Pembayaran -->
+                <p class="font-bold text-lg">Choose Payment Method</p>
+                <div class="flex flex-col gap-5 max-h-[200px] overflow-y-auto pr-2">
+                    @foreach ($payments as $payment)
+                    <label class="flex items-center justify-between cursor-pointer p-3 border rounded-md hover:shadow-md">
+                        <div class="flex items-center gap-3">
                             <div class="w-6 h-6 flex shrink-0">
                                 <img src="{{asset('assets/icon/tick-circle.svg')}}" class="w-full h-full object-cover" alt="icon">
                             </div>
-                            <p class="text-[#475466]">Bank Name</p>
-                        </div>
-                        <p class="font-semibold">{{$payment->bank_name}}</p>
-                        <input type="hidden" name="bankName" value="Angga Capital">
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-3">
-                            <div class="w-6 h-6 flex shrink-0">
-                                <img src="{{asset('assets/icon/tick-circle.svg')}}" class="w-full h-full object-cover" alt="icon">
+                            <div>
+                                <p class="text-[#475466] font-semibold">{{ $payment->bank_name }}</p>
+                                <p class="text-[#475466] text-sm">Account Number: {{ $payment->number }}</p>
+                                <p class="text-[#475466] text-sm">Account Name: {{ $payment->account_name }}</p>
                             </div>
-                            <p class="text-[#475466]">Account Number</p>
                         </div>
-                        <p class="font-semibold">{{$payment->number}}</p>
-                        <input type="hidden" name="accountNumber" value="22081996202191404">
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-3">
-                            <div class="w-6 h-6 flex shrink-0">
-                                <img src="{{asset('assets/icon/tick-circle.svg')}}" class="w-full h-full object-cover" alt="icon">
-                            </div>
-                            <p class="text-[#475466]">Account Name</p>
-                        </div>
-                        <p class="font-semibold">{{$payment->account_name}}</p>
-                        <input type="hidden" name="accountName" value="Alqowy Education First">
-                    </div>
+                        <input type="radio" name="payment_id" value="{{ $payment->id }}" required>
+                    </label>
+                    @endforeach
                 </div>
                 <hr>
+
+                <!-- Bagian Konfirmasi Pembayaran -->
                 <p class="font-bold text-lg">Confirm Your Payment</p>
                 <div class="relative">
                     <button type="button" class="p-4 rounded-full flex gap-3 w-full ring-1 ring-black transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]" onclick="document.getElementById('file').click()">
@@ -98,6 +87,15 @@
         crossorigin="anonymous">
     </script>
     <script src="{{asset('build/js/main.js')}}"></script>
-
+    <script>
+        function updateFileName(input) {
+            const fileLabel = document.getElementById('fileLabel');
+            if (input.files && input.files[0]) {
+                fileLabel.textContent = input.files[0].name;
+            } else {
+                fileLabel.textContent = "Add a file attachment";
+            }
+        }
+    </script>
 </body>
 @endsection

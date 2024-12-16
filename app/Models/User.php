@@ -66,14 +66,10 @@ class User extends Authenticatable
     {
         $latestSubscription = $this->subscribe_transactions()
             ->where('is_paid', true)
-            ->latest('updated_at')
+            ->where('expired_at', '>=', Carbon::now())
+            ->latest('expired_at')
             ->first();
 
-        if (!$latestSubscription) {
-            return false;
-        }
-
-        $subscriptionEndDate = Carbon::parse($latestSubscription->subscription_start_date)->addMonths(1);
-        return Carbon::now()->lessThanOrEqualTo($subscriptionEndDate); //true = dia berlangganan
+        return $latestSubscription !== null;
     }
 }
