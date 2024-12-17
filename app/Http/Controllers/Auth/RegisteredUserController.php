@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Teacher; // Import model Teacher
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,12 +40,12 @@ class RegisteredUserController extends Controller
             'account_type' => ['required', 'in:student,teacher'],
         ]);
 
-        if($request->hasFile('avatar')){
-            $avatarPath = $request->file('avatar')->store('avatar', 'public');
-        } else {
-            $avatarPath = 'images/avatar-default.png';
-        }
+        // Handle avatar upload
+        $avatarPath = $request->hasFile('avatar')
+            ? $request->file('avatar')->store('avatar', 'public')
+            : 'images/avatar-default.png';
 
+        // Create user
         $user = User::create([
             'name' => $request->name,
             'occupation' => $request->occupation,
@@ -53,25 +54,32 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'is_verified' => true, // Semua akun langsung aktif
-            'status' => $request->account_type === 'teacher' ? 'pending' : 'approved', // Default status
         ]);
 
         // Tambahkan role sesuai account_type
         $role = Role::firstOrCreate(['name' => $request->account_type]);
         $user->assignRole($role);
-        
-        event(new Registered($user));
 
+        // Jika akun adalah teacher, tambahkan ke tabel teachers
         if ($request->account_type === 'teacher') {
-            Auth::login($user);
-            return redirect()->route('teachers.approval-notice')
-                ->with('info', 'Akun Teacher Anda telah dibuat. Menunggu persetujuan admin.');
+            Teacher::create([
+                'user_id' => $user->id,
+                'status' => 'pending', // Teacher perlu persetujuan untuk aktif
+            ]);
         }
 
-        // Login otomatis untuk student
+        // Trigger event
+        event(new Registered($user));
+
+        // Login dan redirect sesuai account_type
         Auth::login($user);
 
+        if ($request->account_type === 'teacher') {
+            return redirect()->route('teachers.approval-notice')
+                ->with('info', 'Your Teacher Account has been created. Waiting for admin approval.');
+        }
+
         return redirect()->route('dashboard')
-            ->with('success', 'Akun Student berhasil dibuat!');
+            ->with('success', 'Student account has been successfully created!');
     }
 }
