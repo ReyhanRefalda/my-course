@@ -40,19 +40,19 @@
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-gray-700 text-sm">
-                                    {{ $teacher->created_at->isoFormat('dddd, D MMMM YYYY') }}
+                                    {{-- {{ $teacher->created_at->isoFormat('dddd, D MMMM YYYY') }} --}} wokwokwo
                                 </td>
                                 <td class="px-4 py-4 text-right">
                                     <div class="flex gap-2 justify-end">
                                         <!-- Approve Button -->
-                                        <form action="{{ route('teachers.approve', $teacher->id) }}" method="POST" class="inline">
+                                        <form action="{{ route('admin.admin.teachers.approve', $teacher->id) }}" method="POST" class="inline">
                                             @csrf
                                             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md">
                                                 Approve
                                             </button>
                                         </form>
                                         <!-- Reject Button -->
-                                        <form action="{{ route('teachers.reject', $teacher->id) }}" method="POST" class="inline">
+                                        <form action="{{ route('admin.admin.teachers.reject', $teacher->id) }}" method="POST" class="inline">
                                             @csrf
                                             <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md">
                                                 Reject
