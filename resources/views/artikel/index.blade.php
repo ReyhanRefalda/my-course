@@ -64,7 +64,7 @@
                             <div class="flex gap-8">
                                 <p class="sm:text-[8px] md:text-lg text-yellow-500 mt-2 font-bold">Latest News</p>
                                 <p
-                                    class="sm:text-[8px] md:text-lg text-[#f7f9fa] mt-2 font-semibold hover:text-[#FF6129]">
+                                    class="sm:text-[8px] md:text-lg text-[#f7f9fa] mt-2 font-semibold hover:text-[rgb(255,97,41)]">
                                     By
                                     {{ $lastData->user->name }}</p>
                                 <p class="sm:text-[8px] md:text-lg text-[#f7f9fa] mt-2 font-semibold">

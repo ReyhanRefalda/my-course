@@ -56,7 +56,7 @@
                     <div class="px-4 mt-[7px] mb-2 grid">
                         <a href="#"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                            class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">
+                            class="btn-outline-primary font-medium text-[15px] w-full hover:bg-[rgb(255,97,41)] hover:text-white">
                             Logout
                         </a>
 
