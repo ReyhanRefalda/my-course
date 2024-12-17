@@ -26,7 +26,7 @@
                         <tr class="border-b border-gray-200">
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600 w-96">Teacher</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
-                            <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600"></th>
+                            <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -43,15 +43,29 @@
                                     {{ $teacher->created_at->isoFormat('dddd, D MMMM YYYY') }}
                                 </td>
                                 <td class="px-4 py-4 text-right">
-                                    <form action="{{ route('admin.teachers.destroy', $teacher) }}" method="POST"
-                                        class="inline">
+                                    <div class="flex gap-2 justify-end">
+                                        <!-- Approve Button -->
+                                        <form action="{{ route('teachers.approve', $teacher->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md">
+                                                Approve
+                                            </button>
+                                        </form>
+                                        <!-- Reject Button -->
+                                        <form action="{{ route('teachers.reject', $teacher->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md">
+                                                Reject
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <form action="{{ route('admin.teachers.destroy', $teacher) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
-                                        onclick="return confirm('Are you sure you want to delete this teacher?')"
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this teacher?')"
                                         class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
-                                        <i class="ti ti-trash text-3xl"></i>
-                                    </button>
+                                            <i class="ti ti-trash text-3xl"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
@@ -90,11 +104,12 @@
 
                 <div class="mb-4">
                     <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input id="email" class="block mt-1 w-full" type="text" name="email" 
+                    <x-text-input id="email" class="block mt-1 w-full" type="text" name="email"
                         value="{{ old('email') }}" autofocus />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
-                
+
+
 
                 <div class="flex items-center justify-end">
                     <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">

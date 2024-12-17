@@ -15,13 +15,17 @@ class TeacherController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $teachers = Teacher::orderBy('id', 'desc')->get();
+{
+    // Hanya menampilkan teachers yang status = 'pending'
+    $teachers = Teacher::where('status', 'pending')
+        ->orderBy('id', 'desc')
+        ->get();
 
-        return view('admin.teachers.index', [
-            'teachers' => $teachers
-        ]);
-    }
+    return view('admin.teachers.index', [
+        'teachers' => $teachers,
+    ]);
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,51 +38,35 @@ class TeacherController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTeacherRequest $request)
+    public function store(Request $request, $teacherId)
     {
-        $validated = $request->validated();
-    
-        // Mencari user berdasarkan email
-        $user = User::where('email', $validated['email'])->first();
-    
-        // Jika user tidak ditemukan, kembalikan error
-        if (!$user) {
-            return back()->withErrors([
-                'email' => 'Data tidak ditemukan'
-            ]);
-        }
-    
-        // Jika user sudah memiliki role 'teacher', kembalikan error
-        if ($user->hasRole('teacher')) {
-            return back()->withErrors([
-                'email' => 'Email tersebut sudah menjadi Guru'
-            ]);
-        }
-    
-        // Transaksi untuk memastikan konsistensi data
-        DB::transaction(function () use ($validated, $user) {
-            $validated['user_id'] = $user->id;
-            $validated['is_active'] = true;
-    
-            // Buat data teacher baru
-            $teacher = Teacher::create($validated);
-    
-            // Jika user sudah memiliki role 'student', hilangkan role tersebut
-            if ($user->hasRole('student')) {
-                $user->removeRole('student');
-            }
-    
-            // Assign role 'teacher' tetapi dengan status belum terverifikasi
-            $user->assignRole('teacher');
-            $user->is_verified = false;  // User masih menunggu persetujuan admin
-            $user->save();
-        });
-    
-        // Redirect ke halaman pemberitahuan approval
-        return redirect()->route('teachers.approval.notice')
-                         ->with('warning', 'Akun Teacher Anda sedang menunggu persetujuan admin.');
+        // Validasi ID yang diterima
+    $teacher = Teacher::find($teacherId);
+
+    if (!$teacher) {
+        return back()->withErrors(['teacher' => 'Guru tidak ditemukan.']);
     }
-    
+
+    // Update status teacher menjadi 'approved' (bisa juga disesuaikan dengan status lain)
+    $teacher->status = 'approved';
+    $teacher->save();
+
+    // Dapatkan user terkait dengan teacher
+    $user = $teacher->user;
+
+    // Periksa apakah user sudah memiliki role 'teacher', jika belum beri role tersebut
+    if (!$user->hasRole('teacher')) {
+        $user->assignRole('teacher');
+    }
+
+    // Tandai user sebagai verified karena telah disetujui
+    $user->is_verified = true;
+    $user->save();
+
+    // Redirect dengan pesan sukses
+    return redirect()->route('teachers.index')
+                     ->with('success', 'Akun Teacher berhasil disetujui.');
+    }
 
     /**
      * Display the specified resource.
