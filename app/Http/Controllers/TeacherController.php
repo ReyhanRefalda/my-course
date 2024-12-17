@@ -40,8 +40,32 @@ class TeacherController extends Controller
      */
     public function store(Request $request, $teacherId)
     {
-        // Validasi ID yang diterima
-    $teacher = Teacher::find($teacherId);
+
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Teacher $teacher)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Teacher $teacher)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $teacher)
+    {
+            // Validasi ID yang diterima
+    $teacher = Teacher::find($teacher);
 
     if (!$teacher) {
         return back()->withErrors(['teacher' => 'Guru tidak ditemukan.']);
@@ -64,47 +88,25 @@ class TeacherController extends Controller
     $user->save();
 
     // Redirect dengan pesan sukses
-    return redirect()->route('teachers.index')
+    return redirect()->route('admin.teachers.index')
                      ->with('success', 'Akun Teacher berhasil disetujui.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Teacher $teacher)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Teacher $teacher)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Teacher $teacher)
-    {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
+    // TeacherController.php
     public function destroy(Teacher $teacher)
     {
         try {
             $teacher->delete();
 
+            // Menghapus role 'teacher' dan menggantinya menjadi 'student'
             $user = User::find($teacher->user_id);
             $user->removeRole('teacher');
             $user->assignRole('student');
 
-            return redirect()->back();
+            return redirect()->route('admin.teachers.index')->with('success', 'Akun teacher berhasil ditolak dan dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();
             $error = ValidationException::withMessages([
