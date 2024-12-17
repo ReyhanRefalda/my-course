@@ -72,4 +72,18 @@ class User extends Authenticatable
 
         return $latestSubscription !== null;
     }
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
+    public function isTeacherActive()
+    {
+        if ($this->hasRole('teacher')) {
+            $teacher = $this->teacher; // Ambil data dari relasi
+            return $teacher && $teacher->is_active;
+        }
+        return false;
+    }
 }
