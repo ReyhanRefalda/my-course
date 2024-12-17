@@ -114,6 +114,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         function openModal(mode, category = null) {
             const modal = document.getElementById('modal');
@@ -164,6 +166,47 @@
         @if ($errors->any())
             document.addEventListener('DOMContentLoaded', () => {
                 openModal('add');
+            });
+        @endif
+    </script>
+
+    <script>
+        //message with sweetalert
+        @if (session('success'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#FF6129",
+            });
+        @elseif (session('error'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#FF0000",
             });
         @endif
     </script>
