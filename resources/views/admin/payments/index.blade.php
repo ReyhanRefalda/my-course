@@ -29,9 +29,9 @@
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-4 flex items-center gap-4">
                                     <div>
-                                        <h3 class="text-gray-900 font-semibold">{{ $payment->bank_name }}</h3>
-                                        <p class="text-slate-900 font-bold">Account Number: {{ $payment->number }}</p>
-                                        <p class="text-slate-900 font-bold">Account Name: {{ $payment->account_name }}</p>
+                                        <h3 class="text-gray-900 font-bold">{{ $payment->bank_name }}</h3>
+                                        <p class="text-slate-900">Account Number: {{ $payment->number }}</p>
+                                        <p class="text-slate-900">Account Name: {{ $payment->account_name }}</p>
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-gray-900  font-bold">

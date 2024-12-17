@@ -1,64 +1,97 @@
 <nav class="flex justify-between items-center py-6 px-[50px]">
     <a href="">
-        <img src="{{asset('assets/logo/logo-white.png')}}" alt="logo " style="width: 256px; height: auto;">
+        <img src="{{ asset('assets/logo/logo-white.png') }}" alt="logo " style="width: 256px; height: auto;">
     </a>
     <ul class="flex items-center gap-[30px] text-white">
         <li>
-            <a href="{{route('front.index')}}" class="font-semibold">Home</a>
+            <a href="{{ route('front.index') }}" class="font-semibold">Home</a>
         </li>
         <li>
-            <a href="{{route('front.course')}}" class="font-semibold">Course</a>
+            <a href="{{ route('front.course') }}" class="font-semibold">Course</a>
         </li>
         <li>
             <a href="{{ route('artikel.index') }}" class="font-semibold">Article</a>
         </li>
         @if (!Auth::check() || (Auth::check() && !Auth::user()->hasActiveSubscription()))
-                    <li>
-                        <a href="{{ route('front.pricing') }}" class="font-semibold">Pricing</a>
-                    </li>
+            <li>
+                <a href="{{ route('front.pricing') }}" class="font-semibold">Pricing</a>
+            </li>
         @endif
         @role('student')
             <li>
-                <a href="{{route('front.progress')}}" class="font-semibold">Progress</a>
+                <a href="{{ route('front.progress') }}" class="font-semibold">Progress</a>
             </li>
-            @endrole
-            @role('teacher|owner')
+        @endrole
+        @role('teacher|owner')
             <li>
-                <a href="{{route('dashboard')}}" class="font-semibold">Dashboard</a>
+                <a href="{{ route('dashboard') }}" class="font-semibold">Dashboard</a>
             </li>
-            @endrole
+        @endrole
     </ul>
     @guest
-    <div class="flex gap-[10px] items-center">
-        <a href="{{route('register')}}" class="text-white font-semibold rounded-[30px] p-[16px_32px] ring-1 ring-white transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">Sign Up</a>
-        <a href="{{route('login')}}" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Sign In</a>
-    </div>
+        <div class="flex gap-[10px] items-center">
+            <a href="{{ route('register') }}"
+                class="text-white font-semibold rounded-[30px] p-[16px_32px] ring-1 ring-white transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">Sign
+                Up</a>
+            <a href="{{ route('login') }}"
+                class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Sign
+                In</a>
+        </div>
     @endguest
+
     @auth
-    <div class="flex gap-[10px] items-center">
-        <div class="flex flex-col items-end justify-center">
-            <p class="font-semibold text-white">Hi, {{Auth::user()->name}}</p>
-            @if (Auth::user()->hasActiveSubscription())
-                <p class="p-[2px_10px] rounded-full bg-[#FF6129] font-semibold text-xs text-white text-center">PRO</p>
-            @endif
+        <div class="flex items-center justify-end">
+            <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
+                <div class="flex flex-col items-end justify-center mr-4">
+                    <h3 class="text-lg font-semibold mb-1 text-white">Hi, {{ Auth::user()->name }}</h3>
+                    {{-- role user  owner, teacher, or student --}}
+                    <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
+                        @if (Auth::user()->hasRole('owner'))
+                            <span class="badge badge-success">Owner</span>
+                        @elseif(Auth::user()->hasRole('teacher'))
+                            <span class="badge badge-warning">Teacher</span>
+                        @elseif(Auth::user()->hasRole('student'))
+                            <span class="badge badge-info">Student</span>
+                        @elseif (Auth::user()->hasActiveSubscription())
+                            <span class="badge badge-primary">PRO</span>
+                        @endif
+                    </p>
+                </div>
+                <a
+                    class="w-12 h-12 relative flex items-center justify-center hs-dropdown-toggle cursor-pointer align-middle rounded-full">
+                    <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
+                        alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
+                </a>
+                <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[20px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
+                    aria-labelledby="hs-dropdown-custom-icon-trigger">
+                    <div class="card-body p-0 py-2">
+                        <div class="grid grid-cols-[1fr_2fr] gap-2 p-4 justify-center items-center">
+                            <div class="w-[80px] h-[80px] rounded-full overflow-hidden">
+                                <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
+                                    alt="Profile Picture" class="object-cover w-full h-full rounded-full">
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <h2 class="text-xl font-bold text-gray-900">{{ Auth::user()->name }}</h2>
+                                <p class="text-sm text-gray-700">{{ Auth::user()->occupation }}</p>
+                                <p class="text-sm text-gray-700 flex justify-start items-center gap-x-1">
+                                    <i class="ti ti-mail text-lg"></i>
+                                    {{ Auth::user()->email }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="px-4 mt-[7px] mb-2 grid">
+                            <a href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                class="btn-outline-primary font-medium text-[15px] w-full hover:bg-[rgb(53,37,179)] hover:text-white">
+                                Logout
+                            </a>
+                            <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="w-[56px] h-[56px] overflow-hidden rounded-full flex shrink-0">
-            <img src="{{Storage::url(Auth::user()->avatar)}}" class="w-full h-full object-cover" alt="photo">
-        </div>
-    </div>
     @endauth
-
-    <div class="px-4 mt-[7px] mb-2 grid">
-        <a href="#"
-            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-            class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">
-            Logout
-        </a>
-
-        <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
-            @csrf
-        </form>
-
-    </div>
 </nav>
-
