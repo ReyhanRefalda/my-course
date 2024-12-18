@@ -46,7 +46,7 @@
             
         </div>
         <a href="{{ route('admin.artikel.create') }}"
-            class="px-4 py-2.5 text-white bg-[#3525B3] rounded-2xl hover:bg-indigo-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            class="px-4 py-2.5 font-bold text-white bg-[#3525B3] rounded-[30px] hover:bg-indigo-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             Add New
         </a>
     </div>

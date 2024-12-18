@@ -2,40 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSubscribeTransactionRequest;
-use App\Models\Category;
 use App\Models\Course;
+use App\Models\Artikel;
 use App\Models\Package;
 use App\Models\Payment;
-use App\Models\SubscribeTransaction;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\SubscribeTransaction;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreSubscribeTransactionRequest;
 
 class FrontController extends Controller
 {
     //
 
-    public function index(){
+    public function index()
+    {
         $courses = Course::with(['category', 'teacher', 'students'])
-        ->orderByDesc('id')
-        ->get();
+            ->orderByDesc('id')
+            ->get();
 
         $categories = Category::all();
 
         return view('front.index', compact('courses', 'categories'));
     }
 
-    public function detail(Course $course){
+    public function detail(Course $course)
+    {
 
 
         return view('front.details', compact('course'));
     }
 
-    public function learning(Course $course, $courseVideoId){
+    public function learning(Course $course, $courseVideoId)
+    {
         $user = Auth::user();
 
-        if(!$user->hasActiveSubscription()){
+        if (!$user->hasActiveSubscription()) {
             return redirect()->route('front.pricing');
         }
 
@@ -46,13 +50,15 @@ class FrontController extends Controller
         return view('front.learning', compact('course', 'video'));
     }
 
-    public function pricing(){
+    public function pricing()
+    {
         $packages = Package::all();
 
         return view('front.pricing', compact('packages'));
     }
 
-    public function checkout($packageId){
+    public function checkout($packageId)
+    {
         $package = Package::findOrFail($packageId);
         $payment = Payment::first();
         // $payments = Payment::all();
@@ -62,19 +68,20 @@ class FrontController extends Controller
         return view('front.checkout', compact('package', 'payment'));
     }
 
-    public function checkout_store(StoreSubscribeTransactionRequest $request){
+    public function checkout_store(StoreSubscribeTransactionRequest $request)
+    {
         $user = Auth::user();
 
-        if (Auth::user()->hasActiveSubscription()){
+        if (Auth::user()->hasActiveSubscription()) {
             return redirect()->route('front.index');
         }
 
-        DB::transaction(function () use ($request, $user){
+        DB::transaction(function () use ($request, $user) {
             $validated = $request->validated();
 
             $package = Package::findOrFail($validated['package_id']);
 
-            if($request->hasFile('proof')){
+            if ($request->hasFile('proof')) {
                 $proofPath = $request->file('proof')->store('proofs', 'public');
                 $validated['proof'] = $proofPath;
             }
@@ -89,19 +96,37 @@ class FrontController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function category(Category $category){
+    public function category(Category $category)
+    {
         $courses = $category->courses()->get();
 
         return view('front.category', compact('courses', 'category'));
     }
 
-    public function course(){
+    public function course()
+    {
         $courses = Course::all();
         return view('front.course', compact('courses'));
     }
 
-    public function progress(){
+    public function progress()
+    {
         $courses = Course::all();
-        return view('front.progress', compact('courses'));
+        $articles = Artikel::where('status', 'publish')->orderBy('created_at', 'desc')->take(3)->get();
+        return view('front.progress', compact('courses', 'articles'));
+    }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'keyword' => ['required', 'string', 'max:255']
+        ]);
+        $keyword = $request->keyword;
+
+        $courses = Course::with(['teacher', 'category'])
+            ->where('name', 'like', '%' . $keyword . '%')
+            ->paginate(3);
+
+        return view('front.search', compact('courses', 'keyword'));
     }
 }
