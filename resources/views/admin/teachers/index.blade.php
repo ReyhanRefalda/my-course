@@ -17,59 +17,56 @@
             Add New
         </button> --}}
     </div>
-
-
-        <div class="py-2">
-            <div class="max-w-7xl mx-auto">
-                <div class="bg-white overflow-hidden shadow-sm rounded-[30px] p-8">
-                    <table class="table-auto w-full">
-                        <thead>
-                            <tr class="border-b border-gray-200">
-                                <th class="py-3 text-right text-sm font-semibold text-gray-600"></th>
-                                <th class=" py-3 text-left text-sm font-semibold text-gray-600 w-96">Name</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Email</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Occupation</th>
-                                <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600"></th>
-
-                        <tbody class="divide-y divide-gray-100">
-                            @forelse ($teachers as $teacher)
-                                <tr class="hover:bg-gray-50">
-                                    <td class=" py-4">
-                                        <img src="{{ Storage::url($teacher->user->avatar) }}" alt="Avatar"
-                                            class="w-16 h-16 rounded-xl object-cover">
-                                    </td>
-                                    <td class=" py-4">
-
-                                        <div>
-                                            <h3 class="text-gray-900 font-semibold">{{ $teacher->user->name }}</h3>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-4">
-                                        <div>
-                                            <h3 class="text-[#6D7786]">{{ $teacher->user->email }}</h3> <!-- Perbaiki warna agar konsisten -->
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-4">
-                                        <div>
-                                            <h3 class="text-[#6D7786]">{{ $teacher->user->occupation }}</h3> <!-- Perbaiki warna agar konsisten -->
-                                        </div>
-                                    </td>
-
-                                    {{-- <td class="px-4 py-4 text-gray-700 text-sm">
-                                        {{ $teacher->created_at->isoFormat('dddd, D MMMM YYYY') }}
-                                    </td> --}}
-                                    <td class="px-4 py-4 text-right">
-                                        <form action="{{ route('admin.teachers.destroy', $teacher) }}" method="POST"
-                                            class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                            onclick="return confirm('Are you sure you want to delete this teacher?')"
-                                            class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
-                                            <i class="ti ti-trash text-3xl"></i>
-                                        </button>
-                                    </form>
+    <div class="py-2">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-white overflow-hidden shadow-sm rounded-[30px] p-8">
+                <table class="table-auto w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600 w-96">Teacher</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
+                            <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @forelse ($teachers as $teacher)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-4 flex items-center gap-4">
+                                    <img src="{{ Storage::url($teacher->user->avatar) }}" alt="Avatar"
+                                        class="w-12 h-12 rounded-lg object-cover">
+                                    <div>
+                                        <h3 class="text-gray-900 font-semibold">{{ $teacher->user->name }}</h3>
+                                    </div>
                                 </td>
+                                <td class="px-4 py-4 text-gray-700 text-sm">
+                                    {{ $teacher->created_at->isoFormat('dddd, D MMMM YYYY') }}
+                                </td>
+                                <td class="px-4 py-4 text-right">
+                                    <div class="flex gap-2 justify-end">
+                                        @if ($teacher->status === 'approved')
+                                            <!-- If teacher is approved, show the label instead of buttons -->
+                                            <span class="text-green-600 font-semibold">Approved</span>
+                                        @else
+                                            <!-- Approve Button -->
+                                            <form action="{{ route('admin.teachers.update', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirmAction('approve')">
+                                                @csrf
+                                                @method('PUT')
+                                                <x-primary-button type="submit">
+                                                    Approve
+                                                </x-primary-button>
+                                            </form>
+                                            <!-- Reject Button -->
+                                            <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to reject this teacher?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="bg-[#FFD9D9] text-[#ff0000] px-4 py-2 rounded-full">
+                                                    Reject
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </td>
+
                             </tr>
                         @empty
                             <tr>
