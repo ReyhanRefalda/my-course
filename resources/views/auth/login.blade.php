@@ -31,7 +31,7 @@
                                 <img src="assets/icon/sms.svg" alt="email icon" />
                             </div>
                             <input type="email" name="email" id="email"
-                                class="w-full focus:outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140] [border:none] focus:ring-white focus:border-none"
+                                class="w-full focus:outline-none font-semibold placeholder:font-normal bg-transparent placeholder:text-[#0E0140] [border:none] focus:ring-white focus:border-none"
                                 placeholder="Write your email address" />
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                                 <img src="assets/icon/lock.svg" alt="password icon" />
                             </div>
                             <input type="password" name="password" id="password"
-                                class="w-full focus:outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140] [border:none] focus:ring-white focus:border-none"
+                                class="w-full focus:outline-none font-semibold placeholder:font-normal bg-transparent placeholder:text-[#0E0140] [border:none] focus:ring-white focus:border-none"
                                 placeholder="Write your password" />
                         </div>
                         <a href="#" class="text-sm leading-[21px] hover:underline">Forgot Password</a>

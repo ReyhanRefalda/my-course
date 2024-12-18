@@ -31,7 +31,7 @@ class ArtikelController extends Controller
                 });
             })
             ->orderBy('id', 'desc')
-            ->paginate(3)
+            ->paginate(5)
             ->withQueryString();
 
         return view('admin.artikel.index', compact('artikels'));

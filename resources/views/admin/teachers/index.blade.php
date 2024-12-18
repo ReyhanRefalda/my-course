@@ -30,7 +30,7 @@
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Email</th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Occupation</th>
                                 <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600"></th>
-                   
+
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($teachers as $teacher)
                                 <tr class="hover:bg-gray-50">
@@ -68,17 +68,22 @@
                                             class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
                                             <i class="ti ti-trash text-3xl"></i>
                                         </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="text-center py-4 text-gray-500">No Teachers Found</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <div class="col-12 text-center flex justify-center">
+                                        <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
+                                            class="img-fluid" style="width: clamp(150px, 50vw, 300px);">
+                                    </div>
+                                    <p class="pb-4 text-gray-500">No data avilable</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
 
