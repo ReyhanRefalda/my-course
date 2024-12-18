@@ -11,11 +11,11 @@
         <form action="" method="GET" class="">
             <!-- Add search form if needed -->
         </form>
-
+{{-- 
         <button onclick="openModal()"
             class="font-bold py-2 px-6 bg-indigo-700 text-white rounded-full shadow hover:bg-indigo-800">
             Add New
-        </button>
+        </button> --}}
     </div>
 
     <div class="py-2">

@@ -15,27 +15,40 @@ class ArtikelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        $user = Auth::user();
-        $search = $request->search;
+   public function index(Request $request)
+{
+    $user = Auth::user();
+    $search = $request->search;
+    $status = $request->status;
+    $date = $request->date;
 
-        $artikels = Artikel::query()
-            ->when(!$user->hasRole('owner'), function ($query) use ($user) {
-                $query->where('users_id', $user->id);
-            })
-            ->when($search, function ($query) use ($search) {
-                $query->where(function ($query) use ($search) {
-                    $query->where('title', 'like', "%{$search}%")
-                        ->orWhere('content', 'like', "%{$search}%");
-                });
-            })
-            ->orderBy('id', 'desc')
-            ->paginate(3)
-            ->withQueryString();
+    $artikels = Artikel::query()
+        // Filter berdasarkan peran pengguna
+        ->when(!$user->hasRole('owner'), function ($query) use ($user) {
+            $query->where('users_id', $user->id);
+        })
+        // Filter pencarian
+        ->when($search, function ($query) use ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('content', 'like', "%{$search}%");
+            });
+        })
+        // Filter status
+        ->when($status, function ($query) use ($status) {
+            $query->where('status', $status);
+        })
+        // Filter tanggal
+        ->when($date, function ($query) use ($date) {
+            $query->whereDate('created_at', $date);
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(3)
+        ->withQueryString();
 
-        return view('admin.artikel.index', compact('artikels'));
-    }
+    return view('admin.artikel.index', compact('artikels'));
+}
+
 
 
     /**
