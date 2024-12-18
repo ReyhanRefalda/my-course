@@ -40,11 +40,15 @@
                         <div
                             class="flex items-center rounded-full py-[14px] px-[24px] gap-[10px] ring-1 ring-[#0E0140] focus-within:ring-2 focus-within:ring-[#FF6B2C] transition-all duration-300">
                             <div class="flex shrink-0 size-6">
-                                <img src="assets/icon/lock.svg" alt="password icon" />
+                                <i class="ti ti-lock text-[#0E0140] text-2xl"></i>
                             </div>
                             <input type="password" name="password" id="password"
                                 class="w-full focus:outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140] [border:none] focus:ring-white focus:border-none"
                                 placeholder="Write your password" />
+                            <button type="button" id="togglePassword" class="flex items-center justify-center">
+                                <i id="showIcon" class="ti ti-eye text-[#0E0140] text-2xl"></i>
+                                <i id="hideIcon" class="ti ti-eye-off text-[#0E0140] text-2xl hidden"></i>
+                            </button>
                         </div>
                         <a href="#" class="text-sm leading-[21px] hover:underline">Forgot Password</a>
                     </div>
@@ -60,5 +64,25 @@
                 </form>
             </section>
         </main>
+        <script>
+            const passwordInput = document.getElementById('password');
+            const showIcon = document.getElementById('showIcon');
+            const hideIcon = document.getElementById('hideIcon');
+            const toggleButton = document.getElementById('togglePassword');
+
+            toggleButton.addEventListener('click', function () {
+                const currentType = passwordInput.getAttribute('type');
+
+                if (currentType === 'password') {
+                    passwordInput.setAttribute('type', 'text');
+                    showIcon.classList.add('hidden');
+                    hideIcon.classList.remove('hidden');
+                } else {
+                    passwordInput.setAttribute('type', 'password');
+                    showIcon.classList.remove('hidden');
+                    hideIcon.classList.add('hidden');
+                }
+            });
+        </script>
     </body>
 @endsection
