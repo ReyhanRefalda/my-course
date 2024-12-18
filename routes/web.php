@@ -22,6 +22,7 @@ Route::get('/pricing', [FrontController::class, 'pricing'])->name('front.pricing
 Route::get('/course', [FrontController::class, 'course'])->name('front.course');
 Route::get('/article', [UserArtikelController::class, 'index'])->name('artikel.index'); // Article list
 Route::get('/article/{slug}', [UserArtikelController::class, 'detail'])->name('artikel.show'); // Article detail
+Route::get('/search/course/', [FrontController::class, 'search'])->name('front.search');
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {

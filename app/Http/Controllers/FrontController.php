@@ -104,4 +104,17 @@ class FrontController extends Controller
         $courses = Course::all();
         return view('front.progress', compact('courses'));
     }
+
+    public function search(Request $request){
+        $request->validate([
+            'keyword' => ['required', 'string', 'max:255']
+        ]);
+        $keyword = $request->keyword;
+
+        $courses = Course::with(['teacher', 'category'])
+        ->where('name', 'like', '%' . $keyword . '%')
+        ->paginate(3);
+
+        return view('front.search', compact('courses', 'keyword'));
+    }
 }
