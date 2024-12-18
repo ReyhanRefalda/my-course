@@ -6,6 +6,7 @@
             class="max-w-[1200px] mx-auto w-full flex flex-col gap-10 bg-[url('assets/background/Hero-Banner.png')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">
             <x-navcat />
         </div>
+
         <section id="Top-Categories" class="max-w-[1200px] mx-auto flex flex-col py-[70px] gap-[30px]">
             <div class="flex flex-col gap-[30px]">
                 <div
@@ -29,7 +30,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35" />
                         </svg>
                         <input type="text" name="query" placeholder="Search Artikel"
-                            class="ml-3 w-full text-sm outline-none text-[#898D93] placeholder-[#898D93] bg-transparent focus:ring-0 focus:border-none" />
+                            class="ml-3 w-full text-sm outline-none text-[#898D93] placeholder-[#898D93] bg-transparent border-none focus:ring-0 focus:border-none" />
                     </div>
                 </div>
                 <div class="container mx-auto p-6">
@@ -41,14 +42,15 @@
                         <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex gap-2 items-center w-[260px] h-[100px]">
                             <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
                                 class="w-16 h-16 object-cover rounded-xl mr-4">
-                            <div >
+                            <div>
                                 <h4 class="text-sm font-bold text-black">Membuat Laporan Keuangan</h4>
                                 <p class="text-xs text-gray-500">Data Analyst</p>
                             </div>
                         </div>
                         <!-- Card 2 -->
                         <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex gap-2 items-center w-[260px] h-[100px]">
-                            <img src="course2.jpg" alt="Course Image" class="w-16 h-16 object-cover rounded-lg mr-4">
+                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
+                                class="w-16 h-16 object-cover rounded-lg mr-4">
                             <div>
                                 <h4 class="text-sm font-bold text-black">Tutorial Blockchain</h4>
                                 <p class="text-xs text-gray-500">Web 3 Developer</p>
@@ -56,7 +58,8 @@
                         </div>
                         <!-- Card 3 -->
                         <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex gap-2 items-center w-[260px] h-[100px]">
-                            <img src="course3.jpg" alt="Course Image" class="w-16 h-16 object-cover rounded-lg mr-4">
+                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
+                                class="w-16 h-16 object-cover rounded-lg mr-4">
                             <div>
                                 <h4 class="text-sm font-bold text-black">Membuat Laporan Keuangan</h4>
                                 <p class="text-xs text-gray-500">Data Analyst</p>
@@ -64,7 +67,8 @@
                         </div>
                         <!-- Card 4 -->
                         <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex gap-2 items-center w-[260px] h-[100px]">
-                            <img src="course4.jpg" alt="Course Image" class="w-16 h-16 object-cover rounded-lg mr-4">
+                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
+                                class="w-16 h-16 object-cover rounded-lg mr-4">
                             <div>
                                 <h4 class="text-sm font-bold text-black">Tutorial Blockchain</h4>
                                 <p class="text-xs text-gray-500">Web 3 Developer</p>
@@ -77,151 +81,88 @@
                 <div class="container mx-auto p-6">
                     <h1 class="text-2xl font-semibold mb-6">Lastest Artikel</h1>
 
-                    <div class="flex flex-wrap gap-6 w-full">
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4" style="width: 40%; height: 300px;">
-                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Article Image" class="w-full object-cover rounded-xl border-2 border-gray-300 mb-4" style="height: 100px;">
-                            <div class="p-4">
-                                <h4 class="text-lg font-bold">Manta Terbang Menuju Jurang</h4>
-                                <p class="text-sm text-gray-500 mt-2">Deskripsi untuk cara menjadi seorang programmer web 3</p>
-                                 <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                    <span> Sarada</span>
-                                    <span>Wed, 4/12/2024</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4" style="width: 40%; height: 300px;">
-                            <img src="{{ asset('assets/images/profile/user-2.jpg') }}" alt="Article Image" class="w-full object-cover rounded-xl border-2 border-gray-300 mb-4" style="height: 100px;">
-                            <div class="p-4">
-                                <h4 class="text-lg font-bold">Judul Artikel Kedua</h4>
-                                <p class="text-sm text-gray-500 mt-2">Deskripsi menarik untuk artikel kedua ini.</p>
-                                 <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                    <span> Naruto</span>
-                                    <span>Thu, 5/12/2024</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4" style="width: 40%; height: 300px;">
-                            <img src="{{ asset('assets/images/profile/user-3.jpg') }}" alt="Article Image" class="w-full object-cover rounded-xl border-2 border-gray-300 mb-4" style="height: 100px;">
-                            <div class="p-4">
-                                <h4 class="text-lg font-bold">Judul Artikel Ketiga</h4>
-                                <p class="text-sm text-gray-500 mt-2">Deskripsi singkat untuk artikel ketiga.</p>
-                                 <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                    <span> Luffy</span>
-                                    <span>Fri, 6/12/2024</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4" style="width: 40%; height: 300px;">
-                            <img src="{{ asset('assets/images/profile/user-4.jpg') }}" alt="Article Image" class="w-full object-cover rounded-xl border-2 border-gray-300 mb-4" style="height: 100px;">
-                            <div class="p-4">
-                                <h4 class="text-lg font-bold">Judul Artikel Keempat</h4>
-                                <p class="text-sm text-gray-500 mt-2">Penjelasan singkat tentang artikel keempat.</p>
-                                <div class="flex justify-between items-center text-xs text-gray-400 mt-4 ">
-                                    <span> Sarada</span>
-                                    <span>Wed, 4/12/2024</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                        {{-- <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex-col gap-4 items-center w-[300px]">
-                            <img src="{{ asset('assets/images/profile/user-2.jpg') }}" alt="Article Image" class="w-full object-cover rounded-xl border-2 border-gray-300">
-                            <div class="p-4">
-                                <h4 class="text-lg font-bold mt-4">Tutorial Blockchain</h4>
-                                <p class="text-sm text-gray-500 mt-2">Panduan lengkap tentang blockchain dan cara penggunaannya</p>
-                                <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                    <span>Author: John Doe</span>
-                                    <span>Mon, 6/12/2024</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex-col gap-4 items-center w-[300px]">
-                            <img src="{{ asset('assets/images/profile/user-3.jpg') }}" alt="Article Image" class="w-full object-cover rounded-xl border-2 border-gray-300">
-                            <div class="p-4">
-                                <h4 class="text-lg font-bold mt-4">Membangun Aplikasi Web</h4>
-                                <p class="text-sm text-gray-500 mt-2">Langkah-langkah membuat aplikasi web menggunakan</p>
-                                <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                    <span>Author: Jane Doe</span>
-                                    <span>Tue, 5/12/2024</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex-col gap-4 items-center w-[300px]">
-                            <img src="{{ asset('assets/images/profile/user-4.jpg') }}" alt="Article Image" class="w-full object-cover rounded-xl border-2 border-gray-300">
-                            <div class="p-4">
-                                <h4 class="text-lg font-bold mt-4">Mengenal ReactJS</h4>
-                                <p class="text-sm text-gray-500 mt-2">Tutorial dasar ReactJS untuk pemula</p>
-                                <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                    <span>Author: Michael</span>
-                                    <span>Thu, 7/12/2024</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-
-
-
-
-                    <div class="grid grid-cols-3 gap-[30px] w-full">
-                        @forelse ($courses as $course)
-                            <div class="course-card">
-                                <div
-                                    class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[32px] bg-white w-full pb-[10px] overflow-hidden ring-1 ring-[#DADEE4] transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
-                                    <a href="{{ route('front.details', $course->slug) }}"
-                                        class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
-                                        <img src="{{ Storage::url($course->thumbnail) }}" class="w-full h-full object-cover"
-                                            alt="thumbnail">
-                                    </a>
-                                    <div class="flex flex-col px-4 gap-[32px]">
-                                        <div class="flex flex-col gap-[10px]">
-                                            <a href="{{ route('front.details', $course->slug) }}"
-                                                class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">Modern
-                                                JavaScript: Bikin Projek Website Seperti Twitter</a>
-                                            <div class="flex justify-between items-center">
-                                                <div class="flex items-center gap-[2px]">
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                </div>
-                                                <p class="text-right text-[#6D7786]">{{ $course->students->count() }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                                <img src="{{ Storage::url($course->teacher->user->avatar) }}"
-                                                    class="w-full h-full object-cover" alt="icon">
-                                            </div>
-                                            <div class="flex flex-col">
-                                                <p class="font-semibold">{{ $course->teacher->user->name }}</p>
-                                                <p class="text-[#6D7786]">{{ $course->teacher->user->occupation }}</p>
-                                            </div>
+                    <div class="grid grid-cols-3 gap-4 w-full">
+                        @forelse ($articles as $article)
+                            <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4" style="w-full">
+                                <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}">
+                                    <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $article->tumbnail) }}"
+                                        alt="Article Image"
+                                        class="w-full object-cover rounded-xl border-2 border-gray-300 mb-4 h-[200px]">
+                                    <div class="p-2 h-[150px] flex flex-col justify-between overflow-y-hidden">
+                                        <h4 class="text-lg font-bold hover:underline hover:text-[#FF6129]">
+                                            {{ Str::limit($article->title, 47) }}</h4>
+                                        <p class="text-sm text-gray-500 mt-2">{{ Str::limit($article->content, 60) }}</p>
+                                        <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
+                                            <span>By {{ $article->user->name }}</span>
+                                            <span>
+                                                @if ($article->created_at->diffInHours(now()) < 24)
+                                                    {{ $article->created_at->diffForHumans() }}
+                                                @else
+                                                    {{ $article->created_at->isoFormat('dddd, D MMMM Y') }}
+                                                @endif
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         @empty
                         @endforelse
                     </div>
                 </div>
+
+                <div class="grid grid-cols-3 gap-[30px] w-full">
+                    @forelse ($courses as $course)
+                        <div class="course-card">
+                            <div
+                                class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[32px] bg-white w-full pb-[10px] overflow-hidden ring-1 ring-[#DADEE4] transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
+                                <a href="{{ route('front.details', $course->slug) }}"
+                                    class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
+                                    <img src="{{ Storage::url($course->thumbnail) }}" class="w-full h-full object-cover"
+                                        alt="thumbnail">
+                                </a>
+                                <div class="flex flex-col px-4 gap-[32px]">
+                                    <div class="flex flex-col gap-[10px]">
+                                        <a href="{{ route('front.details', $course->slug) }}"
+                                            class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">Modern
+                                            JavaScript: Bikin Projek Website Seperti Twitter</a>
+                                        <div class="flex justify-between items-center">
+                                            <div class="flex items-center gap-[2px]">
+                                                <div>
+                                                    <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                </div>
+                                                <div>
+                                                    <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                </div>
+                                                <div>
+                                                    <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                </div>
+                                                <div>
+                                                    <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                </div>
+                                                <div>
+                                                    <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                </div>
+                                            </div>
+                                            <p class="text-right text-[#6D7786]">{{ $course->students->count() }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
+                                            <img src="{{ Storage::url($course->teacher->user->avatar) }}"
+                                                class="w-full h-full object-cover" alt="icon">
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <p class="font-semibold">{{ $course->teacher->user->name }}</p>
+                                            <p class="text-[#6D7786]">{{ $course->teacher->user->occupation }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                    @endforelse
+                </div>
+            </div>
 
         </section>
         <section id="Zero-to-Success"
