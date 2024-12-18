@@ -106,9 +106,6 @@
                             <!-- Opsi Student -->
                             <label
                                 class="relative group bg-white rounded-3xl p-[30px_24px] flex flex-col items-center justify-center gap-5 ring-1 ring-[#0E0140] has-[:checked]:ring-2 has-[:checked]:ring-[#FF6B2C] transition-all duration-300">
-                                <div class="w-[46px] h-[46px] flex shrink-0">
-                                    <img src="{{ asset('assets/icon/student-icon.svg') }}" alt="Student Icon">
-                                </div>
                                 <p class="font-semibold">As a Student</p>
                                 <img src="{{ asset('assets/icon/tick-circle-orange.svg') }}"
                                     class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300"
@@ -120,9 +117,6 @@
                             <!-- Opsi Teacher -->
                             <label
                                 class="relative group bg-white rounded-3xl p-[30px_24px] flex flex-col items-center justify-center gap-5 ring-1 ring-[#0E0140] has-[:checked]:ring-2 has-[:checked]:ring-[#FF6B2C] transition-all duration-300">
-                                <div class="w-[46px] h-[46px] flex shrink-0">
-                                    <img src="{{ asset('assets/icon/teacher-icon.svg') }}" alt="Teacher Icon">
-                                </div>
                                 <p class="font-semibold">As a Teacher</p>
                                 <img src="{{ asset('assets/icon/tick-circle-orange.svg') }}"
                                     class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300"

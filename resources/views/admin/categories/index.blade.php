@@ -8,18 +8,23 @@
     </x-slot>
 
     <div class="flex justify-between items-center space-x-4 mb-6">
-        <form action="" method="GET"
-            class="flex items-center bg-white shadow-lg rounded-full px-2 border border-gray-300">
-            <!-- Icon Search -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                stroke="currentColor" class="w-5 h-5 text-gray-400">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11 19a8 8 0 100-16 8 8 0 000 16z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35" />
-            </svg>
-            <!-- Input Field -->
-            <input type="text" name="query" placeholder="Search Artikel"
-                class="text-sm outline-none text-gray-700 placeholder-gray-400 bg-transparent w-full border-none focus:ring-0 focus:border-none">
-        </form>
+        <div class="w-[300px]">
+            <form action="" method="GET" class="m-0 flex items-center">
+                <div
+                    class="flex items-center space-x-2 bg-white border border-gray-300 rounded-[30px] px-4 py-[2px] shadow-md">
+                    <button type="submit" class="text-gray-400">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <input type="text" name="search" placeholder="Search Category..."
+                        value="{{ request('search') }}"
+                        class="block w-full px-4 text-[#898D93] bg-[#fff] [border:2px_solid_#fff] focus:ring-[#fff] focus:border-[#fff] sm:text-sm">
+                </div>
+            </form>
+        </div>
 
         <button onclick="openModal('add')" class="font-bold py-2 px-6 text-white rounded-full shadow bg-[#3525B3]">
             Add New
@@ -69,7 +74,13 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-4 text-gray-500">No data available</td>
+                                <td colspan="5" class="text-center">
+                                    <div class="col-12 text-center flex justify-center">
+                                        <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
+                                            class="img-fluid" style="width: clamp(150px, 50vw, 300px);">
+                                    </div>
+                                    <p class="pb-4 text-gray-500">No data avilable</p>
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
