@@ -12,7 +12,7 @@
         <div class="w-[300px]">
             <form action="{{ route('admin.artikel.index') }}" method="GET" class="m-0">
                 <div
-                    class="flex items-center space-x-2 bg-white border border-gray-300 rounded-2xl px-4 py-[2px] shadow-md">
+                    class="flex items-center space-x-2 bg-white border border-gray-300 rounded-[30px] px-4 py-[2px] shadow-md">
                     <button type="submit" class="text-gray-400">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -20,13 +20,13 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button>
-                    <input type="text" name="search" placeholder="Search Artikel" value="{{ request('search') }}"
+                    <input type="text" name="search" placeholder="Search Article..." value="{{ request('search') }}"
                         class="block w-full px-4 text-[#898D93] bg-[#fff] [border:2px_solid_#fff] focus:ring-[#fff] focus:border-[#fff] sm:text-sm">
                 </div>
             </form>
         </div>
         <a href="{{ route('admin.artikel.create') }}"
-            class="px-4 py-2.5 text-white bg-[#3525B3] rounded-2xl hover:bg-indigo-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            class="px-4 py-2.5 font-bold text-white bg-[#3525B3] rounded-[30px] hover:bg-indigo-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             Add New
         </a>
     </div>

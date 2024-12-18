@@ -14,10 +14,9 @@
 
         <button onclick="openModal()"
             class="font-bold py-2 px-6 bg-indigo-700 text-white rounded-full shadow hover:bg-indigo-800">
-            Add New
+            Approval
         </button>
     </div>
-
     <div class="py-2">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden shadow-sm rounded-[30px] p-8">
@@ -71,14 +70,19 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center py-4 text-gray-500">No Teachers Found</td>
+                                <td colspan="5" class="text-center">
+                                    <div class="col-12 text-center flex justify-center">
+                                        <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
+                                            class="img-fluid" style="width: clamp(150px, 50vw, 300px);">
+                                    </div>
+                                    <p class="pb-4 text-gray-500">No data avilable</p>
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
 
     @if ($errors->any())
         <script>
@@ -108,8 +112,6 @@
                         value="{{ old('email') }}" autofocus />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
-
-
 
                 <div class="flex items-center justify-end">
                     <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">

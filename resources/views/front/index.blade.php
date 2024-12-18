@@ -4,19 +4,30 @@
     <div id="hero-section" class="max-w-[1200px] mx-auto w-full flex flex-col gap-10 pb-[50px] bg-[url('assets/background/Hero-Banner.png')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">
     <x-nav/>
     <div class="flex flex-col items-center gap-[30px]">
+
         <div class="w-fit flex items-center gap-3 p-2 pr-6 rounded-full bg-[#FFFFFF1F] border border-[#3477FF24]">
             <div class="w-[100px] h-[48px] flex shrink-0">
                 <img src="assets/icon/avatar-group.png" class="object-contain" alt="icon">
             </div>
             <p class="font-semibold text-sm text-white">Join 3 million users</p>
         </div>
+
         <div class="flex flex-col gap-[10px]">
             <h1 class="font-semibold text-[80px] leading-[82px] text-center gradient-text-hero">Build Future Career.</h1>
             <p class="text-center text-xl leading-[36px] text-[#F5F8FA]">My Course provides high quality online courses for you to grow <br>
                 your skills and build outstanding portfolio to tackle job interviews</p>
         </div>
         <div class="flex gap-6 w-fit">
-            <a href="{{route('front.course')}}" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Explore Courses</a>
+            <form action="{{route('front.search')}}" method="GET" class="flex items-center bg-white rounded-full pl-6 h-fit focus-within:ring-2 focus-within:ring-[#FF6B2C] transition-all duration-300">
+                @csrf
+                <div class="flex items-center w-full mr-6 gap-[10px]">
+                    <div class="flex shrink-0">
+                        <img src="{{asset('assets/icon/search.svg')}}" alt="icon">
+                    </div>
+                    <input name="keyword" type="text" autocomplete="off" class="appearance-none w-full outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140] focus:outline-none  [border:none] focus:ring-white focus:border-none" placeholder="Search course...">
+                </div>
+                <button type="submit" class="rounded-full py-5 px-[30px] bg-[#FF6B2C] font-semibold text-white text-nowrap hover:shadow-[0_10px_20px_0_#FF6B2C66] transition-all duration-300">Cari</button>
+            </form>
         </div>
     </div>
 

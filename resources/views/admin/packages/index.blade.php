@@ -63,7 +63,13 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center py-4 text-gray-500">No Packages Found</td>
+                                <td colspan="5" class="text-center">
+                                    <div class="col-12 text-center flex justify-center">
+                                        <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
+                                            class="img-fluid" style="width: clamp(150px, 50vw, 300px);">
+                                    </div>
+                                    <p class="pb-4 text-gray-500">No data avilable</p>
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
