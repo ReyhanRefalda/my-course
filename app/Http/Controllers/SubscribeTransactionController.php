@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Package;
 use Spatie\Permission\Models\Role;
 use App\Models\SubscribeTransaction;
 use App\Models\User;
@@ -58,7 +59,7 @@ class SubscribeTransactionController extends Controller
     public function update(Request $request, SubscribeTransaction $subscribeTransaction)
 {
     DB::transaction(function () use ($subscribeTransaction) {
-        
+
         $totalAmount = $subscribeTransaction->total_amount;
         $owners = User::role('owner')->get();
         $teachers = User::role('teacher')->get();
@@ -82,13 +83,23 @@ class SubscribeTransactionController extends Controller
             $teacher->increment('balance', $teacherPerShare);
         }
 
+        $package = Package::findOrFail($subscribeTransaction->package_id); // Mengambil package berdasarkan package_id dari transaksi
+
+        // Update transaksi langganan
         $subscribeTransaction->update([
             'is_paid' => true,
             'subscription_start_date' => Carbon::now(),
+            'expired_at' => Carbon::now()->addDays(match ($package->tipe) {
+                'daily' => 1,
+                'weekly' => 7,
+                'monthly' => 30,
+                'yearly' => 365,
+                default => 0,
+            }),
         ]);
     });
 
-    return redirect()->route('admin.subscribe_transactions.show', $subscribeTransaction);
+    return redirect()->route('admin.subscribe_transactions.show', $subscribeTransaction)->with('success', 'Subscribe transaction updated successfully!');
 }
 
 

@@ -76,7 +76,7 @@ class CourseController extends Controller
             }
         });
 
-        return redirect()->route('admin.courses.index');
+        return redirect()->route('admin.courses.index')->with('success', 'Course added successfully!');
     }
 
     /**
@@ -125,7 +125,7 @@ class CourseController extends Controller
             }
         });
 
-        return redirect()->route('admin.courses.show', $course);
+        return redirect()->route('admin.courses.show', $course) ->with('success', 'Course updated successfully!');
     }
 
     /**
@@ -139,10 +139,10 @@ class CourseController extends Controller
             $course->delete();
             DB::commit();
 
-            return redirect()->route('admin.courses.index');
+            return redirect()->route('admin.courses.index')->with('success', 'Course deleted successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.courses.index')->with('error', 'Terjadi sebuah error saat menghapus kategori');
+            return redirect()->route('admin.courses.index')->with('error', 'There was an error while deleting course.');
         }
     }
 }

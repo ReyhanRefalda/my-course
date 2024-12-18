@@ -71,11 +71,6 @@
 
             <div class="grid col-span-full text-center justify-end items-center">
                 <x-primary-button>{{ __('Save') }}</x-primary-button>
-                @if (session('status') === 'profile-updated')
-                    <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
-                        class="text-sm text-[#FF6129]">{{ __('Saved.') }}</p>
-                @endif
-
             </div>
         </form>
 
@@ -122,11 +117,6 @@
                     <div class="flex gap-x-4">
                         <div class="">
                             <x-primary-button>{{ __('Save') }}</x-primary-button>
-
-                            @if (session('status') === 'password-updated')
-                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                    class="text-sm text-[#FF6129]">{{ __('Saved.') }}</p>
-                            @endif
                         </div>
                         <button
                             class="bg-[#FFD9D9] text-[#FF0000] px-6 py-2 rounded-[30px] font-semibold hover:bg-[#FFD9D9] hover:shadow-[0_0_.5rem_#FFD9D9] transition ease-in-out duration-150"
@@ -178,6 +168,7 @@
 
     </div>
 
+
     <script>
         document.getElementById('avatar').addEventListener('change', function(event) {
             const reader = new FileReader();
@@ -186,5 +177,48 @@
             };
             reader.readAsDataURL(event.target.files[0]);
         });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        //message with sweetalert
+        @if (session('success'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#FF6129",
+            });
+        @elseif (session('error'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('error') }}",
+                color: "#ff0000",
+                background: "#FFD9D9",
+            });
+        @endif
     </script>
 </x-app-layout>

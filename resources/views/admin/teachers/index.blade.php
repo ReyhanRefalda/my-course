@@ -18,6 +18,7 @@
         </button>
     </div>
 
+
         <div class="py-2">
             <div class="max-w-7xl mx-auto">
                 <div class="bg-white overflow-hidden shadow-sm rounded-[30px] p-8">
@@ -29,8 +30,7 @@
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Email</th>
                                 <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Occupation</th>
                                 <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600"></th>
-                            </tr>
-                        </thead>
+                   
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($teachers as $teacher)
                                 <tr class="hover:bg-gray-50">
@@ -111,7 +111,6 @@
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
-
                 <div class="flex items-center justify-end">
                     <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
                         Save Changes
@@ -147,5 +146,57 @@
                 modal.classList.add('pointer-events-none', 'opacity-0');
             }, 300); // Durasi sesuai dengan `transition-duration`
         }
+
+        function confirmAction(action) {
+            if (action === 'approve') {
+                return confirm('Are you sure you want to approve this teacher?');
+            } else if (action === 'reject') {
+                return confirm('Are you sure you want to reject this teacher?');
+            }
+            return false; // Return false if no action matched
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        //message with sweetalert
+        @if (session('success'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#FF6129",
+            });
+        @elseif (session('error'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('error') }}",
+                color: "#ff0000",
+                background: "#FFD9D9",
+            });
+        @endif
     </script>
 </x-app-layout>

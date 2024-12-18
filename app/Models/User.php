@@ -66,14 +66,24 @@ class User extends Authenticatable
     {
         $latestSubscription = $this->subscribe_transactions()
             ->where('is_paid', true)
-            ->latest('updated_at')
+            ->where('expired_at', '>=', Carbon::now())
+            ->latest('expired_at')
             ->first();
 
-        if (!$latestSubscription) {
-            return false;
-        }
+        return $latestSubscription !== null;
+    }
 
-        $subscriptionEndDate = Carbon::parse($latestSubscription->subscription_start_date)->addMonths(1);
-        return Carbon::now()->lessThanOrEqualTo($subscriptionEndDate); //true = dia berlangganan
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
+    public function isTeacherActive()
+    {
+        if ($this->hasRole('teacher')) {
+            $teacher = $this->teacher; // Ambil data dari relasi
+            return $teacher && $teacher->is_active;
+        }
+        return false;
     }
 }

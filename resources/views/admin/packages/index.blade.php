@@ -31,13 +31,15 @@
                                 <!-- Package & Description in One Column -->
                                 <td class="px-4 py-4 flex items-center gap-4">
                                     <div>
-                                        <h3 class="text-gray-900 font-semibold text-xl">{{ $package->name }}</h3> <!-- Make Package Name Larger -->
+                                        <h3 class="text-gray-900 font-semibold text-xl">{{ $package->name }}</h3>
+                                        <!-- Make Package Name Larger -->
                                         <p class="text-gray-500 text-sm">{{ Str::limit($package->description, 50) }}</p>
                                     </div>
                                 </td>
 
                                 <!-- Price Column -->
-                                <td class="px-2 py-2 text-center text-lg text-gray-700 font-semibold"> <!-- Make Price Larger -->
+                                <td class="px-2 py-2 text-center text-lg text-gray-700 font-semibold">
+                                    <!-- Make Price Larger -->
                                     Rp{{ number_format($package->harga, 0, ',', '.') }}
                                 </td>
 
@@ -47,14 +49,15 @@
                                         class="px-6 py-3 rounded-full text-center font-semibold bg-indigo-600 hover:bg-indigo-700 text-white">
                                         Edit
                                     </a>
-                                    <form action="{{ route('admin.packages.destroy', $package) }}" method="POST" class="inline">
+                                    <form action="{{ route('admin.packages.destroy', $package) }}" method="POST"
+                                        class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
-                                        onclick="return confirm('Are you sure you want to delete this packages?')"
-                                        class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
-                                        <i class="ti ti-trash text-3xl"></i>
-                                    </button>
+                                        <button type="submit"
+                                            onclick="return confirm('Are you sure you want to delete this packages?')"
+                                            class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
+                                            <i class="ti ti-trash text-3xl"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
@@ -73,4 +76,46 @@
         {{ $packages->links() }}
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        //message with sweetalert
+        @if (session('success'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#3525B3",
+            });
+        @elseif (session('error'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('error') }}",
+                color: "#ff0000",
+                background: "#FFD9D9",
+            });
+        @endif
+    </script>
 </x-app-layout>
