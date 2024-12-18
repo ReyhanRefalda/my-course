@@ -13,7 +13,7 @@
                 <p class="font-medium text-sm text-[#FF6129]">Best courses</p>
             </div>
             <div class="flex flex-col">
-                <h2 class="font-bold text-[40px] leading-[60px]">All of our amazing courses</h2>
+                <h2 class="font-bold text-[40px] leading-[60px]">Search Result: {{ucfirst($keyword)}}</h2>
                 <p class="text-[#6D7786] text-lg -tracking-[2%]">Catching up the on demand skills and high paying career this year</p>
             </div>
             <div class="grid grid-cols-3 gap-[30px] w-full">
