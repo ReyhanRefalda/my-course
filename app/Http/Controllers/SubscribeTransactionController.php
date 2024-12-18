@@ -59,7 +59,7 @@ class SubscribeTransactionController extends Controller
     public function update(Request $request, SubscribeTransaction $subscribeTransaction)
 {
     DB::transaction(function () use ($subscribeTransaction) {
-        
+
         $totalAmount = $subscribeTransaction->total_amount;
         $owners = User::role('owner')->get();
         $teachers = User::role('teacher')->get();
@@ -99,7 +99,7 @@ class SubscribeTransactionController extends Controller
         ]);
     });
 
-    return redirect()->route('admin.subscribe_transactions.show', $subscribeTransaction);
+    return redirect()->route('admin.subscribe_transactions.show', $subscribeTransaction)->with('success', 'Subscribe transaction updated successfully!');
 }
 
 

@@ -39,7 +39,7 @@ class CourseVideoController extends Controller
 
             $courseVideo = CourseVideo::create($validated);
         });
-        return redirect()->route('admin.courses.show', $course->id);
+        return redirect()->route('admin.courses.show', $course->id)->with('success', 'Successfully added course video!');
     }
 
     /**
@@ -69,7 +69,7 @@ class CourseVideoController extends Controller
 
             $courseVideo->update($validated);
         });
-        return redirect()->route('admin.courses.show', $courseVideo->course_id);
+        return redirect()->route('admin.courses.show', $courseVideo->course_id)->with('success', 'Successfully updated course video!');
     }
 
     /**
@@ -83,10 +83,10 @@ class CourseVideoController extends Controller
             $courseVideo->delete();
             DB::commit();
 
-            return redirect()->route('admin.courses.show', $courseVideo->course_id);
+            return redirect()->route('admin.courses.show', $courseVideo->course_id)->with('success', 'Successfuly deleted course video!.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.courses.show', $courseVideo->course_id)->with('error', 'Terjadi sebuah error saat menghapus kategori');
+            return redirect()->route('admin.courses.show', $courseVideo->course_id)->with('error', 'There was an error while deleting course video.');
         }
     }
 }

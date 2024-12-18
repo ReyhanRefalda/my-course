@@ -15,16 +15,16 @@ class TeacherController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    // Hanya menampilkan teachers yang status = 'pending'
-    $teachers = Teacher::where('status', 'pending')
-        ->orderBy('id', 'desc')
-        ->get();
+    {
+        // Hanya menampilkan teachers yang status = 'pending'
+        $teachers = Teacher::where('status', 'pending')
+            ->orderBy('id', 'desc')
+            ->get();
 
-    return view('admin.teachers.index', [
-        'teachers' => $teachers,
-    ]);
-}
+        return view('admin.teachers.index', [
+            'teachers' => $teachers,
+        ]);
+    }
 
 
     /**
@@ -38,10 +38,7 @@ class TeacherController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $teacherId)
-    {
-
-    }
+    public function store(Request $request, $teacherId) {}
 
     /**
      * Display the specified resource.
@@ -64,32 +61,32 @@ class TeacherController extends Controller
      */
     public function update(Request $request, $teacher)
     {
-            // Validasi ID yang diterima
-    $teacher = Teacher::find($teacher);
+        // Validasi ID yang diterima
+        $teacher = Teacher::find($teacher);
 
-    if (!$teacher) {
-        return back()->withErrors(['teacher' => 'Guru tidak ditemukan.']);
-    }
+        if (!$teacher) {
+            return back()->withErrors(['teacher' => 'Guru tidak ditemukan.']);
+        }
 
-    // Update status teacher menjadi 'approved' (bisa juga disesuaikan dengan status lain)
-    $teacher->status = 'approved';
-    $teacher->save();
+        // Update status teacher menjadi 'approved' (bisa juga disesuaikan dengan status lain)
+        $teacher->status = 'approved';
+        $teacher->save();
 
-    // Dapatkan user terkait dengan teacher
-    $user = $teacher->user;
+        // Dapatkan user terkait dengan teacher
+        $user = $teacher->user;
 
-    // Periksa apakah user sudah memiliki role 'teacher', jika belum beri role tersebut
-    if (!$user->hasRole('teacher')) {
-        $user->assignRole('teacher');
-    }
+        // Periksa apakah user sudah memiliki role 'teacher', jika belum beri role tersebut
+        if (!$user->hasRole('teacher')) {
+            $user->assignRole('teacher');
+        }
 
-    // Tandai user sebagai verified karena telah disetujui
-    $user->is_verified = true;
-    $user->save();
+        // Tandai user sebagai verified karena telah disetujui
+        $user->is_verified = true;
+        $user->save();
 
-    // Redirect dengan pesan sukses
-    return redirect()->route('admin.teachers.index')
-                     ->with('success', 'Akun Teacher berhasil disetujui.');
+        // Redirect dengan pesan sukses
+        return redirect()->route('admin.teachers.index')
+            ->with('success', 'Account Teacher approved successfully.');
     }
 
     /**
@@ -106,7 +103,7 @@ class TeacherController extends Controller
             $user->removeRole('teacher');
             $user->assignRole('student');
 
-            return redirect()->route('admin.teachers.index')->with('success', 'Akun teacher berhasil ditolak dan dihapus.');
+            return redirect()->route('admin.teachers.index')->with('success', 'Account teacher deleted successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             $error = ValidationException::withMessages([

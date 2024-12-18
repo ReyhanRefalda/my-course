@@ -42,7 +42,8 @@
                                         class="px-6 py-3 rounded-full text-center font-semibold bg-indigo-600 hover:bg-indigo-700 text-white">
                                         Edit
                                     </button>
-                                    <form action="{{ route('admin.payments.destroy', $payment) }}" method="POST" class="inline">
+                                    <form action="{{ route('admin.payments.destroy', $payment) }}" method="POST"
+                                        class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -87,7 +88,7 @@
                 <input type="hidden" id="_method" name="_method" value="">
 
                 <div class="mb-4">
-                    <x-input-label for="bank_name" :value="('Bank Name')" />
+                    <x-input-label for="bank_name" :value="'Bank Name'" />
                     <x-text-input id="bank_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         type="text" name="bank_name" value="{{ old('bank_name') }}" />
@@ -95,7 +96,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <x-input-label for="number" :value="('Account Number')" />
+                    <x-input-label for="number" :value="'Account Number'" />
                     <x-text-input id="number"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         type="number" name="number" value="{{ old('number') }}" />
@@ -103,7 +104,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <x-input-label for="account_name" :value="('Account Name')" />
+                    <x-input-label for="account_name" :value="'Account Name'" />
                     <x-text-input id="account_name"
                         class="block mt-1 w-full border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         type="text" name="account_name" value="{{ old('account_name') }}" />
@@ -159,5 +160,49 @@
                 modal.classList.add('pointer-events-none', 'opacity-0');
             }, 300);
         }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script>
+        //message with sweetalert
+        @if (session('success'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#FF6129",
+            });
+        @elseif (session('error'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('error') }}",
+                color: "#ff0000",
+                background: "#FFD9D9",
+            });
+        @endif
     </script>
 </x-app-layout>

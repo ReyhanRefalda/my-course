@@ -49,7 +49,7 @@ class CategoryController extends Controller
             $categories = Category::create($validated);
         });
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.categories.index')->with('success', 'Successfully added category!');
     }
 
     /**
@@ -87,7 +87,7 @@ class CategoryController extends Controller
             $category->update($validated);
         });
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.categories.index')->with('success', 'Successfully updated category!');
     }
 
     /**
@@ -99,16 +99,16 @@ class CategoryController extends Controller
 
         try {
             if ($category->courses()->exists()) {
-                return redirect()->route('admin.categories.index')->with('error', 'Kategori ini memiliki kursus terkait dan tidak dapat dihapus.');
+                return redirect()->route('admin.categories.index')->with('error', 'Cannot delete category because it has courses.');
             }
 
             $category->delete();
             DB::commit();
 
-            return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus.');
+            return redirect()->route('admin.categories.index')->with('success', 'Successfuly deleted category!.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.categories.index')->with('error', 'Terjadi sebuah error saat menghapus kategori.');
+            return redirect()->route('admin.categories.index')->with('error', 'There was an error while deleting category.');
         }
     }
 }
