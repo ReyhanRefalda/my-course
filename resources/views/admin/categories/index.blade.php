@@ -59,11 +59,11 @@
                                         class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
-                                        onclick="return confirm('Are you sure you want to delete this category?')"
-                                        class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
-                                        <i class="ti ti-trash text-3xl"></i>
-                                    </button>
+                                        <button type="submit"
+                                            onclick="return confirm('Are you sure you want to delete this category?')"
+                                            class="text-red-500 bg-transparent hover:bg-transparent flex items-center justify-center w-12 h-12 rounded-md">
+                                            <i class="ti ti-trash text-3xl"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
@@ -114,38 +114,40 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
-       function openModal(mode, category = null) {
-    const modal = document.getElementById('modal');
-    const modalContent = document.getElementById('modal-content');
-    const form = document.getElementById('modal-form');
-    const title = document.getElementById('modal-title');
-    const nameInput = document.getElementById('name');
-    const iconPreview = document.getElementById('icon-preview');
+        function openModal(mode, category = null) {
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modal-content');
+            const form = document.getElementById('modal-form');
+            const title = document.getElementById('modal-title');
+            const nameInput = document.getElementById('name');
+            const iconPreview = document.getElementById('icon-preview');
 
-    // Reset dan isi form sesuai mode
-    if (mode === 'edit' && category) {
-        title.textContent = 'Update Category';
-        form.action = `/admin/categories/${category.id}`;
-        if (!form.querySelector('input[name="_method"]')) {
-            form.innerHTML += '<input type="hidden" name="_method" value="PUT">';
+            // Reset dan isi form sesuai mode
+            if (mode === 'edit' && category) {
+                title.textContent = 'Update Category';
+                form.action = `/admin/categories/${category.id}`;
+                if (!form.querySelector('input[name="_method"]')) {
+                    form.innerHTML += '<input type="hidden" name="_method" value="PUT">';
+                }
+                nameInput.value = category.name || ''; // Pastikan nilai diisi langsung
+                iconPreview.src = `/storage/${category.icon}`;
+                iconPreview.classList.remove('hidden');
+            } else {
+                title.textContent = 'Add New Category';
+                form.action = '/admin/categories';
+                form.querySelector('input[name="_method"]')?.remove();
+                nameInput.value = ''; // Kosongkan jika tambah baru
+                iconPreview.classList.add('hidden');
+            }
+
+            // Tampilkan modal tanpa penundaan
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            modalContent.classList.remove('translate-y-10', 'scale-95');
+            modalContent.classList.add('translate-y-0', 'scale-100');
         }
-        nameInput.value = category.name || ''; // Pastikan nilai diisi langsung
-        iconPreview.src = `/storage/${category.icon}`;
-        iconPreview.classList.remove('hidden');
-    } else {
-        title.textContent = 'Add New Category';
-        form.action = '/admin/categories';
-        form.querySelector('input[name="_method"]')?.remove();
-        nameInput.value = ''; // Kosongkan jika tambah baru
-        iconPreview.classList.add('hidden');
-    }
-
-    // Tampilkan modal tanpa penundaan
-    modal.classList.remove('pointer-events-none', 'opacity-0');
-    modalContent.classList.remove('translate-y-10', 'scale-95');
-    modalContent.classList.add('translate-y-0', 'scale-100');
-}
 
 
 
@@ -164,6 +166,47 @@
         @if ($errors->any())
             document.addEventListener('DOMContentLoaded', () => {
                 openModal('add');
+            });
+        @endif
+    </script>
+
+    <script>
+        //message with sweetalert
+        @if (session('success'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#3525B3",
+            });
+        @elseif (session('error'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('error') }}",
+                color: "#fff",
+                background: "#FF0000",
             });
         @endif
     </script>

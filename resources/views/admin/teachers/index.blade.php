@@ -40,23 +40,27 @@
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-gray-700 text-sm">
-                                    {{-- {{ $teacher->created_at->isoFormat('dddd, D MMMM YYYY') }} --}}
+                                    {{ $teacher->created_at->isoFormat('dddd, D MMMM YYYY') }}
                                 </td>
                                 <td class="px-4 py-4 text-right">
                                     <div class="flex gap-2 justify-end">
                                         <!-- Approve Button -->
-                                        <form action="{{ route('admin.teachers.update', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirmAction('approve')">
+                                        <form action="{{ route('admin.teachers.update', $teacher->id) }}" method="POST"
+                                            class="inline" onsubmit="return confirmAction('approve')">
                                             @csrf
                                             @method('PUT')
-                                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md">
+                                            <x-primary-button type="submit">
                                                 Approve
-                                            </button>
+                                            </x-primary-button>
                                         </form>
                                         <!-- Reject Button -->
-                                        <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to reject this teacher?')">
+                                        <form action="{{ route('admin.teachers.destroy', $teacher->id) }}"
+                                            method="POST" class="inline"
+                                            onsubmit="return confirm('Are you sure you want to reject this teacher?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md">
+                                            <button type="submit"
+                                                class="bg-[#FFD9D9] text-[#ff0000] px-4 py-2 rounded-full">
                                                 Reject
                                             </button>
                                         </form>
@@ -148,6 +152,7 @@
                 modal.classList.add('pointer-events-none', 'opacity-0');
             }, 300); // Durasi sesuai dengan `transition-duration`
         }
+
         function confirmAction(action) {
             if (action === 'approve') {
                 return confirm('Are you sure you want to approve this teacher?');
@@ -156,5 +161,48 @@
             }
             return false; // Return false if no action matched
         }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        //message with sweetalert
+        @if (session('success'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#FF6129",
+            });
+        @elseif (session('error'))
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('error') }}",
+                color: "#ff0000",
+                background: "#FFD9D9",
+            });
+        @endif
     </script>
 </x-app-layout>

@@ -180,7 +180,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Ambil elemen input hidden dan editor
@@ -201,23 +200,44 @@
             });
         });
     </script>
+
     <script>
         //message with sweetalert
         @if (session('success'))
-            Swal.fire({
-                icon: "success",
-                title: "SUCCESS",
-                text: "{{ session('success') }}",
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
                 showConfirmButton: false,
-                timer: 2000
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#3525B3",
             });
         @elseif (session('error'))
-            Swal.fire({
-                icon: "error",
-                title: "ERROR!",
-                text: "{{ session('error') }}",
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
                 showConfirmButton: false,
-                timer: 2000
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('success') }}",
+                color: "#fff",
+                background: "#FF0000",
             });
         @endif
     </script>
