@@ -62,32 +62,28 @@
                     <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
                         alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
                 </a>
-                <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[20px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
+                <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[20px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  px-6 py-2 hidden z-[12]"
                     aria-labelledby="hs-dropdown-custom-icon-trigger">
                     <div class="card-body p-0 py-2">
-                        <div class="flex gap-2 p-4 justify-center items-center">
-                            <div class="w-[50px] h-[50px] rounded-full overflow-hidden">
-                                <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
-                                    alt="Profile Picture" class="object-cover w-full h-full rounded-full">
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <h2 class="text-lg font-bold text-gray-900">{{ Auth::user()->name }}</h2>
-                                <p class="text-sm text-gray-700">{{ Auth::user()->occupation }}</p>
-                                <p class="text-sm text-gray-700 flex justify-start items-center gap-x-1">
-                                    <i class="ti ti-mail text-lg"></i>
-                                    {{ Auth::user()->email }}
-                                </p>
-                            </div>
+                        <div
+                            class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                            <i class="ti ti-settings text-[30px]"></i>
+                            <a href="{{ route('profile.edit') }}" class="font-medium">Account Setting</a>
                         </div>
-                        <div class="px-4 mt-[7px] mb-2 grid">
-                            <a href="#"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                class="btn-outline-primary font-medium text-[15px] w-full hover:bg-[rgb(255,97,41)] hover:text-white">
-                                Logout
-                            </a>
-                            <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
-                                @csrf
-                            </form>
+                        <div
+                            class="mt-[7px] mb-2 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                            <i class="ti ti-logout text-[30px]"></i>
+                            <div class="">
+                                <a href="#"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                    class="font-medium">
+                                    Logout
+                                </a>
+                                <form id="logout-form" method="POST" action="{{ route('logout') }}"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

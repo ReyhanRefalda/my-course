@@ -36,6 +36,7 @@
                 <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
                     alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
             </a>
+
             <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[30px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
                 aria-labelledby="hs-dropdown-custom-icon-trigger">
                 <div class="card-body p-0 py-2">
@@ -59,17 +60,13 @@
                             class="btn-outline-primary font-medium text-[15px] w-full hover:bg-[rgb(255,97,41)] hover:text-white">
                             Logout
                         </a>
-
                         <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
                             @csrf
                         </form>
-
                     </div>
-
                 </div>
             </div>
+
         </div>
-
-
     </div>
 </nav>

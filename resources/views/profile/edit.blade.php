@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-8 bg-white px-8  rounded-[30px] shadow-xl">
+    <div class="py-8 bg-white px-8 rounded-[30px] shadow-md">
         <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data"
             class="w-full grid [grid-template-columns:1fr_2fr] gap-x-6 gap-y-3 ">
             @csrf
@@ -13,7 +13,7 @@
             {{-- Section: Change Profile --}}
 
             <div
-                class="h-full flex flex-col justify-center items-center shadow-xl border border-gray-300 rounded-[30px]">
+                class="h-full flex flex-col justify-center items-center shadow-md border border-gray-300 rounded-[30px]">
                 <div class="w-full px-6 text-start mb-4">
                     <h3 class="text-xl font-semibold text-gray-900">Change Profile</h3>
                     <p class="text-sm text-gray-500">Change your profile picture from here</p>
@@ -41,7 +41,7 @@
             </div>
 
             {{-- Section: Personal Details and Change Password --}}
-            <div class="p-6 bg-white shadow-xl rounded-[30px]  border border-gray-300">
+            <div class="p-6 bg-white shadow-md rounded-[30px]  border border-gray-300">
                 <div class="w-full text-start mb-4">
                     <h3 class="text-xl font-semibold text-gray-900">Personal Details</h3>
                     <p class="text-sm text-gray-500">To change your personal detail , edit and save from here</p>
@@ -81,7 +81,7 @@
                 @method('put')
                 <div></div>
 
-                <div class="bg-white px-6 pb-6  rounded-[30px] shadow-xl border border-gray-300 grid gap-4">
+                <div class="bg-white px-6 pb-6  rounded-[30px] shadow-md border border-gray-300 grid gap-4">
                     <div class="w-full text-start mb-4 mt-6">
                         <h2 class="text-xl font-semibold text-gray-900">Change Password</h2>
                         <p class="text-sm text-gray-500">To change your password please confirm here</p>
@@ -130,7 +130,7 @@
         <section class="space-y-6">
             <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
                 <form method="post" action="{{ route('profile.destroy') }}"
-                    class="p-6 rounded-[30px] bg-white shadow-xl border border-gray-300">
+                    class="p-6 rounded-[30px] bg-white shadow-md border border-gray-300">
                     @csrf
                     @method('delete')
 
