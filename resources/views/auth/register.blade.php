@@ -25,16 +25,20 @@
                     </a>
                     <h1 class="font-bold text-[26px] leading-[39px]">Create Account</h1>
                     <div class="flex items-center gap-4">
-                    <button type="button" id="Upload-btn" class="w-[100px] h-[100px] flex shrink-0 rounded-full overflow-hidden">
-                        <img id="File-thumbnail" src="{{asset('assets/icon/Mediamodifier-Design.svg')}}" class="object-cover w-full h-full" alt="avatar">
-                    </button>
-                    <div class="h-fit flex flex-col gap-1">
-                        <label class="font-semibold" for="File-upload">Add Your Avatar</label>
-                        <p class="text-sm leading-[21px]">Use professional photo for career</p>
-                        <button type="button" id="Replace-photo-btn" class="font-semibold text-sm leading-[21px] text-[#FF6B2C] hover:underline transition-all duration-300 w-fit hidden">Replace Photo</button>
+                        <button type="button" id="Upload-btn"
+                            class="w-[100px] h-[100px] flex shrink-0 rounded-full overflow-hidden">
+                            <img id="File-thumbnail" src="{{ asset('assets/icon/Mediamodifier-Design.svg') }}"
+                                class="object-cover w-full h-full" alt="avatar">
+                        </button>
+                        <div class="h-fit flex flex-col gap-1">
+                            <label class="font-semibold" for="File-upload">Add Your Avatar</label>
+                            <p class="text-sm leading-[21px]">Use professional photo for career</p>
+                            <button type="button" id="Replace-photo-btn"
+                                class="font-semibold text-sm leading-[21px] text-[#FF6B2C] hover:underline transition-all duration-300 w-fit hidden">Replace
+                                Photo</button>
+                        </div>
+                        <input type="file" id="File-upload" name="avatar" class="hidden" accept="image/*">
                     </div>
-                    <input type="file" id="File-upload" name="avatar" class="hidden" accept="image/*">
-                </div>
                     <div class="flex flex-col gap-2">
                         <label for="Name" class="font-semibold">Full Name</label>
                         <div
@@ -74,7 +78,8 @@
 
                     <div class="flex flex-col gap-2">
                         <label for="Password" class="font-semibold">Password</label>
-                        <div class="flex items-center rounded-full p-[14px_24px] gap-[10px] ring-1 ring-[#0E0140] focus-within:ring-2 focus-within:ring-[#FF6B2C] transition-all duration-300">
+                        <div
+                            class="flex items-center rounded-full p-[14px_24px] gap-[10px] ring-1 ring-[#0E0140] focus-within:ring-2 focus-within:ring-[#FF6B2C] transition-all duration-300">
                             <div class="w-6 h-6 flex shrink-0">
                                 <img src="assets/icon/lock.svg" alt="icon">
                             </div>
@@ -90,7 +95,8 @@
 
                     <div class="flex flex-col gap-2">
                         <label for="Confirm-Password" class="font-semibold">Confirm Password</label>
-                        <div class="flex items-center rounded-full p-[14px_24px] gap-[10px] ring-1 ring-[#0E0140] focus-within:ring-2 focus-within:ring-[#FF6B2C] transition-all duration-300">
+                        <div
+                            class="flex items-center rounded-full p-[14px_24px] gap-[10px] ring-1 ring-[#0E0140] focus-within:ring-2 focus-within:ring-[#FF6B2C] transition-all duration-300">
                             <div class="w-6 h-6 flex shrink-0">
                                 <img src="assets/icon/lock.svg" alt="icon">
                             </div>
@@ -115,7 +121,8 @@
                                     class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300"
                                     alt="Checked Icon">
                                 <input type="radio" name="account_type" id="student" value="student"
-                                    class="absolute -z-10 top-1/2 left-1/2" required {{ old('account_type') == 'student' ? 'checked' : '' }}>
+                                    class="absolute -z-10 top-1/2 left-1/2" required
+                                    {{ old('account_type') == 'student' ? 'checked' : '' }}>
                             </label>
 
                             <!-- Opsi Teacher -->
@@ -126,7 +133,8 @@
                                     class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300"
                                     alt="Checked Icon">
                                 <input type="radio" name="account_type" id="teacher" value="teacher"
-                                    class="absolute -z-10 top-1/2 left-1/2" required {{ old('account_type') == 'teacher' ? 'checked' : '' }}>
+                                    class="absolute -z-10 top-1/2 left-1/2" required
+                                    {{ old('account_type') == 'teacher' ? 'checked' : '' }}>
                             </label>
                         </div>
                     </div>
@@ -142,47 +150,69 @@
                 </form>
             </section>
         </main>
-        <script>
-            const passwordInput = document.getElementById('password');
-            const showIcon = document.getElementById('showIcon');
-            const hideIcon = document.getElementById('hideIcon');
-            const toggleButton = document.getElementById('togglePassword');
 
-            toggleButton.addEventListener('click', function () {
+        <script>
+            const passwordInput = document.getElementById('Password');
+            const confirmPasswordInput = document.getElementById('Confirm-Password');
+
+            const togglePasswordButton = document.getElementById('togglePassword');
+            const toggleConfirmPasswordButton = document.getElementById('toggleConfirmPassword');
+
+            const showPasswordIcon = document.getElementById('showIcon');
+            const hidePasswordIcon = document.getElementById('hideIcon');
+
+            const showConfirmPasswordIcon = document.getElementById('showConfirmIcon');
+            const hideConfirmPasswordIcon = document.getElementById('hideConfirmIcon');
+
+            togglePasswordButton.addEventListener('click', () => {
                 const currentType = passwordInput.getAttribute('type');
 
                 if (currentType === 'password') {
                     passwordInput.setAttribute('type', 'text');
-                    showIcon.classList.add('hidden');
-                    hideIcon.classList.remove('hidden');
+                    showPasswordIcon.classList.add('hidden');
+                    hidePasswordIcon.classList.remove('hidden');
                 } else {
                     passwordInput.setAttribute('type', 'password');
-                    showIcon.classList.remove('hidden');
-                    hideIcon.classList.add('hidden');
+                    showPasswordIcon.classList.remove('hidden');
+                    hidePasswordIcon.classList.add('hidden');
+                }
+            });
+
+            toggleConfirmPasswordButton.addEventListener('click', () => {
+                const currentType = confirmPasswordInput.getAttribute('type');
+
+                if (currentType === 'password') {
+                    confirmPasswordInput.setAttribute('type', 'text');
+                    showConfirmPasswordIcon.classList.add('hidden');
+                    hideConfirmPasswordIcon.classList.remove('hidden');
+                } else {
+                    confirmPasswordInput.setAttribute('type', 'password');
+                    showConfirmPasswordIcon.classList.remove('hidden');
+                    hideConfirmPasswordIcon.classList.add('hidden');
                 }
             });
         </script>
     </body>
 @endsection
 @push('after-scripts')
-<script>
-    document.getElementById('Upload-btn').addEventListener('click', function() {
-        document.getElementById('File-upload').click();
-    });
-    document.getElementById('Replace-photo-btn').addEventListener('click', function() {
-        document.getElementById('File-upload').click();
-    });
+    <script>
+        document.getElementById('Upload-btn').addEventListener('click', function() {
+            document.getElementById('File-upload').click();
+        });
+        document.getElementById('Replace-photo-btn').addEventListener('click', function() {
+            document.getElementById('File-upload').click();
+        });
 
-    document.getElementById('File-upload').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('File-thumbnail').src = e.target.result;
-                document.getElementById('Replace-photo-btn').classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
+        document.getElementById('File-upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('File-thumbnail').src = e.target.result;
+                    document.getElementById('Replace-photo-btn').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 @endpush
