@@ -31,62 +31,40 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- <style>
-        * {
-            border: 1px solid red;
-        }
-    </style> --}}
 </head>
 
 <body class=" bg-gray-100">
-    @role('owner|teacher')
-        <main>
-            <!--start the project-->
-            <div id="main-wrapper" class=" flex p-5 xl:pr-0 min-h-screen">
+    <main>
+        <!--start the project-->
+        <div id="main-wrapper" class=" flex p-5 xl:pr-0 min-h-screen">
 
-                @include('layouts.components.sidebar')
+            @include('layouts.components.sidebar')
 
-                <div class=" w-full page-wrapper xl:px-6 px-0">
+            <div class=" w-full page-wrapper xl:px-6 px-0">
 
-                    <!-- Main Content -->
-                    <main class="h-full  max-w-full">
-                        <div class="container full-container p-0 flex flex-col gap-6">
-                            <!--  Header Start -->
+                <!-- Main Content -->
+                <main class="h-full  max-w-full">
+                    <div class="container full-container p-0 flex flex-col gap-6">
+                        <!--  Header Start -->
 
-                            <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
+                        <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
 
 
-                                <!-- ========== HEADER ========== -->
+                            <!-- ========== HEADER ========== -->
 
-                                @include('layouts.components.navbar')
+                            @include('layouts.components.navbar')
 
-                                <!-- ========== END HEADER ========== -->
-                            </header>
-                            <!--  Header End -->
-                            {{ $slot }}
-                        </div>
-                    </main>
-                    <!-- Main Content End -->
-                </div>
+                            <!-- ========== END HEADER ========== -->
+                        </header>
+                        <!--  Header End -->
+                        {{ $slot }}
+                    </div>
+                </main>
+                <!-- Main Content End -->
             </div>
-            <!--end of project-->
-        </main>
-    @endrole
-    @role('student')
-        {{-- <div class="min-h-screen w-full"> --}}
-        <div id="hero-section mt-[100px] pt-10 pb-[50px]"
-            class="max-w-[1200px] mx-auto w-full flex flex-col gap-10 bg-[url('{{ asset('assets/background/Hero-Banner.png') }}')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">
-            <x-navcat />
         </div>
-
-        <!-- Page Content -->
-        <main class="mt-2 w-full flex justify-center">
-            {{ $slot }}
-        </main>
-
-        {{-- </div> --}}
-    @endrole
+        <!--end of project-->
+    </main>
 
     {{-- trix editor --}}
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>

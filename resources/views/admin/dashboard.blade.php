@@ -96,118 +96,120 @@
                     </a>
                 </div>
             @endrole
+
             @role('student')
-            <div class="container mx-auto p-6">
-                <h3 class="text-2xl font-semibold mb-4">Course History</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="bg-white border rounded-[30px] shadow-md transition p-6 flex">
-                        <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image" class="w-20 h-20 object-cover rounded-lg mr-4">
-                        <div class="flex flex-col justify-center">
-                            <h4 class="text-lg font-bold">Membuat Laporan Keuangan</h4>
-                            <p class="text-sm text-gray-500">Data Analyst</p>
-                        </div>
-                    </div>
-                    <div class="bg-white border rounded-[30px] shadow-md transition p-6 flex">
-                        <img src="course2.jpg" alt="Course Image" class="w-20 h-20 object-cover rounded-lg mr-4">
-                        <div class="flex flex-col justify-center">
-                            <h4 class="text-lg font-bold">Tutorial Blockchain</h4>
-                            <p class="text-sm text-gray-500">Web 3 Developer</p>
-                        </div>
-                    </div>
-                    <div class="bg-white border rounded-[30px] shadow-md transition p-6 flex">
-                        <img src="course3.jpg" alt="Course Image" class="w-20 h-20 object-cover rounded-lg mr-4">
-                        <div class="flex flex-col justify-center">
-                            <h4 class="text-lg font-bold">Membuat Laporan Keuangan</h4>
-                            <p class="text-sm text-gray-500">Data Analyst</p>
-                        </div>
-                    </div>
-                    <div class="bg-white border rounded-[30px] shadow-md transition p-6 flex">
-                        <img src="course4.jpg" alt="Course Image" class="w-20 h-20 object-cover rounded-lg mr-4">
-                        <div class="flex flex-col justify-center">
-                            <h4 class="text-lg font-bold">Tutorial Blockchain</h4>
-                            <p class="text-sm text-gray-500">Web 3 Developer</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container mx-auto p-6">
-                <h3 class="text-2xl font-semibold mb-4">Latest Article</h3>
-                <div class="flex space-x-9">
-                    <div class="bg-white border rounded-[30px] transition overflow-hidden relative w-[350px]">
-                        <img src="article1.jpg" alt="Article Image" class="w-full h-40 object-cover">
-                        <div class="p-4">
-                            <h4 class="text-lg font-bold mt-4">Manta Terbang Menuju Jurang</h4>
-                            <p class="text-sm text-gray-500 mt-2">Deskripsi untuk cara menjadi seorang programmer web 3</p>
-                            <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                <span>Author: Sarada</span>
-                                <span>Wed, 4/12/2024</span>
+                {{-- <div class="container mx-auto p-6">
+                    <h3 class="text-2xl font-semibold mb-4">Course History</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white border rounded-[30px] shadow-md transition p-6 flex">
+                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
+                                class="w-20 h-20 object-cover rounded-lg mr-4">
+                            <div class="flex flex-col justify-center">
+                                <h4 class="text-lg font-bold">Membuat Laporan Keuangan</h4>
+                                <p class="text-sm text-gray-500">Data Analyst</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="bg-white border rounded-[30px] transition overflow-hidden relative w-[350px]">
-                        <img src="article2.jpg" alt="Article Image" class="w-full h-40 object-cover">
-                        <div class="p-4">
-                            <h4 class="text-lg font-bold mt-4">Manta Terbang Menuju Jurang</h4>
-                            <p class="text-sm text-gray-500 mt-2">Deskripsi untuk cara menjadi seorang programmer web 3</p>
-                            <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                <span>Author: Sarada</span>
-                                <span>Wed, 4/12/2024</span>
+                        <div class="bg-white border rounded-[30px] shadow-md transition p-6 flex">
+                            <img src="course2.jpg" alt="Course Image" class="w-20 h-20 object-cover rounded-lg mr-4">
+                            <div class="flex flex-col justify-center">
+                                <h4 class="text-lg font-bold">Tutorial Blockchain</h4>
+                                <p class="text-sm text-gray-500">Web 3 Developer</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="bg-white border rounded-[30px] transition overflow-hidden relative w-[350px]">
-                        <img src="article3.jpg" alt="Article Image" class="w-full h-40 object-cover">
-                        <div class="p-4">
-                            <h4 class="text-lg font-bold mt-4">Manta Terbang Menuju Jurang</h4>
-                            <p class="text-sm text-gray-500 mt-2">Deskripsi untuk cara menjadi seorang programmer web 3</p>
-                            <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                <span>Author: Sarada</span>
-                                <span>Wed, 4/12/2024</span>
+                        <div class="bg-white border rounded-[30px] shadow-md transition p-6 flex">
+                            <img src="course3.jpg" alt="Course Image" class="w-20 h-20 object-cover rounded-lg mr-4">
+                            <div class="flex flex-col justify-center">
+                                <h4 class="text-lg font-bold">Membuat Laporan Keuangan</h4>
+                                <p class="text-sm text-gray-500">Data Analyst</p>
+                            </div>
+                        </div>
+                        <div class="bg-white border rounded-[30px] shadow-md transition p-6 flex">
+                            <img src="course4.jpg" alt="Course Image" class="w-20 h-20 object-cover rounded-lg mr-4">
+                            <div class="flex flex-col justify-center">
+                                <h4 class="text-lg font-bold">Tutorial Blockchain</h4>
+                                <p class="text-sm text-gray-500">Web 3 Developer</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-                @endrole
+                <div class="container mx-auto p-6">
+                    <h3 class="text-2xl font-semibold mb-4">Latest Article</h3>
+                    <div class="flex space-x-9">
+                        <div class="bg-white border rounded-[30px] transition overflow-hidden relative w-[350px]">
+                            <img src="article1.jpg" alt="Article Image" class="w-full h-40 object-cover">
+                            <div class="p-4">
+                                <h4 class="text-lg font-bold mt-4">Manta Terbang Menuju Jurang</h4>
+                                <p class="text-sm text-gray-500 mt-2">Deskripsi untuk cara menjadi seorang programmer web 3
+                                </p>
+                                <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
+                                    <span>Author: Sarada</span>
+                                    <span>Wed, 4/12/2024</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <!--  Header End -->
+                        <div class="bg-white border rounded-[30px] transition overflow-hidden relative w-[350px]">
+                            <img src="article2.jpg" alt="Article Image" class="w-full h-40 object-cover">
+                            <div class="p-4">
+                                <h4 class="text-lg font-bold mt-4">Manta Terbang Menuju Jurang</h4>
+                                <p class="text-sm text-gray-500 mt-2">Deskripsi untuk cara menjadi seorang programmer web 3
+                                </p>
+                                <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
+                                    <span>Author: Sarada</span>
+                                    <span>Wed, 4/12/2024</span>
+                                </div>
+                            </div>
+                        </div>
 
-                @role('owner')
-                    <div class="card mt-10">
-                        <div class="card-body w-full">
-                            <div class="flex  justify-between">
-                                <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">Transactions</h4>
-                                <div
-                                    class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
-                                    <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
-                                        <i class="ti ti-dots-vertical text-2xl text-gray-400"></i>
-                                    </a>
-                                    <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[150px] hidden z-[12]"
-                                        aria-labelledby="hs-dropdown-custom-icon-trigger">
-                                        <div class="card-body p-0 py-2">
-                                            <a href="javscript:void(0)"
-                                                class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
-                                                <p class="text-sm ">Action</p>
-                                            </a>
-                                            <a href="javscript:void(0)"
-                                                class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
-                                                <p class="text-sm ">Another Action</p>
-                                            </a>
-                                            <a href="javscript:void(0)"
-                                                class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
-                                                <p class="text-sm ">Something else here</p>
-                                            </a>
-                                        </div>
+                        <div class="bg-white border rounded-[30px] transition overflow-hidden relative w-[350px]">
+                            <img src="article3.jpg" alt="Article Image" class="w-full h-40 object-cover">
+                            <div class="p-4">
+                                <h4 class="text-lg font-bold mt-4">Manta Terbang Menuju Jurang</h4>
+                                <p class="text-sm text-gray-500 mt-2">Deskripsi untuk cara menjadi seorang programmer web 3
+                                </p>
+                                <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
+                                    <span>Author: Sarada</span>
+                                    <span>Wed, 4/12/2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+            @endrole
+
+            <!--  Header End -->
+
+            @role('owner')
+                <div class="card mt-10">
+                    <div class="card-body w-full">
+                        <div class="flex  justify-between">
+                            <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">Transactions</h4>
+                            <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
+                                <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
+                                    <i class="ti ti-dots-vertical text-2xl text-gray-400"></i>
+                                </a>
+                                <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[150px] hidden z-[12]"
+                                    aria-labelledby="hs-dropdown-custom-icon-trigger">
+                                    <div class="card-body p-0 py-2">
+                                        <a href="javscript:void(0)"
+                                            class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
+                                            <p class="text-sm ">Action</p>
+                                        </a>
+                                        <a href="javscript:void(0)"
+                                            class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
+                                            <p class="text-sm ">Another Action</p>
+                                        </a>
+                                        <a href="javscript:void(0)"
+                                            class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
+                                            <p class="text-sm ">Something else here</p>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            <div id="profit"></div>
                         </div>
+                        <div id="profit"></div>
                     </div>
-                @endrole
+                </div>
+            @endrole
 </x-app-layout>
