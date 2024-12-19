@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
         }
     
         // Default fallback jika tidak ada role atau kondisi tidak terpenuhi
-        return redirect()->route('front.index');
+        return redirect()->route('front.index'); 
     }
     
 

@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @forelse ($teachers as $teacher)
+                        @forelse ($teachers as $teacher) 
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-4 flex items-center gap-4">
                                     <img src="{{ Storage::url($teacher->user->avatar) }}" alt="Avatar"
