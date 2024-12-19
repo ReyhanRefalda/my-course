@@ -21,17 +21,32 @@ class CourseController extends Controller
     {
         $user = Auth::user();
         $query = Course::with(['category', 'teacher', 'students'])->orderByDesc('id');
-
+    
+        // Filter berdasarkan role "teacher"
         if ($user->hasRole('teacher')) {
             $query->whereHas('teacher', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             });
         }
-
+    
+        // Tambahkan filter kategori dan teacher jika ada di request
+        if (request('category')) {
+            $query->where('category_id', request('category'));
+        }
+    
+        if (request('teacher')) {
+            $query->where('teacher_id', request('teacher'));
+        }
+    
         $courses = $query->paginate(10);
-
-        return view('admin.courses.index', compact('courses'));
+    
+        // Ambil data untuk dropdown filter 
+        $categories = Category::all();
+        $teachers = Teacher::with('user')->get();
+    
+        return view('admin.courses.index', compact('courses', 'categories', 'teachers'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
