@@ -93,7 +93,7 @@ class FrontController extends Controller
             $transaction = SubscribeTransaction::create($validated);
         });
 
-        return redirect()->route('dashboard');
+        return redirect()->route('front.index');
     }
 
     public function category(Category $category)

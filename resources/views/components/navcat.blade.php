@@ -50,8 +50,6 @@
                             <span class="badge badge-success">Owner</span>
                         @elseif(Auth::user()->hasRole('teacher'))
                             <span class="badge badge-warning">Teacher</span>
-                        @elseif(Auth::user()->hasRole('student'))
-                            <span class="badge badge-info">Student</span>
                         @elseif (Auth::user()->hasActiveSubscription())
                             <span class="badge badge-primary">PRO</span>
                         @endif
