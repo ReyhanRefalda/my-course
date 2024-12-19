@@ -65,13 +65,9 @@
                             </header>
                             <!--  Header End -->
                             {{ $slot }}
-
                         </div>
-
-
                     </main>
                     <!-- Main Content End -->
-
                 </div>
             </div>
             <!--end of project-->
@@ -79,7 +75,7 @@
     @endrole
     @role('student')
         {{-- <div class="min-h-screen w-full"> --}}
-        <div id="hero-section mt-[100px]"
+        <div id="hero-section mt-[100px] pt-10 pb-[50px]"
             class="max-w-[1200px] mx-auto w-full flex flex-col gap-10 bg-[url('{{ asset('assets/background/Hero-Banner.png') }}')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">
             <x-navcat />
         </div>

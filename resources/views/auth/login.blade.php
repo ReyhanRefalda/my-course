@@ -28,11 +28,11 @@
                         <div
                             class="flex items-center rounded-full py-[14px] px-[24px] gap-[10px] ring-1 ring-[#0E0140] focus-within:ring-2 focus-within:ring-[#FF6B2C] transition-all duration-300">
                             <div class="flex shrink-0 size-6">
-                                <img src="assets/icon/sms.svg" alt="email icon" />
+                                <img src="{{ asset('assets/icon/sms.svg') }}" alt="email icon" />
                             </div>
                             <input type="email" name="email" id="email"
                                 class="w-full focus:outline-none font-semibold placeholder:font-normal bg-transparent placeholder:text-[#0E0140] [border:none] focus:ring-white focus:border-none"
-                                placeholder="Write your email address" />
+                                placeholder="Write your email address" value="{{ old('email') }}" />
                         </div>
                     </div>
                     <div class="flex flex-col gap-2">
@@ -70,7 +70,7 @@
             const hideIcon = document.getElementById('hideIcon');
             const toggleButton = document.getElementById('togglePassword');
 
-            toggleButton.addEventListener('click', function () {
+            toggleButton.addEventListener('click', function() {
                 const currentType = passwordInput.getAttribute('type');
 
                 if (currentType === 'password') {
