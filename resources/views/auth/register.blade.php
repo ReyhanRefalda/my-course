@@ -25,20 +25,16 @@
                     </a>
                     <h1 class="font-bold text-[26px] leading-[39px]">Create Account</h1>
                     <div class="flex items-center gap-4">
-                        <button type="button" id="Upload-btn"
-                            class="w-[100px] h-[100px] flex shrink-0 rounded-full overflow-hidden">
-                            <img id="File-thumbnail" src="{{ asset('assets/icon/Mediamodifier-Design.svg') }}"
-                                class="object-cover w-full h-full" alt="avatar">
-                        </button>
-                        <div class="h-fit flex flex-col gap-1">
-                            <label class="font-semibold" for="File-upload">Add Your Avatar</label>
-                            <p class="text-sm leading-[21px]">Use professional photo for career</p>
-                            <button type="button" id="Replace-photo-btn"
-                                class="font-semibold text-sm leading-[21px] text-[#FF6B2C] hover:underline transition-all duration-300 w-fit hidden">Replace
-                                Photo</button>
-                        </div>
-                        <input type="file" id="File-upload" name="avatar" class="hidden" accept="image/*">
+                    <button type="button" id="Upload-btn" class="w-[100px] h-[100px] flex shrink-0 rounded-full overflow-hidden">
+                        <img id="File-thumbnail" src="{{asset('assets/icon/Mediamodifier-Design.svg')}}" class="object-cover w-full h-full" alt="avatar">
+                    </button>
+                    <div class="h-fit flex flex-col gap-1">
+                        <label class="font-semibold" for="File-upload">Add Your Avatar</label>
+                        <p class="text-sm leading-[21px]">Use professional photo for career</p>
+                        <button type="button" id="Replace-photo-btn" class="font-semibold text-sm leading-[21px] text-[#FF6B2C] hover:underline transition-all duration-300 w-fit hidden">Replace Photo</button>
                     </div>
+                    <input type="file" id="File-upload" name="avatar" class="hidden" accept="image/*">
+                </div>
                     <div class="flex flex-col gap-2">
                         <label for="Name" class="font-semibold">Full Name</label>
                         <div
@@ -169,41 +165,24 @@
     </body>
 @endsection
 @push('after-scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    const passwordInput = document.getElementById('Password');
-    const confirmPasswordInput = document.getElementById('Confirm-Password');
-
-    const showPasswordIcon = document.getElementById('showIcon');
-    const hidePasswordIcon = document.getElementById('hideIcon');
-
-    const showConfirmPasswordIcon = document.getElementById('showConfirmIcon');
-    const hideConfirmPasswordIcon = document.getElementById('hideConfirmIcon');
-
-    const togglePasswordButton = document.getElementById('togglePassword');
-    const toggleConfirmPasswordButton = document.getElementById('toggleConfirmPassword');
-
-    togglePasswordButton.addEventListener('click', function() {
-        togglePassword(passwordInput, showPasswordIcon, hidePasswordIcon);
+<script>
+    document.getElementById('Upload-btn').addEventListener('click', function() {
+        document.getElementById('File-upload').click();
+    });
+    document.getElementById('Replace-photo-btn').addEventListener('click', function() {
+        document.getElementById('File-upload').click();
     });
 
-    toggleConfirmPasswordButton.addEventListener('click', function() {
-        togglePassword(confirmPasswordInput, showConfirmPasswordIcon, hideConfirmPasswordIcon);
-    });
-
-    function togglePassword(input, showIcon, hideIcon) {
-        const currentType = input.getAttribute('type');
-
-        if (currentType === 'password') {
-            input.setAttribute('type', 'text');
-            showIcon.classList.add('hidden');
-            hideIcon.classList.remove('hidden');
-        } else {
-            input.setAttribute('type', 'password');
-            showIcon.classList.remove('hidden');
-            hideIcon.classList.add('hidden');
+    document.getElementById('File-upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('File-thumbnail').src = e.target.result;
+                document.getElementById('Replace-photo-btn').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
         }
-    }
-});
-    </script>
+    });
+</script>
 @endpush
