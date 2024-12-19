@@ -167,7 +167,7 @@
         <div class="flex flex-col text-left gap-[30px]">
             <h2 class="font-bold text-[36px] leading-[52px]">Be a Teacher And,<br>Get Some Benefits</h2>
             <p class="text-[#475466] text-lg leading-[34px]">Growing new skills would be more flexible without <br> limit we help you to access all course materials.</p>
-            <a href="{{route('register')}}" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980] w-fit">Check Pricing</a>
+            <a href="{{route('front.pricing')}}" class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980] w-fit">Check Pricing</a>
         </div>
     </section>
     <section id="Zero-to-Success" class="max-w-[1200px] mx-auto flex flex-col py-[70px] px-[50px] gap-[30px] bg-[#F5F8FA] rounded-[32px]">

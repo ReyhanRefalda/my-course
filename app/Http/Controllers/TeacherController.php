@@ -17,9 +17,7 @@ class TeacherController extends Controller
     public function index()
     {
         // Hanya menampilkan teachers yang status = 'pending'
-        $teachers = Teacher::where('status', 'pending')
-            ->orderBy('id', 'desc')
-            ->get();
+        $teachers = Teacher::all();
 
         return view('admin.teachers.index', [
             'teachers' => $teachers,
