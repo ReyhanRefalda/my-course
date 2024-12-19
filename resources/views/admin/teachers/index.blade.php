@@ -24,6 +24,7 @@
                     <thead>
                         <tr class="border-b border-gray-200">
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600 w-96">Teacher</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Email</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
                             <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600">Actions</th>
                         </tr>
@@ -39,15 +40,16 @@
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-gray-700 text-sm">
+                                    {{ $teacher->user->email }}
+                                </td>
+                                <td class="px-4 py-4 text-gray-700 text-sm">
                                     {{ $teacher->created_at->isoFormat('dddd, D MMMM YYYY') }}
                                 </td>
                                 <td class="px-4 py-4 text-right">
                                     <div class="flex gap-2 justify-end">
                                         @if ($teacher->status === 'approved')
-                                            <!-- If teacher is approved, show the label instead of buttons -->
                                             <span class="text-green-600 font-semibold">Approved</span>
                                         @else
-                                            <!-- Approve Button -->
                                             <form action="{{ route('admin.teachers.update', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirmAction('approve')">
                                                 @csrf
                                                 @method('PUT')
@@ -55,7 +57,6 @@
                                                     Approve
                                                 </x-primary-button>
                                             </form>
-                                            <!-- Reject Button -->
                                             <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to reject this teacher?')">
                                                 @csrf
                                                 @method('DELETE')
@@ -66,7 +67,6 @@
                                         @endif
                                     </div>
                                 </td>
-
                             </tr>
                         @empty
                             <tr>
@@ -75,12 +75,13 @@
                                         <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
                                             class="img-fluid" style="width: clamp(150px, 50vw, 300px);">
                                     </div>
-                                    <p class="pb-4 text-gray-500">No data avilable</p>
+                                    <p class="pb-4 text-gray-500">No data available</p>
                                 </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
+                
             </div>
         </div>
 
