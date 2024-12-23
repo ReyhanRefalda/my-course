@@ -7,7 +7,7 @@
                 class="fixed top-0 left-0 h-screen w-[640px] flex shrink-0 items-baseline ring-1 ring-[#E8E4F8] overflow-hidden">
                 <img src="{{ asset('assets/background/benefit_illustration.png') }}"
                     class="background object-cover w-full h-full" alt="background image">
-            </div>png
+            </div>
             <section id="Signup-form"
                 class="pl-[640px] flex flex-col py-[140px] items-center justify-center w-full gap-[70px]">
                 @if ($errors->any())
@@ -48,7 +48,7 @@
                             </div>
                             <input type="text" id="Name" name="name" autocomplete="off"
                                 class="appearance-none w-full outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140] focus:outline-none [border:none] focus:ring-white focus:border-none"
-                                placeholder="Write your full name">
+                                placeholder="Write your full name" value="{{ old('name') }}">
                         </div>
                     </div>
                     <div class="flex flex-col gap-2">
@@ -60,7 +60,7 @@
                             </div>
                             <input type="email" id="Email" name="email" autocomplete="off"
                                 class="appearance-none w-full outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140] focus:outline-none [border:none] focus:ring-white focus:border-none"
-                                placeholder="Write your email address">
+                                placeholder="Write your email address" value="{{ old('email') }}">
                         </div>
                     </div>
                     <div class="flex flex-col gap-2">
@@ -72,7 +72,7 @@
                             </div>
                             <input type="text" id="Occupation" name="occupation" autocomplete="off"
                                 class="appearance-none w-full outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140] focus:outline-none [border:none] focus:ring-white focus:border-none"
-                                placeholder="Type here...">
+                                placeholder="Type here..." value="{{ old('occupation') }}">
                         </div>
                     </div>
 
@@ -86,8 +86,13 @@
                             <input type="password" id="Password" name="password" autocomplete="off"
                                 class="appearance-none w-full outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140] focus:outline-none [border:none] focus:ring-white focus:border-none"
                                 placeholder="Write your password">
+                            <button type="button" id="togglePassword" class="flex items-center justify-center">
+                                <i id="showIcon" class="ti ti-eye text-[#0E0140] text-2xl"></i>
+                                <i id="hideIcon" class="ti ti-eye-off text-[#0E0140] text-2xl hidden"></i>
+                            </button>
                         </div>
                     </div>
+
                     <div class="flex flex-col gap-2">
                         <label for="Confirm-Password" class="font-semibold">Confirm Password</label>
                         <div
@@ -98,37 +103,38 @@
                             <input type="password" id="Confirm-Password" name="password_confirmation" autocomplete="off"
                                 class="appearance-none w-full outline-none font-semibold placeholder:font-normal placeholder:text-[#0E0140] focus:outline-none [border:none] focus:ring-white focus:border-none"
                                 placeholder="Write your password">
+                            <button type="button" id="toggleConfirmPassword" class="flex items-center justify-center">
+                                <i id="showConfirmIcon" class="ti ti-eye text-[#0E0140] text-2xl"></i>
+                                <i id="hideConfirmIcon" class="ti ti-eye-off text-[#0E0140] text-2xl hidden"></i>
+                            </button>
                         </div>
                     </div>
+
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold">Account Type</p>
                         <div class="grid grid-cols-2 gap-[30px]">
                             <!-- Opsi Student -->
                             <label
                                 class="relative group bg-white rounded-3xl p-[30px_24px] flex flex-col items-center justify-center gap-5 ring-1 ring-[#0E0140] has-[:checked]:ring-2 has-[:checked]:ring-[#FF6B2C] transition-all duration-300">
-                                <div class="w-[46px] h-[46px] flex shrink-0">
-                                    <img src="{{ asset('assets/icon/student-icon.svg') }}" alt="Student Icon">
-                                </div>
                                 <p class="font-semibold">As a Student</p>
                                 <img src="{{ asset('assets/icon/tick-circle-orange.svg') }}"
                                     class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300"
                                     alt="Checked Icon">
                                 <input type="radio" name="account_type" id="student" value="student"
-                                    class="absolute -z-10 top-1/2 left-1/2" required>
+                                    class="absolute -z-10 top-1/2 left-1/2" required
+                                    {{ old('account_type') == 'student' ? 'checked' : '' }}>
                             </label>
 
                             <!-- Opsi Teacher -->
                             <label
                                 class="relative group bg-white rounded-3xl p-[30px_24px] flex flex-col items-center justify-center gap-5 ring-1 ring-[#0E0140] has-[:checked]:ring-2 has-[:checked]:ring-[#FF6B2C] transition-all duration-300">
-                                <div class="w-[46px] h-[46px] flex shrink-0">
-                                    <img src="{{ asset('assets/icon/teacher-icon.svg') }}" alt="Teacher Icon">
-                                </div>
                                 <p class="font-semibold">As a Teacher</p>
                                 <img src="{{ asset('assets/icon/tick-circle-orange.svg') }}"
                                     class="absolute top-[10px] right-[10px] w-6 h-6 opacity-0 group-has-[:checked]:opacity-100 transition-all duration-300"
                                     alt="Checked Icon">
                                 <input type="radio" name="account_type" id="teacher" value="teacher"
-                                    class="absolute -z-10 top-1/2 left-1/2" required>
+                                    class="absolute -z-10 top-1/2 left-1/2" required
+                                    {{ old('account_type') == 'teacher' ? 'checked' : '' }}>
                             </label>
                         </div>
                     </div>
@@ -144,6 +150,48 @@
                 </form>
             </section>
         </main>
+
+        <script>
+            const passwordInput = document.getElementById('Password');
+            const confirmPasswordInput = document.getElementById('Confirm-Password');
+
+            const togglePasswordButton = document.getElementById('togglePassword');
+            const toggleConfirmPasswordButton = document.getElementById('toggleConfirmPassword');
+
+            const showPasswordIcon = document.getElementById('showIcon');
+            const hidePasswordIcon = document.getElementById('hideIcon');
+
+            const showConfirmPasswordIcon = document.getElementById('showConfirmIcon');
+            const hideConfirmPasswordIcon = document.getElementById('hideConfirmIcon');
+
+            togglePasswordButton.addEventListener('click', () => {
+                const currentType = passwordInput.getAttribute('type');
+
+                if (currentType === 'password') {
+                    passwordInput.setAttribute('type', 'text');
+                    showPasswordIcon.classList.add('hidden');
+                    hidePasswordIcon.classList.remove('hidden');
+                } else {
+                    passwordInput.setAttribute('type', 'password');
+                    showPasswordIcon.classList.remove('hidden');
+                    hidePasswordIcon.classList.add('hidden');
+                }
+            });
+
+            toggleConfirmPasswordButton.addEventListener('click', () => {
+                const currentType = confirmPasswordInput.getAttribute('type');
+
+                if (currentType === 'password') {
+                    confirmPasswordInput.setAttribute('type', 'text');
+                    showConfirmPasswordIcon.classList.add('hidden');
+                    hideConfirmPasswordIcon.classList.remove('hidden');
+                } else {
+                    confirmPasswordInput.setAttribute('type', 'password');
+                    showConfirmPasswordIcon.classList.remove('hidden');
+                    hideConfirmPasswordIcon.classList.add('hidden');
+                }
+            });
+        </script>
     </body>
 @endsection
 @push('after-scripts')

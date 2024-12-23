@@ -58,14 +58,21 @@
                                     </a>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center py-4 text-gray-500">No Transactions Found</td>
-                            </tr>
-                        @endforelse
                     </tbody>
                 </table>
             </div>
+
+        @empty
+            <div class="text-center text-gray-500 py-8">
+                <div class="col-12 text-center flex justify-center">
+                    <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data" class="img-fluid"
+                        style="width: clamp(150px, 50vw, 300px);">
+                </div>
+                <p class="pb-4 text-gray-500">No data avilable</p>
+            </div>
+            @endforelse
+
+
         </div>
     </div>
 </x-app-layout>

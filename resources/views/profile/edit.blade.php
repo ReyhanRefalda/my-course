@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-8 bg-white px-8  rounded-[30px] shadow-xl">
+    <div class="py-8 bg-white px-8 rounded-[30px] shadow-md">
         <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data"
             class="w-full grid [grid-template-columns:1fr_2fr] gap-x-6 gap-y-3 ">
             @csrf
@@ -13,7 +13,7 @@
             {{-- Section: Change Profile --}}
 
             <div
-                class="h-full flex flex-col justify-center items-center shadow-xl border border-gray-300 rounded-[30px]">
+                class="h-full flex flex-col justify-center items-center shadow-md border border-gray-300 rounded-[30px]">
                 <div class="w-full px-6 text-start mb-4">
                     <h3 class="text-xl font-semibold text-gray-900">Change Profile</h3>
                     <p class="text-sm text-gray-500">Change your profile picture from here</p>
@@ -41,7 +41,7 @@
             </div>
 
             {{-- Section: Personal Details and Change Password --}}
-            <div class="p-6 bg-white shadow-xl rounded-[30px]  border border-gray-300">
+            <div class="p-6 bg-white shadow-md rounded-[30px]  border border-gray-300">
                 <div class="w-full text-start mb-4">
                     <h3 class="text-xl font-semibold text-gray-900">Personal Details</h3>
                     <p class="text-sm text-gray-500">To change your personal detail , edit and save from here</p>
@@ -81,39 +81,65 @@
                 @method('put')
                 <div></div>
 
-                <div class="bg-white px-6 pb-6  rounded-[30px] shadow-xl border border-gray-300 grid gap-4">
+                <div class="bg-white px-6 pb-6  rounded-[30px] shadow-md border border-gray-300 grid gap-4">
                     <div class="w-full text-start mb-4 mt-6">
                         <h2 class="text-xl font-semibold text-gray-900">Change Password</h2>
                         <p class="text-sm text-gray-500">To change your password please confirm here</p>
                     </div>
+
+                    <!-- Current Password -->
                     <div>
                         <x-input-label class="block text-md text-gray-900 mb-1" for="update_password_current_password"
                             :value="__('Current Password')" />
-                        <input class="w-full border rounded-[15px] py-2 px-4" id="update_password_current_password"
-                            name="current_password" type="password" class="mt-1 block w-full"
-                            autocomplete="current-password" />
+                        <div class="relative">
+                            <input class="w-full border rounded-[15px] py-2 px-4" id="update_password_current_password"
+                                name="current_password" type="password" autocomplete="current-password" />
+                            <button type="button" id="toggleCurrentPassword"
+                                class="absolute right-4 top-1/2 transform -translate-y-1/2">
+                                <i id="showCurrentPasswordIcon" class="ti ti-eye text-[#0E0140] text-2xl"></i>
+                                <i id="hideCurrentPasswordIcon"
+                                    class="ti ti-eye-off text-[#0E0140] text-2xl hidden"></i>
+                            </button>
+                        </div>
                         <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
                     </div>
 
+                    <!-- New Password -->
                     <div>
                         <x-input-label class="block text-md text-gray-900 mb-1" for="update_password_password"
                             :value="__('New Password')" />
-                        <input class="w-full border rounded-[15px] py-2 px-4" id="update_password_password"
-                            name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
+                        <div class="relative">
+                            <input class="w-full border rounded-[15px] py-2 px-4" id="update_password_password"
+                                name="password" type="password" autocomplete="new-password" />
+                            <button type="button" id="toggleNewPassword"
+                                class="absolute right-4 top-1/2 transform -translate-y-1/2">
+                                <i id="showNewPasswordIcon" class="ti ti-eye text-[#0E0140] text-2xl"></i>
+                                <i id="hideNewPasswordIcon" class="ti ti-eye-off text-[#0E0140] text-2xl hidden"></i>
+                            </button>
+                        </div>
                         <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
                     </div>
 
+                    <!-- Confirm Password -->
                     <div>
                         <x-input-label class="block text-md text-gray-900 mb-1"
                             for="update_password_password_confirmation" :value="__('Confirm Password')" />
-                        <input class="w-full border rounded-[15px] py-2 px-4" id="update_password_password_confirmation"
-                            name="password_confirmation" type="password" class="mt-1 block w-full"
-                            autocomplete="new-password" />
+                        <div class="relative">
+                            <input class="w-full border rounded-[15px] py-2 px-4"
+                                id="update_password_password_confirmation" name="password_confirmation"
+                                type="password" autocomplete="new-password" />
+                            <button type="button" id="toggleConfirmPassword"
+                                class="absolute right-4 top-1/2 transform -translate-y-1/2">
+                                <i id="showConfirmPasswordIcon" class="ti ti-eye text-[#0E0140] text-2xl"></i>
+                                <i id="hideConfirmPasswordIcon"
+                                    class="ti ti-eye-off text-[#0E0140] text-2xl hidden"></i>
+                            </button>
+                        </div>
                         <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                     </div>
                 </div>
 
-                <div class="grid col-span-full  text-center justify-end items-center">
+                <div class="grid col-span-full text-center justify-end items-center">
                     <div class="flex gap-x-4">
                         <div class="">
                             <x-primary-button>{{ __('Save') }}</x-primary-button>
@@ -127,10 +153,11 @@
             </form>
         </section>
 
+
         <section class="space-y-6">
             <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
                 <form method="post" action="{{ route('profile.destroy') }}"
-                    class="p-6 rounded-[30px] bg-white shadow-xl border border-gray-300">
+                    class="p-6 rounded-[30px] bg-white shadow-md border border-gray-300">
                     @csrf
                     @method('delete')
 
@@ -168,6 +195,7 @@
 
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         document.getElementById('avatar').addEventListener('change', function(event) {
@@ -179,7 +207,6 @@
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         //message with sweetalert
@@ -199,7 +226,7 @@
                 icon: "success",
                 title: "{{ session('success') }}",
                 color: "#fff",
-                background: "#FF6129",
+                background: "#3525B3",
             });
         @elseif (session('error'))
             const Toast = Swal.mixin({
@@ -220,5 +247,57 @@
                 background: "#FFD9D9",
             });
         @endif
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements for toggling current password visibility
+            const currentPasswordInput = document.getElementById('update_password_current_password');
+            const showCurrentPasswordIcon = document.getElementById('showCurrentPasswordIcon');
+            const hideCurrentPasswordIcon = document.getElementById('hideCurrentPasswordIcon');
+            const toggleCurrentPasswordButton = document.getElementById('toggleCurrentPassword');
+
+            // Elements for toggling new password visibility
+            const newPasswordInput = document.getElementById('update_password_password');
+            const showNewPasswordIcon = document.getElementById('showNewPasswordIcon');
+            const hideNewPasswordIcon = document.getElementById('hideNewPasswordIcon');
+            const toggleNewPasswordButton = document.getElementById('toggleNewPassword');
+
+            // Elements for toggling confirm password visibility
+            const confirmPasswordInput = document.getElementById('update_password_password_confirmation');
+            const showConfirmPasswordIcon = document.getElementById('showConfirmPasswordIcon');
+            const hideConfirmPasswordIcon = document.getElementById('hideConfirmPasswordIcon');
+            const toggleConfirmPasswordButton = document.getElementById('toggleConfirmPassword');
+
+            // Toggle visibility for current password field
+            toggleCurrentPasswordButton.addEventListener('click', function() {
+                togglePasswordVisibility(currentPasswordInput, showCurrentPasswordIcon,
+                    hideCurrentPasswordIcon);
+            });
+
+            // Toggle visibility for new password field
+            toggleNewPasswordButton.addEventListener('click', function() {
+                togglePasswordVisibility(newPasswordInput, showNewPasswordIcon, hideNewPasswordIcon);
+            });
+
+            // Toggle visibility for confirm password field
+            toggleConfirmPasswordButton.addEventListener('click', function() {
+                togglePasswordVisibility(confirmPasswordInput, showConfirmPasswordIcon,
+                    hideConfirmPasswordIcon);
+            });
+
+            // Function to toggle password visibility
+            function togglePasswordVisibility(input, showIcon, hideIcon) {
+                const currentType = input.getAttribute('type');
+                if (currentType === 'password') {
+                    input.setAttribute('type', 'text');
+                    showIcon.classList.add('hidden');
+                    hideIcon.classList.remove('hidden');
+                } else {
+                    input.setAttribute('type', 'password');
+                    showIcon.classList.remove('hidden');
+                    hideIcon.classList.add('hidden');
+                }
+            }
+        });
     </script>
 </x-app-layout>

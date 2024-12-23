@@ -15,10 +15,10 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $categories = Category::orderBy('id', 'desc')->get();
-        return view('admin.categories.index', compact('categories'));
-    }
+{
+    $categories = Category::orderBy('id', 'desc')->get();
+    return view('admin.categories.index', compact('categories'));
+}
 
     /**
      * Show the form for creating a new resource.

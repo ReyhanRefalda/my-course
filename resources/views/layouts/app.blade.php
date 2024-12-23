@@ -31,12 +31,6 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- <style>
-        * {
-            border: 1px solid red;
-        }
-    </style> --}}
 </head>
 
 <body class=" bg-gray-100">
@@ -64,18 +58,13 @@
                         </header>
                         <!--  Header End -->
                         {{ $slot }}
-
                     </div>
-
-
                 </main>
                 <!-- Main Content End -->
-
             </div>
         </div>
         <!--end of project-->
     </main>
-
 
     {{-- trix editor --}}
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
