@@ -16,7 +16,7 @@
                     </div>
                     <p class="font-medium text-sm text-[#FF6129]">Best courses</p>
                 </div>
-                <div class="flex items-center justify-between mb-6">
+                <div class="flex items-start justify-between mb-6">
                     <!-- Bagian Judul -->
                     <div>
                         <h2 class="font-bold text-[40px] leading-[60px]">Learning Progress</h2>
@@ -33,49 +33,59 @@
                             class="ml-3 w-full text-sm outline-none text-[#898D93] placeholder-[#898D93] bg-transparent border-none focus:ring-0 focus:border-none" />
                     </div>
                 </div>
-                <div class="container mx-auto p-6">
-                    <h1 class="text-2xl font-semibold" style="margin-bottom: 20px; ">Course History</h1>
 
-                    <!-- Wrapper Grid -->
-                    <div class="flex flex-wrap gap-6 justify-between w-full">
+                <div class="">
+                    <h1 class="text-2xl font-semibold mb-6">Course History</h1>
+
+                    <div class="flex flex-wrap gap-6 w-full">
                         <!-- Card 1 -->
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex gap-2 items-center w-[260px] h-[100px]">
+                        <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
                             <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
-                                class="w-16 h-16 object-cover rounded-xl mr-4">
+                                class="w-20 h-20 object-cover rounded-[20px] mr-4">
                             <div>
-                                <h4 class="text-sm font-bold text-black">Membuat Laporan Keuangan</h4>
-                                <p class="text-xs text-gray-500">Data Analyst</p>
+                                <h4 class="text-base font-bold text-black">Creating Financial Reports</h4>
+                                <div class="flex gap-4 text-xs text-gray-500">
+                                    <p>Created by John . Released Jan 15, 2024</p>
+                                </div>
                             </div>
                         </div>
                         <!-- Card 2 -->
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex gap-2 items-center w-[260px] h-[100px]">
+                        <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
                             <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
-                                class="w-16 h-16 object-cover rounded-lg mr-4">
+                                class="w-20 h-20 object-cover rounded-[20px]">
                             <div>
-                                <h4 class="text-sm font-bold text-black">Tutorial Blockchain</h4>
-                                <p class="text-xs text-gray-500">Web 3 Developer</p>
+                                <h4 class="text-base font-bold text-black">Tutorial Blockchain</h4>
+                                <div class="text-xs text-gray-500">
+                                    <p>Created by Jane . Released Feb 20, 2024</p>
+                                </div>
                             </div>
                         </div>
                         <!-- Card 3 -->
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex gap-2 items-center w-[260px] h-[100px]">
+                        <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
                             <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
-                                class="w-16 h-16 object-cover rounded-lg mr-4">
+                                class="w-20 h-20 object-cover rounded-[20px] mr-4">
                             <div>
-                                <h4 class="text-sm font-bold text-black">Membuat Laporan Keuangan</h4>
-                                <p class="text-xs text-gray-500">Data Analyst</p>
+                                <h4 class="text-base font-bold text-black">Creating Financial Reports</h4>
+                                <div class="flex gap-4 text-xs text-gray-500">
+                                    <p>Created by John Doe . Released Jan 15, 2024</p>
+                                </div>
                             </div>
                         </div>
                         <!-- Card 4 -->
-                        <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4 flex gap-2 items-center w-[260px] h-[100px]">
+                        <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
                             <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
-                                class="w-16 h-16 object-cover rounded-lg mr-4">
+                                class="w-20 h-20 object-cover rounded-[20px] mr-4">
                             <div>
-                                <h4 class="text-sm font-bold text-black">Tutorial Blockchain</h4>
-                                <p class="text-xs text-gray-500">Web 3 Developer</p>
+                                <h4 class="text-base font-bold text-black">Tutorial Blockchain</h4>
+                                <div class="flex gap-4 text-xs text-gray-500">
+                                    <p>Created by Jane Smith . Released Feb 20, 2024</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+
+
 
 
                 <div class="container mx-auto p-6">

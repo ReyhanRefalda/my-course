@@ -66,7 +66,9 @@
 
                     <div class="mt-4">
                         <x-input-label for="about" :value="__('About')" />
-                        <textarea name="about" id="about" cols="30" rows="5" class="border border-slate-300 rounded-xl w-full"></textarea>
+                        <input id="about" type="hidden" name="about" value="{{ old('about') }}">
+                        <trix-editor input="about"
+                            class="trix-content border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 min-h-[150px]"></trix-editor>
                         <x-input-error :messages="$errors->get('about')" class="mt-2" />
                     </div>
 
