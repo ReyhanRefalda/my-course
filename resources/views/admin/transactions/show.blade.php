@@ -31,7 +31,8 @@
                     <div class="flex flex-col gap-y-10">
                         <div>
                             <p class="text-slate-500 text-sm">Total Amount</p>
-                            <h3 class="text-indigo-950 text-xl font-bold">Rp {{ $subscribeTransaction->total_amount }}
+                            <h3 class="text-indigo-950 text-xl font-bold">Rp.
+                                {{ number_format($subscribeTransaction->total_amount) }}
                             </h3>
                         </div>
                         @if ($subscribeTransaction->is_paid)
@@ -73,18 +74,25 @@
                 @if ($subscribeTransaction->is_paid)
                 @else
                     <hr class="my-5">
-                    <form action="{{ route('admin.subscribe_transactions.update', $subscribeTransaction) }}"
-                        method="POST">
-                        @csrf
-                        @method('PUT')
-                        <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                            Approve Transaction
-                        </button>
-                    </form>
+                    <div class="flex justify-end items-center">
+                        <a href="{{ route('admin.subscribe_transactions.index') }}"
+                            class="font-bold py-4 px-6 bg-orange-500 text-white rounded-full hover:bg-orange-400 transition-all duration-300">
+                            Back
+                        </a>
+                        <form action="{{ route('admin.subscribe_transactions.update', $subscribeTransaction) }}"
+                            method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+                                Approve Transaction
+                            </button>
+                        </form>
+                    </div>
                 @endif
             </div>
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

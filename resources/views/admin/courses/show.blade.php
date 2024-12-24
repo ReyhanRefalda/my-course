@@ -16,7 +16,12 @@
                             class="rounded-2xl object-cover w-[200px] h-[150px]">
                         <div class="flex flex-col">
                             <h3 class="text-indigo-950 text-xl font-bold">{{ $course->name }}</h3>
-                            <p class="text-slate-500 text-sm">{{ $course->category->name }}</p>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ request('category') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
                         </div>
                     </div>
                     <div class="flex flex-col">
@@ -24,10 +29,12 @@
                         <h3 class="text-indigo-950 text-xl font-bold">{{ $course->students->count() }}</h3>
                     </div>
                     <div class="flex flex-row items-center gap-x-3">
-                        <a href="{{ route('admin.courses.edit', $course) }}"
-                            class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                            Edit Course
-                        </a>
+                        @role('teacher')
+                            <a href="{{ route('admin.courses.edit', $course) }}"
+                                class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+                                Edit Course
+                            </a>
+                        @endrole
                         <form action="{{ route('admin.courses.destroy', $course) }}" method="POST">
                             @csrf
                             @method('DELETE')

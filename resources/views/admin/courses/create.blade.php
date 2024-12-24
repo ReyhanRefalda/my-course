@@ -49,30 +49,32 @@
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="category" :value="__('Category')" />
-
-                        <select name="category_id" id="category_id"
-                            class="py-3 rounded-lg pl-3 w-full border border-slate-300">
-                            <option value="">Choose category</option>
+                        <x-input-label for="category_ids" :value="__('Category')" />
+                        
+                        <select name="category_ids[]" id="category_ids"
+                            class="select2 form-control select2-bootstrap-5 shadow-sm w-full"
+                            multiple>
                             @forelse($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @empty
+                                <option value="">No categories available</option>
                             @endforelse
                         </select>
-
-                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
+                        
+                        <x-input-error :messages="$errors->get('category_ids')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
                         <x-input-label for="about" :value="__('About')" />
-                        <textarea name="about" id="about" cols="30" rows="5" class="border border-slate-300 rounded-xl w-full"></textarea>
+                        <input id="about" type="hidden" name="about" value="{{ old('about') }}">
+                        <trix-editor input="about"
+                            class="trix-content border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 min-h-[150px]"></trix-editor>
                         <x-input-error :messages="$errors->get('about')" class="mt-2" />
                     </div>
 
                     <hr class="my-5">
 
                     <div class="mt-4">
-
                         <div class="flex flex-col gap-y-5">
                             <x-input-label for="keypoints" :value="__('Keypoints')" />
                             @for ($i = 0; $i < 4; $i++)
@@ -84,7 +86,6 @@
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
-
                         <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
                             Add New Course
                         </button>
@@ -94,4 +95,8 @@
             </div>
         </div>
     </div>
+
+ 
+   
+
 </x-app-layout>

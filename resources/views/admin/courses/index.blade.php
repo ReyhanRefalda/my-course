@@ -94,8 +94,13 @@
                                     {{ $course->students->count() }}
                                 </td>
                                 <td class="px-2 py-2 text-center text-sm text-gray-700">
-                                    {{ $course->category->name }}
+                                    @if ($course->categories->isNotEmpty())
+                                        {{ $course->categories->pluck('name')->join(', ') }}
+                                    @else
+                                        <span class="text-gray-500">No Categories</span>
+                                    @endif
                                 </td>
+                                
                                 <td class="px-2 py-2 text-center text-sm text-gray-700">
                                     {{ $course->course_videos->count() }}
                                 </td>
