@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'occupation' => ['required', 'string', 'max:255'],
             'avatar' => ['required', 'image', 'mimes:png,jpg,jpeg'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'account_type' => ['required', 'in:student,teacher'],
         ]);
@@ -79,7 +79,7 @@ class RegisteredUserController extends Controller
                 ->with('info', 'Your Teacher Account has been created. Waiting for admin approval.');
         }
 
-        return redirect()->route('dashboard')
+        return redirect()->route('front.index')
             ->with('success', 'Student account has been successfully created!');
     }
 }
