@@ -9,9 +9,10 @@
     </x-slot>
 
     <div class="flex justify-between items-center space-x-4">
-        <div class="w-[300px]">
+        <div class="w-[450px]">
             <form action="{{ route('admin.artikel.index') }}" method="GET" class="m-0">
-                <div class="flex items-center space-x-2 bg-white border border-gray-300 rounded-2xl px-4 py-[2px] shadow-md">
+                <div
+                    class="flex items-center space-x-2 bg-white border border-gray-300 rounded-2xl px-4 py-[2px] shadow-sm w-full">
                     <!-- Pencarian -->
                     <button type="submit" class="text-gray-400">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -21,32 +22,34 @@
                         </svg>
                     </button>
                     <input type="text" name="search" placeholder="Search Artikel" value="{{ request('search') }}"
-                        class="block w-full px-4 text-[#898D93] bg-[#fff] focus:ring-[#fff] focus:border-[#fff] sm:text-sm">
+                        class="block w-full px-4 text-[#525252] bg-[#fff] focus:border-[#fff] sm:text-sm focus:outline-none  [border:none] focus:ring-white focus:border-none">
                 </div>
-            
-                <div class="flex mt-2 gap-2">
+
+                <div class="flex mt-2 gap-2 justify-between">
                     <!-- Filter Status -->
-                    <select name="status" class="border border-gray-300 rounded-md text-sm px-2 py-1">
+                    <select name="status"
+                        class="border border-gray-300 rounded-2xl text-sm px-2 py-1 shadow-sm text-gray-700 w-full">
                         <option value="">Filter by Status</option>
                         <option value="publish" {{ request('status') == 'publish' ? 'selected' : '' }}>Publish</option>
                         <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
                     </select>
-            
+
                     <!-- Filter Tanggal -->
-                    <input type="date" name="date" class="border border-gray-300 rounded-md text-sm px-2 py-1"
+                    <input type="date" name="date"
+                        class="border border-gray-300 text-sm px-2 py-1 rounded-2xl text-gray-700 w-full"
                         value="{{ request('date') }}">
-            
+
                     <!-- Tombol Filter -->
                     <button type="submit"
-                        class="px-4 py-2 text-white bg-[#3525B3] rounded-md hover:bg-indigo-800 transition duration-300 ease-in-out">
+                        class="px-4 py-2 text-white bg-[#3525B3] rounded-2xl font-bold hover:bg-indigo-800 transition duration-300 ease-in-out">
                         Filter
                     </button>
                 </div>
             </form>
-            
         </div>
         <a href="{{ route('admin.artikel.create') }}"
-            class="px-4 py-2.5 font-bold text-white bg-[#3525B3] rounded-[30px] hover:bg-indigo-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            class="px-6 py-2.5 font-bold text-white bg-[#3525B3] rounded-2xl
+            hover:bg-indigo-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-800">
             Add New
         </a>
     </div>
@@ -180,16 +183,17 @@
                             d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
                             clip-rule="evenodd" />
                     </svg>
-                    <p class="mb-4 text-gray-500 dark:text-gray-800">Apakah anda yakin untuk menghapus artikel ini?</p>
+                    <p class="mb-4 text-gray-500 dark:text-gray-800">Do you want to delete this article?</p>
                     <div class="flex justify-center items-center space-x-4">
                         <button data-modal-toggle="deleteModal-{{ $artikel->id }}" type="button"
-                            class="py-2 px-3 text-sm font-medium text-white bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-white-900 focus:z-10 dark:bg-blue-500 dark:text-white dark:border-blue-500 dark:hover:text-white dark:hover:bg-blue-800 dark:focus:ring-blue-800">Batalkan</button>
-                        <form action="{{ route('admin.artikel.destroy', $artikel->id) }}" method="POST">
+                            class="flex items-center px-4 py-2 font-semibold bg-[#3525B3] text-white rounded-2xl focus:outline-none focus:ring-2">Cancel</button>
+                        <form action="{{ route('admin.artikel.destroy', $artikel->id) }}" method="POST"
+                            class="m-0">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
-                                class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-200">
-                                Hapus
+                                class="flex items-center px-4 py-2 font-semibold bg-[#FFD9D9] text-red-700 rounded-2xl focus:outline-none focus:ring-none">
+                                Delete
                             </button>
                         </form>
                     </div>
