@@ -17,14 +17,15 @@ class Course extends Model
         'path_trailer',
         'thumbnail',
         'teacher_id',
-        'category_id',
         'resource',
     ];
-
-    public function category()
+    
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'categories_courses', 'course_id', 'category_id');
     }
+    
+    
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);

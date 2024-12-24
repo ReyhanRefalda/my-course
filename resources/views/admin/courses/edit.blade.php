@@ -24,53 +24,50 @@
                     <div>
                         <x-input-label for="name" :value="__('Name')" />
                         <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
-                            :value=" $course->name " required autofocus autocomplete="name" />
+                            :value="old('name', $course->name)" required autofocus autocomplete="name" />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
                         <x-input-label for="thumbnail" :value="__('Thumbnail')" />
-                        <img src="{{ Storage::url($course->thumbnail) }}"
-                                alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
-                        <x-text-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail"
-                            autofocus autocomplete="thumbnail" />
+                        <img src="{{ Storage::url($course->thumbnail) }}" alt=""
+                            class="rounded-2xl object-cover w-[120px] h-[90px]">
+                        <x-text-input id="thumbnail" class="block mt-1 w-full" type="file" name="thumbnail" autofocus
+                            autocomplete="thumbnail" />
                         <x-input-error :messages="$errors->get('thumbnail')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="path_trailer" :value="__('Path trailer')" />
+                        <x-input-label for="path_trailer" :value="__('Path Trailer')" />
                         <x-text-input id="path_trailer" class="block mt-1 w-full" type="text" name="path_trailer"
-                            :value=" $course->path_trailer " required autofocus autocomplete="path_trailer" />
+                            :value="old('path_trailer', $course->path_trailer)" required autofocus autocomplete="path_trailer" />
                         <x-input-error :messages="$errors->get('path_trailer')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
                         <x-input-label for="resource" :value="__('Path Resource')" />
                         <x-text-input id="resource" class="block mt-1 w-full" type="text" name="resource"
-                            :value=" $course->resource " required autofocus autocomplete="resource" />
+                            :value="old('resource', $course->resource)" required autofocus autocomplete="resource" />
                         <x-input-error :messages="$errors->get('resource')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="category" :value="__('Category')" />
-
-                        <select name="category_id" id="category_id"
-                            class="py-3 rounded-lg pl-3 w-full border border-slate-300">
-                            <option value="">Choose category</option>
-                            @forelse($categories as $category)
-                            <option value="{{ $category->id }}" {{ $category->id == old('category_id', $course->category_id) ? 'selected' : ''}}>
-                                {{ $category->name }}
-                            </option>
-                            @empty
-                            @endforelse
+                        <x-input-label for="category_ids" :value="__('Categories')" />
+                        <select name="category_ids[]" id="category_ids"
+                            class="select2 form-control select2-bootstrap-5 shadow-sm w-full" multiple>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ in_array($category->id, old('category_ids', $course->categories->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
                         </select>
-
-                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('category_ids')" class="mt-2" />
                     </div>
 
                     <div class="mt-4">
                         <x-input-label for="about" :value="__('About')" />
-                        <textarea name="about" id="about" cols="30" rows="5" class="border border-slate-300 rounded-xl w-full">{{ $course->about }}</textarea>
+                        <textarea name="about" id="about" cols="30" rows="5" class="border border-slate-300 rounded-xl w-full">{{ old('about', $course->about) }}</textarea>
                         <x-input-error :messages="$errors->get('about')" class="mt-2" />
                     </div>
 
@@ -79,18 +76,23 @@
                     <div class="mt-4">
                         <div class="flex flex-col gap-y-5">
                             <x-input-label for="keypoints" :value="__('Keypoints')" />
-                            @forelse ( $course->course_keypoints as $keypoint )
+                            
+                            @foreach($course->course_keypoints as $keypoint)
                                 <input type="text" class="py-3 rounded-lg border-slate-300 border"
-                                value="{{ $keypoint->name }}" name="course_keypoints[]">
-                            @empty
-
-                            @endforelse
+                                    placeholder="Write your keypoint" name="course_keypoints[]"
+                                    value="{{ old('course_keypoints[]', $keypoint->name) }}">
+                            @endforeach
+                    
+                            <!-- Input kosong hanya ditambahkan di belakang -->
+                           
                         </div>
-                        <x-input-error :messages="$errors->get('Keypoints')" class="mt-2" />
+                    
+                        <x-input-error :messages="$errors->get('course_keypoints')" class="mt-2" />
                     </div>
+                    
+
 
                     <div class="flex items-center justify-end mt-4">
-
                         <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
                             Update Course
                         </button>
@@ -100,4 +102,13 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2();
+            });
+        </script>
+    @endpush
+
 </x-app-layout>

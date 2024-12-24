@@ -25,10 +25,12 @@ class StoreCourseRequest extends FormRequest
             'name' => 'required|string|max:255',
             'path_trailer' => 'required|string|max:255',
             'about' => 'required|string',
-            'category_id' => 'required|integer',
+            'category_ids' => 'required|array',  // Mengubah menjadi array
+            'category_ids.*' => 'exists:categories,id',  // Pastikan setiap ID kategori valid
             'thumbnail' => 'required|image',
             'course_keypoints.*' => 'required|string|max:255',
-            'resource' => 'required|string|unique:courses,resource',
+            'resource' => 'required|string|unique:courses,resource,' . $this->route('course'),  // Cegah duplikasi saat update
         ];
     }
+    
 }
