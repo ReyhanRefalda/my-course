@@ -25,10 +25,12 @@ class UpdateCourseRequest extends FormRequest
             'name' => 'required|string|max:255',
             'path_trailer' => 'required|string|max:255',
             'about' => 'required|string',
-            'category_id' => 'required|integer',
-            'thumbnail' => 'sometimes|image',
+            'category_ids' => 'required|array',  // Ubah ke array untuk multiple categories
+            'category_ids.*' => 'exists:categories,id',  // Validasi setiap kategori harus ada di tabel categories
+            'thumbnail' => 'sometimes|image',  // Thumbnail opsional saat edit
             'course_keypoints.*' => 'required|string|max:255',
             'resource' => 'required|string|unique:courses,resource,' . $this->course->id,
         ];
     }
+    
 }

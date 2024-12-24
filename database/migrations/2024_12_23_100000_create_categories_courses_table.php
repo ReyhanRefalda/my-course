@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('categories_courses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
-            $table->string('path_trailer');
-            $table->text('about');
-            $table->string('thumbnail');
-            $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
-            $table->softDeletes(); //deleted_at
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +24,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        // Hapus tabel pivot terlebih dahulu
+        Schema::dropIfExists('categories_courses');
+
+        // Kemudian hapus tabel kategori
+        Schema::dropIfExists('categories');
     }
 };
+
