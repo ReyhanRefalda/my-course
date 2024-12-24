@@ -188,7 +188,7 @@
                 icon: "success",
                 title: "{{ session('success') }}",
                 color: "#fff",
-                background: "#FF6129",
+                background: "#3525B3",
             });
         @elseif (session('error'))
             const Toast = Swal.mixin({
