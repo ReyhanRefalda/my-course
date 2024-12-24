@@ -72,8 +72,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('packages', PackageController::class)
             ->middleware('role:owner');
 
-        Route::resource('payments', PaymentController::class)
-            ->middleware('role:owner');
+        // Route::resource('payments', PaymentController::class)
+        //     ->middleware('role:owner');
 
         Route::resource('courses', CourseController::class)
             ->middleware('role:owner|teacher');

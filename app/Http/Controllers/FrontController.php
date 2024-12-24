@@ -52,7 +52,10 @@ class FrontController extends Controller
 
     public function pricing()
     {
-        $packages = Package::all();
+        // $packages = Package::all();
+        $packages = Package::orderByRaw("
+            FIELD(tipe, 'daily', 'weekly', 'monthly', 'yearly')
+        ")->orderBy('harga', 'asc')->get();
 
         return view('front.pricing', compact('packages'));
     }
