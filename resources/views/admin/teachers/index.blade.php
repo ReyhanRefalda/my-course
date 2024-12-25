@@ -11,7 +11,7 @@
         <form action="" method="GET" class="">
             <!-- Add search form if needed -->
         </form>
-{{-- 
+        {{--
         <button onclick="openModal()"
             class="font-bold py-2 px-6 bg-indigo-700 text-white rounded-full shadow hover:bg-indigo-800">
             Add New
@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @forelse ($teachers as $teacher) 
+                        @forelse ($teachers as $teacher)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-4 flex items-center gap-4">
                                     <img src="{{ Storage::url($teacher->user->avatar) }}" alt="Avatar"
@@ -50,20 +50,16 @@
                                         @if ($teacher->status === 'approved')
                                             <span class="text-green-600 font-semibold">Approved</span>
                                         @else
-                                            <form action="{{ route('admin.teachers.update', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirmAction('approve')">
-                                                @csrf
-                                                @method('PUT')
-                                                <x-primary-button type="submit">
-                                                    Approve
-                                                </x-primary-button>
-                                            </form>
-                                            <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to reject this teacher?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="bg-[#FFD9D9] text-[#ff0000] px-4 py-2 rounded-full">
-                                                    Reject
-                                                </button>
-                                            </form>
+                                            <button type="button" data-modal-target="approveModal-{{ $teacher->id }}"
+                                                data-modal-toggle="approveModal-{{ $teacher->id }}"
+                                                class="px-4 py-2 bg-green-500 text-white rounded-lg">
+                                                Approve
+                                            </button>
+                                            <button type="button" data-modal-target="rejectModal-{{ $teacher->id }}"
+                                                data-modal-toggle="rejectModal-{{ $teacher->id }}"
+                                                class="px-4 py-2 bg-red-500 text-white rounded-lg">
+                                                Reject
+                                            </button>
                                         @endif
                                     </div>
                                 </td>
@@ -81,125 +77,106 @@
                         @endforelse
                     </tbody>
                 </table>
-                
+
             </div>
         </div>
 
-    @if ($errors->any())
-        <script>
-            setTimeout(() => {
-                openModal('edit');
-            }, 500);
-        </script>
-    @endif
-
-    <!-- Modal -->
-    <div id="modal"
-        class="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 opacity-0 pointer-events-none backdrop-blur-sm">
-        <div id="modal-content"
-            class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md transform transition-transform duration-300 translate-y-10 scale-95">
-            <div class="flex justify-between items-center mb-4">
-                <h2 id="modal-title" class="text-xl font-semibold text-gray-800">Add New Teacher</h2>
-                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">&times;</button>
+        @foreach ($teachers as $teacher)
+            <!-- Modal Approve -->
+            <div id="approveModal-{{ $teacher->id }}" tabindex="-1" aria-hidden="true"
+                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-50 sm:p-5">
+                        <button type="button"
+                            class="absolute top-2.5 right-2.5 bg-transparent hover:text-gray-900 rounded-lg text-sm p-1.5"
+                            data-modal-toggle="approveModal-{{ $teacher->id }}">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <p class="mb-4 text-gray-500">Are you sure you want to approve this teacher?</p>
+                        <div class="flex justify-center items-center space-x-4">
+                            <button type="button" data-modal-toggle="approveModal-{{ $teacher->id }}"
+                                class="px-4 py-2 font-semibold bg-gray-300 rounded-lg">
+                                Cancel
+                            </button>
+                            <form action="{{ route('admin.teachers.update', $teacher->id) }}" method="POST"
+                                class="inline">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit"
+                                    class="px-4 py-2 font-semibold bg-green-500 text-white rounded-lg">
+                                    Approve
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <form id="modal-form" method="POST" action="{{ route('admin.teachers.store') }}"
-                enctype="multipart/form-data">
-                @csrf
-
-                <div class="mb-4">
-                    <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input id="email" class="block mt-1 w-full" type="text" name="email"
-                        value="{{ old('email') }}" autofocus />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <!-- Modal Reject -->
+            <div id="rejectModal-{{ $teacher->id }}" tabindex="-1" aria-hidden="true"
+                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-50 sm:p-5">
+                        <button type="button"
+                            class="absolute top-2.5 right-2.5 bg-transparent hover:text-gray-900 rounded-lg text-sm p-1.5"
+                            data-modal-toggle="rejectModal-{{ $teacher->id }}">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <p class="mb-4 text-gray-500">Are you sure you want to reject this teacher?</p>
+                        <div class="flex justify-center items-center space-x-4">
+                            <button type="button" data-modal-toggle="rejectModal-{{ $teacher->id }}"
+                                class="px-4 py-2 font-semibold bg-gray-300 rounded-lg">
+                                Cancel
+                            </button>
+                            <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST"
+                                class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="px-4 py-2 font-semibold bg-red-500 text-white rounded-lg">
+                                    Reject
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        @endforeach
 
-                <div class="flex items-center justify-end">
-                    <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <script>
-        function openModal() {
-            const modal = document.getElementById('modal');
-            const modalContent = document.getElementById('modal-content');
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            modal.classList.remove('pointer-events-none', 'opacity-0');
-            modalContent.classList.remove('translate-y-10', 'scale-95');
+        {{-- <script> --}}
+        @if (session('success') || session('error'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
 
-            // Tambahkan animasi dengan sedikit delay
-            setTimeout(() => {
-                modalContent.classList.add('translate-y-0', 'scale-100');
-            }, 10);
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('modal');
-            const modalContent = document.getElementById('modal-content');
-
-            modalContent.classList.remove('translate-y-0', 'scale-100');
-            modalContent.classList.add('translate-y-10', 'scale-95');
-
-            // Setelah animasi selesai, sembunyikan modal
-            setTimeout(() => {
-                modal.classList.add('pointer-events-none', 'opacity-0');
-            }, 300); // Durasi sesuai dengan `transition-duration`
-        }
-
-        function confirmAction(action) {
-            if (action === 'approve') {
-                return confirm('Are you sure you want to approve this teacher?');
-            } else if (action === 'reject') {
-                return confirm('Are you sure you want to reject this teacher?');
-            }
-            return false; // Return false if no action matched
-        }
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        //message with sweetalert
-        @if (session('success'))
-            const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                }
-            });
-            Toast.fire({
-                icon: "success",
-                title: "{{ session('success') }}",
-                color: "#fff",
-                background: "#FF6129",
-            });
-        @elseif (session('error'))
-            const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                }
-            });
-            Toast.fire({
-                icon: "error",
-                title: "{{ session('error') }}",
-                color: "#ff0000",
-                background: "#FFD9D9",
-            });
+                    Toast.fire({
+                        icon: "{{ session('success') ? 'success' : 'error' }}",
+                        title: "{{ session('success') ?? session('error') }}",
+                        color: "{{ session('success') ? '#fff' : '#ff0000' }}",
+                        background: "{{ session('success') ? '#3525B3' : '#FFD9D9' }}",
+                    });
+                });
+            </script>
         @endif
-    </script>
+        </script>
 </x-app-layout>
