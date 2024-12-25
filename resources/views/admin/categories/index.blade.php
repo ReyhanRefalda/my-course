@@ -7,7 +7,7 @@
         </div>
     </x-slot>
 
-    <div class="flex justify-between items-center space-x-4 mb-6">
+    <div class="flex justify-between items-center space-x-4">
         <div class="w-[300px]">
             <form action="" method="GET" class="m-0 flex items-center">
                 <div
@@ -56,11 +56,8 @@
                                     {{ $category->created_at->isoFormat('ddd, D/MM/YYYY') }}
                                 </td>
                                 <td class="p-4 flex justify-end gap-x-2">
-                                    {{-- <button onclick="openModal('edit', {{ json_encode($category) }})"
-                                        class="px-6 py-3 rounded-full text-center font-semibold bg-indigo-600 hover:bg-indigo-700 text-white">
-                                        Edit
-                                    </button> --}}
-                                    <button onclick="openModal('edit', {{ json_encode($category) }})">Edit</button>
+                                    <button onclick="openModal('edit', {{ json_encode($category) }})"
+                                    class="py-2 px-6 rounded-full bg-[#3525B3] text-white font-semibold">Edit</button>
                                     <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
                                         class="inline">
                                         @csrf

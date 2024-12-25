@@ -9,44 +9,42 @@
     </x-slot>
 
     <div class="flex justify-between items-center space-x-4">
-        <div class="w-[450px]">
-            <form action="{{ route('admin.artikel.index') }}" method="GET" class="m-0">
-                <div
-                    class="flex items-center space-x-2 bg-white border border-gray-300 rounded-2xl px-4 py-[2px] shadow-sm w-full">
-                    <!-- Pencarian -->
-                    <button type="submit" class="text-gray-400">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </button>
-                    <input type="text" name="search" placeholder="Search Artikel" value="{{ request('search') }}"
-                        class="block w-full px-4 text-[#525252] bg-[#fff] focus:border-[#fff] sm:text-sm focus:outline-none  [border:none] focus:ring-white focus:border-none">
-                </div>
+        <form action="{{ route('admin.artikel.index') }}" method="GET"
+            class="flex flex-wrap md:flex-row items-center gap-x-4 mb-0">
+            <div class="flex items-center space-x-2 bg-white border border-gray-300 rounded-2xl px-4 py-[2px] shadow-sm">
+                <!-- Pencarian -->
+                <button type="submit" class="text-gray-400">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <input type="text" name="search" placeholder="Search Artikel" value="{{ request('search') }}"
+                    class="block w-full px-0 text-[#525252] bg-[#fff] focus:border-[#fff] sm:text-sm focus:outline-none  [border:none] focus:ring-white focus:border-none">
+            </div>
 
-                <div class="flex mt-2 gap-2 justify-between">
-                    <!-- Filter Status -->
-                    <select name="status"
-                        class="border border-gray-300 rounded-2xl text-sm px-2 py-1 shadow-sm text-gray-700 w-full">
-                        <option value="">Filter by Status</option>
-                        <option value="publish" {{ request('status') == 'publish' ? 'selected' : '' }}>Publish</option>
-                        <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                    </select>
+            <div class="flex gap-x-4 justify-between">
+                <!-- Filter Status -->
+                <select name="status"
+                    class="border border-gray-300 rounded-2xl text-sm px-2 py-1 shadow-sm text-gray-700 w-full">
+                    <option value="">Filter by Status</option>
+                    <option value="publish" {{ request('status') == 'publish' ? 'selected' : '' }}>Publish</option>
+                    <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                </select>
 
-                    <!-- Filter Tanggal -->
-                    <input type="date" name="date"
-                        class="border border-gray-300 text-sm px-2 py-1 rounded-2xl text-gray-700 w-full"
-                        value="{{ request('date') }}">
+                <!-- Filter Tanggal -->
+                <input type="date" name="date"
+                    class="border border-gray-300 text-sm px-2 py-1 rounded-2xl text-gray-700 w-full"
+                    value="{{ request('date') }}">
 
-                    <!-- Tombol Filter -->
-                    <button type="submit"
-                        class="px-4 py-2 text-white bg-[#3525B3] rounded-2xl font-bold hover:bg-indigo-800 transition duration-300 ease-in-out">
-                        Filter
-                    </button>
-                </div>
-            </form>
-        </div>
+                <!-- Tombol Filter -->
+                <button type="submit"
+                    class="px-4 py-2 text-white bg-[#3525B3] rounded-2xl font-bold hover:bg-indigo-800 transition duration-300 ease-in-out">
+                    Filter
+                </button>
+            </div>
+        </form>
         <a href="{{ route('admin.artikel.create') }}"
             class="px-6 py-2.5 font-bold text-white bg-[#3525B3] rounded-2xl
             hover:bg-indigo-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-800">
