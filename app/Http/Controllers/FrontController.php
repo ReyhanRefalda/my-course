@@ -19,7 +19,7 @@ class FrontController extends Controller
 
     public function index()
     {
-        $courses = Course::with(['category', 'teacher', 'students'])
+        $courses = Course::with(['categories', 'teacher', 'students'])
             ->orderByDesc('id')
             ->get();
 

@@ -13,7 +13,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // Search dan filter user
         $query = User::role('student');
 
         if ($request->filled('search')) {
