@@ -53,9 +53,10 @@
                 </div>
 
                 <!-- Tombol Simpan -->
-                <div class="text-right">
-                    <a href="{{ route('admin.artikel.index')}}" class="bg-gray-500 text-white px-6 py-2 rounded-[30px] font-bold mr-3">
-                        Back
+                <div class="text-right flex justify-end gap-x-2">
+                    <a href="{{ route('admin.artikel.index') }}"
+                        class="px-6 py-2 bg-gray-600 text-white font-semibold rounded-[30px] shadow hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        Cancel
                     </a>
                     <button type="submit"
                         class="px-6 py-2 bg-purple-600 text-white font-semibold rounded-[30px] shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
