@@ -47,7 +47,7 @@
                         <div class="flex flex-col gap-y-5">
                             <x-input-label for="package_benefits" :value="__('Package Benefits')" />
                             @for ($i = 0; $i < 4; $i++)
-                                <input type="text" class="py-3 rounded-lg border-slate-300 border" 
+                                <input type="text" class="py-3 rounded-lg border-slate-300 border"
                                     placeholder="Enter benefit" name="package_benefits[]" value="{{ old('package_benefits.' . $i) }}">
                             @endfor
                         </div>
@@ -55,6 +55,9 @@
                     </div>
 
                     <div class="flex justify-end mt-6">
+                        <a href="{{ route('admin.packages.index')}}" class="bg-gray-500 text-white px-6 py-3 rounded-[30px] font-bold mr-3">
+                            Cancel
+                        </a>
                         <button type="submit" class="bg-indigo-700 text-white px-6 py-3 rounded-lg font-bold">
                             Save
                         </button>
