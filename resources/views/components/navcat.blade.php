@@ -48,6 +48,8 @@
                     <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
                         @if (Auth::user()->hasRole('owner'))
                             <span class="badge badge-success">Owner</span>
+                        @elseif (Auth::user()->hasRole('teacher') && Auth::user()->teacher?->status === 'pending')
+                            <span class="badge badge-warning">Pending</span>
                         @elseif(Auth::user()->hasRole('teacher'))
                             <span class="badge badge-warning">Teacher</span>
                         @elseif (Auth::user()->hasActiveSubscription())

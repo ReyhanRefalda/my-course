@@ -74,7 +74,7 @@
                 @if ($subscribeTransaction->is_paid)
                 @else
                     <hr class="my-5">
-                    <div class="flex justify-end items-center">
+                    <div class="flex justify-end items-center gap-x-4">
                         <a href="{{ route('admin.subscribe_transactions.index') }}"
                             class="font-bold py-4 px-6 bg-orange-500 text-white rounded-full hover:bg-orange-400 transition-all duration-300">
                             Back
@@ -114,7 +114,7 @@
                 icon: "success",
                 title: "{{ session('success') }}",
                 color: "#fff",
-                background: "#FF6129",
+                background: "#3525B3",
             });
         @elseif (session('error'))
             const Toast = Swal.mixin({

@@ -26,6 +26,18 @@
                     <x-input-error :messages="$errors->get('title')" />
                 </div>
 
+                <div>
+                    <label for="tumbnail" class="block text-sm font-medium text-gray-700 mb-1">Thumbnail</label>
+                    <input type="file" name="tumbnail" id="tumbnail"
+                        class="w-full border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500"
+                        onchange="previewImage(event)">
+                    <x-input-error :messages="$errors->get('tumbnail')" />
+                    @if ($artikel->tumbnail)
+                        <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $artikel->tumbnail) }}"
+                            alt="Thumbnail" class="mt-4 h-20 w-36 object-cover rounded-lg">
+                    @endif
+                </div>
+
                 <!-- Isi Artikel -->
                 <div>
                     <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Isi Artikel</label>
@@ -36,34 +48,24 @@
                 </div>
 
                 <!-- Status dan Thumbnail -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                        <select name="status" id="status"
-                            class="w-full border border-gray-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500">
-                            <option value="draft" {{ old('status', $artikel->status) == 'draft' ? 'selected' : '' }}>
-                                Draft</option>
-                            <option value="publish"
-                                {{ old('status', $artikel->status) == 'publish' ? 'selected' : '' }}>Publish</option>
-                        </select>
-                        <x-input-error :messages="$errors->get('status')" />
-                    </div>
-
-                    <div>
-                        <label for="tumbnail" class="block text-sm font-medium text-gray-700 mb-1">Thumbnail</label>
-                        <input type="file" name="tumbnail" id="tumbnail"
-                            class="w-full border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500"
-                            onchange="previewImage(event)">
-                        <x-input-error :messages="$errors->get('tumbnail')" />
-                        @if ($artikel->tumbnail)
-                            <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $artikel->tumbnail) }}"
-                                alt="Thumbnail" class="mt-4 h-20 w-36 object-cover rounded-lg">
-                        @endif
-                    </div>
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <select name="status" id="status"
+                        class="w-full border border-gray-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500">
+                        <option value="draft" {{ old('status', $artikel->status) == 'draft' ? 'selected' : '' }}>
+                            Draft</option>
+                        <option value="publish" {{ old('status', $artikel->status) == 'publish' ? 'selected' : '' }}>
+                            Publish</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('status')" />
                 </div>
 
                 <!-- Tombol Simpan -->
-                <div class="text-right">
+                <div class="text-right flex justify-end gap-x-2">
+                    <a href="{{ route('admin.artikel.index') }}"
+                        class="px-6 py-2 bg-gray-600 text-white font-semibold rounded-[30px] shadow hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        Cancle
+                    </a>
                     <button type="submit"
                         class="px-6 py-2 bg-purple-600 text-white font-semibold rounded-[30px] shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
                         Save Changes
