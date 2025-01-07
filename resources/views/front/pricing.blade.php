@@ -18,7 +18,7 @@
             </div>
             <div class="max-w-[1000px] w-full flex gap-[30px]">
                 @forelse ($packages as $package)
-                <div class="flex flex-col rounded-3xl p-8 gap-[30px] bg-white h-fit">
+                <div class="flex flex-col justify-between rounded-3xl p-8 gap-[30px] bg-white min-h-[520px]">
                     <div class="flex flex-col gap-5">
                         <div class="flex flex-col gap-4">
                             <p class="font-semibold text-4xl leading-[54px]">{{ $package->name }}</p>
@@ -53,7 +53,7 @@
                             @endif
                         @else
                         <a href="{{ route('login') }}"
-                        class="p-[20px_32px] bg-blue-500 text-white rounded-full text-center font-semibold text-xl transition-all duration-300 hover:shadow-[0_10px_20px_0_#00000080]">
+                        class="p-[20px_32px] bg-[#FF6129] text-white rounded-full text-center font-semibold text-xl transition-all duration-300 hover:shadow-[0_10px_20px_0_#00000080]">
                             Login to Subscribe
                         </a>
                     @endif
