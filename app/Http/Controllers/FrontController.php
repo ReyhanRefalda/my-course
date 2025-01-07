@@ -20,13 +20,14 @@ class FrontController extends Controller
     public function index()
     {
         $courses = Course::with(['categories', 'teacher', 'students']) // Ganti 'category' menjadi 'categories'
-        ->orderByDesc('id')
-        ->get();
-
+            ->orderByDesc('id')
+            ->get();
+    
         $categories = Category::all();
-
+    
         return view('front.index', compact('courses', 'categories'));
     }
+    
 
     public function detail(Course $course)
     {
