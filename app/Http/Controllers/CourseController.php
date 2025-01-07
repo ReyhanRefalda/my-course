@@ -133,15 +133,35 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Course $course)
+    public function show($id)
     {
-        if (!$course) {
-            return redirect()->route('admin.courses.index')->with('error', 'Course tidak ditemukan');
-        }
+        $course = Course::withTrashed()->findOrFail($id);
+    
+        // Ambil role user
+        $userRole = auth()->user()->getRoleNames()->first();
+    
+        // Ambil video kursus dengan logika sesuai role
+        $courseVideos = $course->course_videos()
+            ->when($userRole === 'owner', function ($query) {
+                return $query->whereNull('deleted_at');
+            })
+            ->when($userRole === 'teacher', function ($query) {
+                return $query->withTrashed();
+            })
+            ->get();
     
         $categories = Category::all();
-        return view('admin.courses.show', compact('course', 'categories'));
+    
+        return view('admin.courses.show', compact('course', 'categories', 'courseVideos', 'userRole'));
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
 
     /**
@@ -218,18 +238,36 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy(CourseVideo $courseVideo)
     {
-        DB::beginTransaction();
-
-        try {
-            $course->delete();
-            DB::commit();
-
-            return redirect()->route('admin.courses.index')->with('success', 'Course deleted successfully!');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->route('admin.courses.index')->with('error', 'There was an error while deleting course.');
+        $user = auth()->user();
+    
+        // Debugging untuk role
+        if ($user->hasRole('teacher')) {
+            // Teacher hanya dapat menghapus permanen jika video belum soft deleted
+            if (!$courseVideo->trashed()) {
+                $courseVideo->forceDelete();
+                return redirect()->back()->with('success', 'Video berhasil dihapus secara permanen oleh Teacher.');
+            } else {
+                return redirect()->back()->with('error', 'Teacher tidak dapat menghapus video yang sudah dihapus (soft delete).');
+            }
         }
+    
+        if ($user->hasRole('owner')) {
+            // Owner melakukan soft delete
+            if (!$courseVideo->trashed()) {
+                $courseVideo->update(['deleted_by' => $user->id]); // Set deleted_by
+                $courseVideo->delete();
+                return redirect()->back()->with('success', 'Video berhasil dihapus (soft delete) oleh Owner.');
+            } else {
+                return redirect()->back()->with('error', 'Video sudah dihapus sebelumnya.');
+            }
+        }
+    
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus video.');
     }
+    
+    
+    
+    
 }

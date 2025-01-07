@@ -22,12 +22,18 @@
                         <img src="{{ Storage::url($course->thumbnail) }}" alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
                         <div class="flex flex-col">
                             <h3 class="text-indigo-950 text-xl font-bold">{{ $course->name }}</h3>
-                            <p class="text-slate-500 text-sm">{{ $course->category->name }}</p>
+                            
+                            {{-- Tampilkan kategori pertama atau pesan default --}}
+                            <p class="text-slate-500 text-sm">
+                                {{ $course->categories->first()->name ?? 'No Category' }}
+                            </p>
                         </div>
                     </div>
                     <div>
                         <p class="text-slate-500 text-sm">Teacher</p>
-                        <h3 class="text-indigo-950 text-xl font-bold">{{ $course->teacher->user->name }}</h3>
+                        <h3 class="text-indigo-950 text-xl font-bold">
+                            {{ $course->teacher->user->name ?? 'No Teacher' }}
+                        </h3>
                     </div>
                 </div>
 
@@ -43,13 +49,12 @@
                     </div>
 
                     <div class="mt-4">
-                        <x-input-label for="path_video" :value="__('path_video')" />
+                        <x-input-label for="path_video" :value="__('Path Video')" />
                         <x-text-input id="path_video" class="block mt-1 w-full" type="text" name="path_video" :value="old('path_video')" required autofocus autocomplete="path_video" />
                         <x-input-error :messages="$errors->get('path_video')" class="mt-2" />
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
-
                         <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
                             Add New Video
                         </button>

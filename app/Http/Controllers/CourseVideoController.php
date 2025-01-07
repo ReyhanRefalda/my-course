@@ -7,6 +7,8 @@ use App\Models\Course;
 use App\Models\CourseVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class CourseVideoController extends Controller
 {
@@ -21,8 +23,9 @@ class CourseVideoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Course $course)
+    public function create($courseId)
     {
+        $course = Course::with(['categories'])->findOrFail($courseId);
         return view('admin.course_videos.create', compact('course'));
     }
 
@@ -77,16 +80,38 @@ class CourseVideoController extends Controller
      */
     public function destroy(CourseVideo $courseVideo)
     {
-        DB::beginTransaction();
-
-        try {
-            $courseVideo->delete();
-            DB::commit();
-
-            return redirect()->route('admin.courses.show', $courseVideo->course_id)->with('success', 'Successfuly deleted course video!.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->route('admin.courses.show', $courseVideo->course_id)->with('error', 'There was an error while deleting course video.');
+        $user = auth()->user();
+        
+        // Prioritas role
+        if ($user->hasRole('teacher') && !$user->hasRole('owner')) {
+            // Teacher hanya dapat hard delete jika video belum soft delete
+            if (!$courseVideo->trashed()) {
+                $courseVideo->forceDelete();
+                return redirect()->back()->with('success', 'Video berhasil dihapus secara permanen.');
+            } else {
+                return redirect()->back()->with('error', 'Teacher tidak dapat menghapus video yang sudah dihapus (soft delete).');
+            }
         }
+    
+        if ($user->hasRole('owner')) {
+            // Owner melakukan soft delete
+            if (!$courseVideo->trashed()) {
+                $courseVideo->update(['deleted_by' => $user->id]);
+                $courseVideo->delete();
+                return redirect()->back()->with('success', 'Video berhasil dihapus (soft delete).');
+            } else {
+                return redirect()->back()->with('error', 'Video sudah dihapus sebelumnya.');
+            }
+        }
+    
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus video.');
     }
+    
+    
+    
+    
+    
+    
+    
+    
 }

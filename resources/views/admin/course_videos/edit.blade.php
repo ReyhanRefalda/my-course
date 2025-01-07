@@ -22,8 +22,13 @@
                         <img src="{{ Storage::url($courseVideo->course->thumbnail) }}" class="rounded-2xl object-cover w-[120px] h-[90px]">
                         <div class="flex flex-col">
                             <h3 class="text-indigo-950 text-xl font-bold">{{ $courseVideo->course->name }}</h3>
-                            <p class="text-slate-500 text-sm">{{ $courseVideo->course->category->name }}</p>
+                            
+                            {{-- Tampilkan kategori pertama atau pesan default --}}
+                            <p class="text-slate-500 text-sm">
+                                {{ $courseVideo->course->categories->first()->name ?? 'No Category' }}
+                            </p>
                         </div>
+                        
                     </div>
                     <div>
                         <p class="text-slate-500 text-sm">Teacher</p>

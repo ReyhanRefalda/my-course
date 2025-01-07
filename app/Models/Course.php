@@ -19,13 +19,13 @@ class Course extends Model
         'teacher_id',
         'resource',
     ];
-    
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'categories_courses', 'course_id', 'category_id');
     }
-    
-    
+
+
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
@@ -33,14 +33,17 @@ class Course extends Model
 
     public function course_videos()
     {
-        return $this->hasMany(CourseVideo::class);
+        return $this->hasMany(CourseVideo::class)->withTrashed();
     }
+    
 
-    public function course_keypoints(){
+    public function course_keypoints()
+    {
         return $this->hasMany(CourseKeypoint::class);
     }
 
-    public function students(){
-        return $this->belongsToMany(User::class,'course_students');
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'course_students');
     }
 }
