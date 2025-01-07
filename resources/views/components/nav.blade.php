@@ -25,11 +25,6 @@
                 <a href="{{ route('front.progress') }}" class="font-semibold">Progress</a>
             </li>
         @endrole
-        @role('teacher|owner')
-            <li>
-                <a href="{{ route('dashboard') }}" class="font-semibold">Dashboard</a>
-            </li>
-        @endrole
     </ul>
     @guest
         <div class="flex gap-[10px] items-center">
@@ -50,6 +45,8 @@
                     <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
                         @if (Auth::user()->hasRole('owner'))
                             <span class="badge badge-success">Owner</span>
+                        @elseif (Auth::user()->hasRole('teacher') && Auth::user()->teacher?->status === 'pending')
+                            <span class="badge badge-warning">Pending</span>
                         @elseif(Auth::user()->hasRole('teacher'))
                             <span class="badge badge-warning">Teacher</span>
                         @elseif (Auth::user()->hasActiveSubscription())
@@ -65,11 +62,20 @@
                 <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[20px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  px-6 py-2 hidden z-[12]"
                     aria-labelledby="hs-dropdown-custom-icon-trigger">
                     <div class="card-body p-0 py-2">
-                        <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                        @role('teacher|owner')
+                            <div
+                                class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                                <i class="ti ti-dashboard text-[30px]"></i>
+                                <a href="{{ route('dashboard') }}" class="font-medium">Dashboard</a>
+                            </div>
+                        @endrole
+                        <div
+                            class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
                             <i class="ti ti-settings text-[30px]"></i>
                             <a href="{{ route('profile.edit') }}" class="font-medium">Account Setting</a>
                         </div>
-                        <div class="mt-[7px] mb-2 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                        <div
+                            class="mt-[7px] mb-2 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
                             <i class="ti ti-logout text-[30px]"></i>
                             <div class="">
                                 <a href="#"

@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\PackageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\CategoryController;
@@ -11,8 +14,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\UserArtikelController;
 use App\Http\Controllers\SubscribeTransactionController;
-use App\Http\Controllers\PackageController;
-use App\Http\Controllers\PaymentController;
 
 // Public routes
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
@@ -72,8 +73,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('packages', PackageController::class)
             ->middleware('role:owner');
 
-        // Route::resource('payments', PaymentController::class)
-        //     ->middleware('role:owner');
+        Route::resource('payments', PaymentController::class)
+            ->middleware('role:owner');
 
         Route::resource('courses', CourseController::class)
             ->middleware('role:owner|teacher');
@@ -94,6 +95,9 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('artikel', ArtikelController::class)
             ->middleware('role:owner|teacher');
+
+        Route::resource('users', UserController::class)
+            ->middleware('role:owner');
     });
 
     // Dashboard

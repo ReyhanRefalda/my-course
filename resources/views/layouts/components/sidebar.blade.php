@@ -9,8 +9,6 @@
             <img clas src="{{ asset('assets/logo/logo-black.png') }}" alt="Logo-Dark"
                 style="width: 200px; height: auto;  margin-left: 15px;" />
         </a>
-
-
     </div>
     <div class="scroll-sidebar" data-simplebar="">
         <nav class=" w-full flex flex-col sidebar-nav px-4 mt-5">
@@ -27,6 +25,14 @@
                     </a>
                 </li>
 
+                @role('owner')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
+                            href="{{ route('admin.users.index') }}">
+                            <i class="ti ti-user-circle ps-2 text-2xl"></i> <span>Manage User</span>
+                        </a>
+                    </li>
+                @endrole
                 @role('owner')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
@@ -81,14 +87,14 @@
                     </li>
                 @endrole
 
-                {{-- @role('owner')
+                @role('owner')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
                             href="{{ route('admin.payments.index') }}">
                             <i class="ti ti-wallet ps-2 text-2xl"></i> <span>Manage Payment </span>
                         </a>
                     </li>
-                @endrole --}}
+                @endrole
                 @role('owner|teacher|student')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
