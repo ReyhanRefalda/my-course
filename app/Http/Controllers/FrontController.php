@@ -127,7 +127,7 @@ class FrontController extends Controller
         ]);
         $keyword = $request->keyword;
 
-        $courses = Course::with(['teacher', 'category'])
+        $courses = Course::with(['teacher', 'categories'])
             ->where('name', 'like', '%' . $keyword . '%')
             ->paginate(3);
 
