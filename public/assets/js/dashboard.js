@@ -7,12 +7,12 @@ $(function () {
   var profit = {
     series: [
       {
-        name: "Pixel ",
+        name: "Transaction ",
         data: [9, 5, 3, 7, 5, 10, 3, 6, 8, 4, 7, 9],
       },
       {
         name: "Ample ",
-        data: [6, 3, 9, 5, 4, 6, 4, 7, 3, 8, 5, 6],
+        data: [],
       },
     ],
     chart: {
