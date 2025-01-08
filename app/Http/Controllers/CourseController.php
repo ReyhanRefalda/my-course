@@ -36,7 +36,7 @@ class CourseController extends Controller
         // Filter berdasarkan kategori (many-to-many)
         if (request('category')) {
             $query->whereHas('categories', function ($query) {
-                $query->where('id', request('category'));
+                $query->where('categories.id', request('category')); // Perbaikan di sini
             });
         }
     
@@ -53,6 +53,7 @@ class CourseController extends Controller
     
         return view('admin.courses.index', compact('courses', 'categories', 'teachers'));
     }
+    
     
 
     /**
