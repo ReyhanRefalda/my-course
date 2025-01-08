@@ -34,17 +34,16 @@
                         <x-input-error :messages="$errors->get('description')" class="mt-2" />
                     </div>
 
-
                     <div class="mb-4">
                         <x-input-label for="harga" :value="__('Price')" />
                         <x-text-input id="harga" class="block mt-1 w-full" type="text" name="harga"
                             value="{{ old('harga', number_format($package->harga, 0, '', '.')) }}" 
-                            required oninput="formatCurrency(this)" />
+                            required oninput="formatCurrency(this)" onblur="removeCurrencyFormat(this)" />
                         <x-input-error :messages="$errors->get('harga')" class="mt-2" />
                     </div>
 
                     <div class="mb-4">
-                        <x-input-label for="tipe" :value="__('Tipe')" />
+                        <x-input-label for="tipe" :value="__('Type')" />
                         <select id="tipe" name="tipe" class="block mt-1 w-full border-gray-300 rounded-lg shadow-sm">
                             <option value="">{{ __('Choose a type') }}</option>
                             <option value="daily" {{ old('tipe', $package->tipe) === 'daily' ? 'selected' : '' }}>Daily</option>
@@ -56,12 +55,12 @@
                     </div>
 
                     <div class="mt-4">
+                        <x-input-label for="package_benefits" :value="__('Package Benefits')" />
                         <div class="flex flex-col gap-y-5">
-                            <x-input-label for="package_benefits" :value="__('Package Benefits')" />
                             @foreach ($package->benefits as $benefit)
                                 <input type="text" class="py-3 rounded-lg border-slate-300 border" 
                                     placeholder="Enter benefit" name="package_benefits[]" 
-                                    value="{{ old('package_benefits[]', $benefit->name) }}">
+                                    value="{{ old('package_benefits.' . $loop->index, $benefit->name) }}">
                             @endforeach
                             @for ($i = count($package->benefits); $i < 4; $i++)
                                 <input type="text" class="py-3 rounded-lg border-slate-300 border" 
@@ -81,19 +80,19 @@
             </div>
         </div>
     </div>
-    <script>
-    function formatCurrency(input) {
-        // Hapus titik sebelumnya
-        let value = input.value.replace(/\./g, '');
 
-        // Pastikan input hanya angka
-        if (!isNaN(value) && value !== '') {
-            // Format angka dengan pemisah ribuan menggunakan titik
-            input.value = new Intl.NumberFormat('id-ID').format(value);
-        } else {
-            // Jika input tidak valid, kosongkan field
-            input.value = '';
+    <script>
+        function formatCurrency(input) {
+            let value = input.value.replace(/\./g, '');
+            if (!isNaN(value) && value !== '') {
+                input.value = new Intl.NumberFormat('id-ID').format(value);
+            } else {
+                input.value = '';
+            }
         }
-    }
-</script>
+
+        function removeCurrencyFormat(input) {
+            input.value = input.value.replace(/\./g, '');
+        }
+    </script>
 </x-app-layout>

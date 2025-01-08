@@ -90,47 +90,42 @@ class PackageController extends Controller
      */
     public function update(StorePackageRequest $request, Package $package): RedirectResponse
     {
-        DB::beginTransaction(); // Mulai transaksi
-
+        DB::beginTransaction();
+    
         try {
-            // Update data package
             $package->update([
                 'name' => $request->name,
                 'description' => $request->description,
-                'harga' => $request->harga,
+                'harga' => str_replace('.', '', $request->harga),
                 'tipe' => $request->tipe,
             ]);
-
-            // Update benefits
+    
             $existingBenefits = $package->benefits->pluck('name', 'id')->toArray();
-            $newBenefits = array_filter($request->package_benefits, fn($benefit) => !empty($benefit)); // Hapus yang kosong
-
-            // Cek benefits untuk update atau hapus
+            $newBenefits = array_filter($request->package_benefits, fn($benefit) => !empty($benefit));
+    
             foreach ($existingBenefits as $id => $name) {
                 if (!in_array($name, $newBenefits)) {
-                    // Hapus benefit jika tidak ada di input baru
                     Benefit::destroy($id);
                 } else {
-                    // Hapus dari array baru untuk menghindari penyisipan ulang
                     $newBenefits = array_diff($newBenefits, [$name]);
                 }
             }
-
-            // Tambahkan benefits baru
+    
             foreach ($newBenefits as $benefitName) {
                 Benefit::create([
                     'name' => $benefitName,
                     'packages_id' => $package->id,
                 ]);
             }
-
-            DB::commit(); // Commit transaksi
+    
+            DB::commit();
             return redirect()->route('admin.packages.index')->with('success', 'Package updated successfully!');
         } catch (\Exception $e) {
-            DB::rollBack(); // Rollback transaksi jika ada error
+            DB::rollBack();
             return redirect()->back()->withErrors(['error' => 'Failed to update package: ' . $e->getMessage()]);
         }
     }
+    
 
 
     /**
