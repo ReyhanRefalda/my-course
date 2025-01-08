@@ -52,8 +52,10 @@
                             <span class="badge badge-warning">Pending</span>
                         @elseif(Auth::user()->hasRole('teacher'))
                             <span class="badge badge-warning">Teacher</span>
-                        @elseif (Auth::user()->hasActiveSubscription())
+                        @elseif (Auth::user()->hasRole('student') && Auth::user()->hasActiveSubscription())
                             <span class="badge badge-primary">PRO</span>
+                        @elseif (Auth::user()->hasRole('student'))
+                            <span class="badge badge-warning">Student</span>
                         @endif
                     </p>
                 </div>
