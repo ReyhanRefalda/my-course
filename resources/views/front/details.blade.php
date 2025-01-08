@@ -53,10 +53,13 @@
             <div class="flex items-center gap-5">
                 <div class="flex items-center gap-[6px]">
                     <div>
-                        <img src="{{asset('assets/icon/crown.svg')}}" alt="icon">
+                        <img src="{{ asset('assets/icon/crown.svg') }}" alt="icon">
                     </div>
-                    <p class="font-semibold">{{$course->category->name}}</p>
+                    <p class="font-semibold">
+                        {{ $course->categories->first()->name ?? 'Kategori Tidak Tersedia' }}
+                    </p>
                 </div>
+                
 
                 <div class="flex items-center gap-[6px]">
                     <div>
