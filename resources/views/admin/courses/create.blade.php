@@ -50,7 +50,7 @@
 
                     <div class="mt-4">
                         <x-input-label for="category_ids" :value="__('Category')" />
-                        
+
                         <select name="category_ids[]" id="category_ids"
                             class="select2 form-control select2-bootstrap-5 shadow-sm w-full"
                             multiple>
@@ -60,7 +60,7 @@
                                 <option value="">No categories available</option>
                             @endforelse
                         </select>
-                        
+
                         <x-input-error :messages="$errors->get('category_ids')" class="mt-2" />
                     </div>
 
@@ -79,7 +79,7 @@
                             <x-input-label for="keypoints" :value="__('Keypoints')" />
                             @for ($i = 0; $i < 4; $i++)
                                 <input type="text" class="py-3 rounded-lg border-slate-300 border"
-                                    placeholder="Write your copywriting" name="course_keypoints[]">
+                                    placeholder="Write your copywriting" name="course_keypoints[]" value="{{ old('course_keypoints.' . $i) }}">
                             @endfor
                         </div>
                         <x-input-error :messages="$errors->get('keypoints')" class="mt-2" />
@@ -96,7 +96,7 @@
         </div>
     </div>
 
- 
-   
+
+
 
 </x-app-layout>

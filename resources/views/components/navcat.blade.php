@@ -17,16 +17,13 @@
                 <a href="{{ route('front.pricing') }}" class="font-semibold">Pricing</a>
             </li>
         @endif
-        @role('student')
+        @auth
+            @if (Auth::user()->hasRole('student') && !Auth::user()->hasRole('teacher') && !Auth::user()->hasRole('owner'))
             <li>
                 <a href="{{ route('front.progress') }}" class="font-semibold">Progress</a>
             </li>
-        @endrole
-        @role('teacher|owner')
-            <li>
-                <a href="{{ route('dashboard') }}" class="font-semibold">Dashboard</a>
-            </li>
-        @endrole
+            @endif
+        @endauth
     </ul>
     @guest
         <div class="flex gap-[10px] items-center">
@@ -65,6 +62,13 @@
                 <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[20px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  px-6 py-2 hidden z-[12]"
                     aria-labelledby="hs-dropdown-custom-icon-trigger">
                     <div class="card-body p-0 py-2">
+                        @role('teacher|owner')
+                            <div
+                                class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                                <i class="ti ti-dashboard text-[30px]"></i>
+                                <a href="{{ route('dashboard') }}" class="font-medium">Dashboard</a>
+                            </div>
+                        @endrole
                         <div
                             class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
                             <i class="ti ti-settings text-[30px]"></i>

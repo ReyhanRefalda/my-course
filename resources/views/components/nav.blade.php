@@ -17,14 +17,13 @@
                 <a href="{{ route('front.pricing') }}" class="font-semibold">Pricing</a>
             </li>
         @endif
-
-
-
-        @role('student')
-            <li>
-                <a href="{{ route('front.progress') }}" class="font-semibold">Progress</a>
-            </li>
-        @endrole
+        @auth
+            @if (Auth::user()->hasRole('student') && !Auth::user()->hasRole('teacher') && !Auth::user()->hasRole('owner'))
+                <li>
+                    <a href="{{ route('front.progress') }}" class="font-semibold">Progress</a>
+                </li>
+            @endif
+        @endauth
     </ul>
     @guest
         <div class="flex gap-[10px] items-center">
