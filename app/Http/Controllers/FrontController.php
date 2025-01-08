@@ -28,6 +28,7 @@ class FrontController extends Controller
         return view('front.index', compact('courses', 'categories'));
     }
     
+
     public function detail(Course $course)
     {
 
