@@ -80,21 +80,16 @@
                     <div class="mt-4">
                         <div class="flex flex-col gap-y-5">
                             <x-input-label for="keypoints" :value="__('Keypoints')" />
-                            
-                            @foreach($course->course_keypoints as $keypoint)
+
+                            @foreach ($course->course_keypoints as $index => $keypoint)
                                 <input type="text" class="py-3 rounded-lg border-slate-300 border"
-                                    placeholder="Write your keypoint" name="course_keypoints[]"
-                                    value="{{ old('course_keypoints[]', $keypoint->name) }}">
+                                    placeholder="Write your keypoint" name="course_keypoints[{{ $index }}]"
+                                    value="{{ old('course_keypoints.' . $index, $keypoint->name) }}">
                             @endforeach
-                    
-                            <!-- Input kosong hanya ditambahkan di belakang -->
-                           
                         </div>
-                    
+
                         <x-input-error :messages="$errors->get('course_keypoints')" class="mt-2" />
                     </div>
-                    
-
 
                     <div class="flex items-center justify-end mt-4">
                         <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
