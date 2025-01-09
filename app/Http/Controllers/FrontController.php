@@ -22,21 +22,33 @@ class FrontController extends Controller
         $courses = Course::with(['categories', 'teacher', 'students']) // Ganti 'category' menjadi 'categories'
             ->orderByDesc('id')
             ->get();
-    
+
         $categories = Category::all();
-    
+
         return view('front.index', compact('courses', 'categories'));
     }
-    
+
 
     public function detail(Course $course)
     {
+        // Ambil video kursus dengan logika sesuai role
+        $userRole = auth()->user()->getRoleNames()->first();
+        $courseVideos = $course->course_videos()
+            ->when($userRole === 'owner', function ($query) {
+                return $query->withTrashed(); // Tampilkan semua video termasuk yang dihapus
+            })
+            ->when($userRole === 'teacher', function ($query) {
+                return $query->withTrashed(); // Tampilkan semua video termasuk yang dihapus
+            })
+            ->when($userRole === 'student', function ($query) {
+                return $query->whereNull('deleted_at'); // Hanya tampilkan video yang tidak dihapus
+            })
+            ->get();
 
-
-        return view('front.details', compact('course'));
+        return view('front.details', compact('course', 'courseVideos'));
     }
 
-    public function learning(Course $course, $courseVideoId)
+    public function learning($courseId, $courseVideoId)
     {
         $user = Auth::user();
 
@@ -44,12 +56,31 @@ class FrontController extends Controller
             return redirect()->route('front.pricing');
         }
 
-        $video = $course->course_videos->firstWhere('id', $courseVideoId);
+        // Fetch the course by ID and ensure it's available (not deleted)
+        $course = Course::where('id', $courseId)->whereNull('deleted_at')->first();
 
+        if (!$course) {
+            return redirect()->route('front.courses')->with('error', 'Course not found or has been removed.');
+        }
+
+        // Fetch the video by ID and ensure it's available (not deleted)
+        $video = $course->course_videos()->where('id', $courseVideoId)->whereNull('deleted_at')->first();
+
+        if (!$video) {
+            return redirect()->route('front.courses')->with('error', 'Video not found or has been removed.');
+        }
+
+        // Attach the course to the user's courses without detaching existing ones
         $user->courses()->syncWithoutDetaching($course->id);
 
-        return view('front.learning', compact('course', 'video'));
+        // Retrieve category names for the course
+        $categories = $course->categories()->pluck('name');
+
+        return view('front.learning', compact('course', 'video', 'categories'));
     }
+
+
+
 
     public function pricing()
     {
