@@ -47,7 +47,39 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card mt-10">
+                    <div class="card-body w-full">
+                        <div class="flex  justify-between">
+                            <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">Transactions</h4>
+                            <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
+                                <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
+                                    <i class="ti ti-dots-vertical text-2xl text-gray-400"></i>
+                                </a>
+                                <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[150px] hidden z-[12]"
+                                    aria-labelledby="hs-dropdown-custom-icon-trigger">
+                                    <div class="card-body p-0 py-2">
+                                        <a href="javscript:void(0)"
+                                            class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
+                                            <p class="text-sm ">Action</p>
+                                        </a>
+                                        <a href="javscript:void(0)"
+                                            class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
+                                            <p class="text-sm ">Another Action</p>
+                                        </a>
+                                        <a href="javscript:void(0)"
+                                            class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
+                                            <p class="text-sm ">Something else here</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="profit"></div>
+                    </div>
+                </div>
             @endrole
+
             @role('teacher')
                 <div class="flex flex-col gap-y-10 md:flex-row justify-between items-center">
                     <div class="flex flex-col gap-y-3">
@@ -180,7 +212,7 @@
 
             <!--  Header End -->
 
-            @role('owner')
+            {{-- @role('owner')
                 <div class="card mt-10">
                     <div class="card-body w-full">
                         <div class="flex  justify-between">
@@ -211,5 +243,5 @@
                         <div id="profit"></div>
                     </div>
                 </div>
-            @endrole
+            @endrole --}}
 </x-app-layout>
