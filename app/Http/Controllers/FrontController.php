@@ -22,12 +22,12 @@ class FrontController extends Controller
         $courses = Course::with(['categories', 'teacher', 'students']) // Ganti 'category' menjadi 'categories'
             ->orderByDesc('id')
             ->get();
-    
+
         $categories = Category::all();
-    
+
         return view('front.index', compact('courses', 'categories'));
     }
-    
+
 
     public function detail(Course $course)
     {
@@ -116,9 +116,10 @@ class FrontController extends Controller
     public function progress()
     {
         $courses = Course::all();
+        $courseHistories = auth()->user()->courseHistories()->with('course')->latest()->get();
         $articles = Artikel::where('status', 'publish')->orderBy('created_at', 'desc')->take(3)->get();
-        return view('front.progress', compact('courses', 'articles'));
-    }
+        return view('front.progress', compact('courses', 'articles','courseHistories'));
+}
 
     public function search(Request $request)
     {

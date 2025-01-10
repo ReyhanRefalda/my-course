@@ -78,6 +78,12 @@ class User extends Authenticatable
         return $this->hasOne(Teacher::class);
     }
 
+    public function courseHistories()
+    {
+        return $this->belongsToMany(Course::class, 'course_histories', 'user_id', 'course_id')->withTimestamps();
+    }
+
+
     public function isTeacherActive()
     {
         if ($this->hasRole('teacher')) {

@@ -35,6 +35,41 @@
                 </div>
 
                 <div class="">
+                    <h1 class="text-2xl font-semibold mb-6">Course Progress</h1>
+
+                    <div class="flex flex-wrap gap-6 w-full">
+                        @if($courseHistories->isNotEmpty())
+                            {{-- Kursus terakhir yang dikunjungi --}}
+                            <div class="bg-[#E6F7FF] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full border-2 border-blue-500">
+                                <img src="{{ $courseHistories->first()->course->image_url }}" alt="{{ $courseHistories->first()->course->name }}"
+                                    class="w-20 h-20 object-cover rounded-[20px] mr-4">
+                                <div>
+                                    <h4 class="text-base font-bold text-black">{{ $courseHistories->first()->course->name }}</h4>
+                                    <div class="flex gap-4 text-xs text-gray-500">
+                                        <p>Created by {{ $courseHistories->first()->course->creator->name }} . Released {{ $courseHistories->first()->course->released_date }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Daftar kursus lainnya --}}
+                        @foreach ($courseHistories->skip(1) as $history)
+                            <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
+                                <img src="{{ $history->course->image_url }}" alt="{{ $history->course->name }}"
+                                    class="w-20 h-20 object-cover rounded-[20px] mr-4">
+                                <div>
+                                    <h4 class="text-base font-bold text-black">{{ $history->course->name }}</h4>
+                                    <div class="flex gap-4 text-xs text-gray-500">
+                                        <p>Created by {{ $history->course->creator->name }} . Released {{ $history->course->released_date }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+
+
+                {{-- <div class="">
                     <h1 class="text-2xl font-semibold mb-6">Course History</h1>
 
                     <div class="flex flex-wrap gap-6 w-full">
@@ -70,19 +105,8 @@
                                     <p>Created by John Doe . Released Jan 15, 2024</p>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Card 4 -->
-                        <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
-                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
-                                class="w-20 h-20 object-cover rounded-[20px] mr-4">
-                            <div>
-                                <h4 class="text-base font-bold text-black">Tutorial Blockchain</h4>
-                                <div class="flex gap-4 text-xs text-gray-500">
-                                    <p>Created by Jane Smith . Released Feb 20, 2024</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </div> --}}
+
 
 
 
