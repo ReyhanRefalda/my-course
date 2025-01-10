@@ -37,55 +37,53 @@
                 <div class="">
                     <h1 class="text-2xl font-semibold mb-6">Course History</h1>
 
-                    <div class="flex flex-wrap gap-6 w-full">
-                        <!-- Card 1 -->
-                        <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
-                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
-                                class="w-20 h-20 object-cover rounded-[20px] mr-4">
-                            <div>
-                                <h4 class="text-base font-bold text-black">Creating Financial Reports</h4>
-                                <div class="flex gap-4 text-xs text-gray-500">
-                                    <p>Created by John . Released Jan 15, 2024</p>
+                    <div class="grid grid-cols-3 gap-[30px] w-full">
+                        @forelse ($courses as $course)
+                        <div class="course-card">
+                            <div class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[32px] bg-white w-full pb-[10px] overflow-hidden ring-1 ring-[#DADEE4] transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
+                                <a href="{{route('front.details', $course->slug)}}" class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
+                                    <img src="{{Storage::url($course->thumbnail)}}" class="w-full h-full object-cover" alt="thumbnail">
+                                </a>
+                                <div class="flex flex-col px-4 gap-[32px]">
+                                    <div class="flex flex-col gap-[10px]">
+                                        <a href="{{route('front.details', $course->slug)}}" class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">Modern JavaScript: Bikin Projek Website Seperti Twitter</a>
+                                        <div class="flex justify-between items-center">
+                                            <div class="flex items-center gap-[2px]">
+                                                <div>
+                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
+                                                </div>
+                                                <div>
+                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
+                                                </div>
+                                                <div>
+                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
+                                                </div>
+                                                <div>
+                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
+                                                </div>
+                                                <div>
+                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
+                                                </div>
+                                            </div>
+                                            <p class="text-right text-[#6D7786]">{{$course->students->count()}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
+                                            <img src="{{Storage::url($course->teacher->user->avatar)}}" class="w-full h-full object-cover" alt="icon">
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <p class="font-semibold">{{$course->teacher->user->name}}</p>
+                                            <p class="text-[#6D7786]">{{$course->teacher->user->occupation}}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Card 2 -->
-                        <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
-                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
-                                class="w-20 h-20 object-cover rounded-[20px]">
-                            <div>
-                                <h4 class="text-base font-bold text-black">Tutorial Blockchain</h4>
-                                <div class="text-xs text-gray-500">
-                                    <p>Created by Jane . Released Feb 20, 2024</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 3 -->
-                        <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
-                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
-                                class="w-20 h-20 object-cover rounded-[20px] mr-4">
-                            <div>
-                                <h4 class="text-base font-bold text-black">Creating Financial Reports</h4>
-                                <div class="flex gap-4 text-xs text-gray-500">
-                                    <p>Created by John Doe . Released Jan 15, 2024</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Card 4 -->
-                        <div class="bg-[#F5F8FA] rounded-[20px] p-4 flex gap-4 items-center max-w-[380px] w-full">
-                            <img src="{{ asset('assets/images/profile/user-1.jpg') }}" alt="Course Image"
-                                class="w-20 h-20 object-cover rounded-[20px] mr-4">
-                            <div>
-                                <h4 class="text-base font-bold text-black">Tutorial Blockchain</h4>
-                                <div class="flex gap-4 text-xs text-gray-500">
-                                    <p>Created by Jane Smith . Released Feb 20, 2024</p>
-                                </div>
-                            </div>
-                        </div>
+                        @empty
+
+                        @endforelse
                     </div>
-
-
-
 
 
                 <div class="container mx-auto p-6">
