@@ -146,7 +146,11 @@ class FrontController extends Controller
 
     public function progress()
     {
-        $courses = Course::all();
+        $user = auth()->user();
+
+    // Ambil semua kursus yang diikuti oleh user
+    $courses = $user->courses()->get();
+    // dd($courses);
         $articles = Artikel::where('status', 'publish')->orderBy('created_at', 'desc')->take(3)->get();
         return view('front.progress', compact('courses', 'articles'));
     }
