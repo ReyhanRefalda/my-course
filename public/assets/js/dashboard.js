@@ -1,33 +1,44 @@
 $(function () {
+    const rawTransactionData = $("#profit").data("transactions");
+    const transactionData = rawTransactionData || [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]; // Data fallback
+
+    if (!rawTransactionData || !Array.isArray(transactionData)) {
+        console.error("Transaction data is not valid:", rawTransactionData);
+        return; // Stop script jika data tidak valid
+    }
+
     var profit = {
         series: [
             {
                 name: "Transaction",
-                data: [9, 5, 3, 7, 5, 10, 3, 6, 8, 4, 7, 9],
+                data: transactionData, // Data dinamis
             },
         ],
         chart: {
-            type: "line",
+            type: "bar",
             height: 370,
             fontFamily: "Poppins, sans-serif",
             toolbar: { show: false },
         },
         grid: {
             strokeDashArray: 3,
-            borderColor: "rgb(0,0,0)",
+            borderColor: "rgba(0,0,0,0.1)",
         },
         colors: ["#3525B3"],
         plotOptions: {
             bar: {
-                columnWidth: "30%",
+                columnWidth: "20%",
                 endingShape: "flat",
             },
         },
         dataLabels: { enabled: false },
         stroke: {
             show: true,
-            width: 2,
+            width: 3,
             colors: ["#3525B3"],
+            curve: "smooth",
         },
         xaxis: {
             categories: [
@@ -44,12 +55,12 @@ $(function () {
                 "Nov",
                 "Des",
             ],
-            labels: { style: { colors: "#a1aab2" } },
+            labels: { style: { colors: "#707070" } },
             axisTicks: { show: false },
             axisBorder: { show: false },
         },
         yaxis: {
-            labels: { style: { colors: "#a1aab2" } },
+            labels: { style: { colors: "#707070" } },
         },
         fill: {
             opacity: 1,
@@ -62,7 +73,7 @@ $(function () {
                 breakpoint: 767,
                 options: {
                     stroke: {
-                        width: 3,
+                        width: 5,
                     },
                 },
             },

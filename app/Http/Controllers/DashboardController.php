@@ -18,35 +18,32 @@ class DashboardController extends Controller
 
         // Cek jika user memiliki role 'teacher' dan status is_active = false
         if ($user->hasRole('teacher')) {
-            $teacher = $user->teacher; // Relasi ke tabel teacher
+            $teacher = $user->teacher;
             if (!$teacher || $teacher->status === 'pending' || $teacher->status === 'rejected') {
-                // Redirect ke halaman persetujuan jika teacher masih dalam status pending
                 return redirect()->route('teachers.approval-notice')
                     ->with('warning', 'Akun Anda belum disetujui oleh admin.');
             }
         }
 
+        // Query transaksi berdasarkan bulan
+        $transactionsPerMonth = SubscribeTransaction::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->pluck('count', 'month')
+            ->toArray();
 
-        // Query kursus berdasarkan role
-        $courseQuery = Course::query();
-
-        if ($user->hasRole('teacher')) {
-            $courseQuery->whereHas('teacher', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            });
-
-            $students = CourseStudent::whereIn('course_id', $courseQuery->select('id'))
-                ->distinct('user_id')
-                ->count('user_id');
-        } else {
-            $students = CourseStudent::distinct('user_id')->count('user_id');
+        // Format data untuk setiap bulan (Jan - Des)
+        $transactionData = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $transactionData[] = $transactionsPerMonth[$i] ?? 0; // Isi 0 jika tidak ada transaksi
         }
 
-        $courses = $courseQuery->count();
+        // Data lainnya
+        $courses = Course::count();
         $categories = Category::count();
         $transactions = SubscribeTransaction::count();
+        $students = CourseStudent::distinct('user_id')->count('user_id');
         $teachers = Teacher::count();
 
-        return view('admin.dashboard', compact('categories', 'courses', 'transactions', 'students', 'teachers'));
+        return view('admin.dashboard', compact('categories', 'courses', 'transactions', 'students', 'teachers', 'transactionData'));
     }
 }
