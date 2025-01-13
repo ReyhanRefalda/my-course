@@ -34,7 +34,7 @@
                             $currentVideoId = Route::current()->parameter('courseVideoId');
                             $isActive = $currentVideoId == $video->id;
                         @endphp
-                
+
                         <div class="group p-[12px_16px] flex items-center gap-[10px] {{$isActive ? 'bg-[#3525B3]' : 'bg-[#E9EFF3]'}} rounded-full hover:bg-[#3525B3] transition-all duration-300">
                             <div class="{{$isActive ? 'text-white' : 'text-black'}} group-hover:text-white transition-all duration-300">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +49,7 @@
                 @empty
                     <p class="text-gray-500">No videos are available.</p>
                 @endforelse
-                
+
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
                         @endforeach
                     </p>
                 </div>
-                
+
 
                 <div class="flex items-center gap-[6px]">
                     <div>
@@ -94,7 +94,7 @@
                             <div class="flex flex-col gap-5 w-[700px] shrink-0">
                                 <h3 class="font-bold text-2xl">Grow Your Career</h3>
                                 <p class="font-medium leading-[30px]">
-                                    {{$course->about}}
+                                    {!!$course->about!!}
                                 </p>
                                 <div class="grid grid-cols-2 gap-x-[30px] gap-y-5">
                                     @forelse ($course->course_keypoints as $keypoint)
