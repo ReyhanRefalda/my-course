@@ -110,9 +110,7 @@
                                 <div class="flex flex-col gap-5 w-[700px] shrink-0">
                                     <h3 class="font-bold text-2xl">Resources</h3>
                                     <p class="font-medium leading-[30px]">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt eos et accusantium
-                                        quia exercitationem reiciendis? Doloribus, voluptate natus voluptas deserunt aliquam
-                                        nesciunt blanditiis ipsum porro hic! Iusto maxime ullam soluta.
+                                        Access our Resource Page, your one-stop destination for downloading course materials designed to help you learn and excel. From detailed guides to practice files, find everything you need to enhance your learning experience and make the most out of your studies. Click the button below to explore and download the resources now!
                                     </p>
                                     <div class="flex gap-6 w-fit">
                                         <a href="https://drive.google.com/drive/folders/{{ $course->resource }}"
@@ -135,11 +133,7 @@
                                 <div class="flex flex-col gap-5 w-[700px] shrink-0">
                                     <h3 class="font-bold text-2xl">Discussions</h3>
                                     <p class="font-medium leading-[30px]">
-                                        Bergabunglah dengan server Discord kami, forum diskusi interaktif yang dirancang
-                                        untuk siswa dan mentor agar dapat bertukar ide, berdiskusi tentang materi kursus,
-                                        mendapatkan panduan langsung dari mentor berpengalaman, serta membangun koneksi
-                                        dengan sesama peserta belajar. Klik tombol di bawah untuk menjadi bagian dari
-                                        komunitas belajar yang inspiratif ini!
+                                        Join our Discord server, an interactive forum designed for students and mentors to exchange ideas, discuss course materials, receive guidance from experienced mentors, and connect with fellow learners. Click the button below to become part of this inspiring learning community!
                                     </p>
                                     <div class="flex gap-6 w-fit">
                                         <a href="https://discord.gg/JsGNBjmTKE"
