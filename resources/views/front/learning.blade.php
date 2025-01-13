@@ -79,12 +79,14 @@
 
             </div>
         </div>
-        <div class="max-w-[1100px] w-full mx-auto mt-10 tablink-container flex gap-3 px-4 sm:p-0 no-scrollbar overflow-x-scroll">
-            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('About', this)"  id="defaultOpen">About</div>
-            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('Resources', this)">Resources</div>
-            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('Reviews', this)">Reviews</div>
-            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('Discussions', this)">Discussions</div>
-            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]" onclick="openPage('Rewards', this)">Rewards</div>
+        <div
+        class="max-w-[1100px] w-full mx-auto mt-10 tablink-container flex gap-3 px-4 sm:p-0 no-scrollbar overflow-x-scroll">
+            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]"
+                onclick="openPage('About', this)" id="defaultOpen">About</div>
+            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]"
+                onclick="openPage('Resources', this)">Resources</div>
+            <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]"
+                onclick="openPage('Discussions', this)">Discussions</div>
         </div>
         <div class="bg-[#F5F8FA] py-[50px]">
             <div class="max-w-[1100px] w-full mx-auto flex flex-col gap-[70px]">
@@ -114,8 +116,13 @@
                             <div class="flex flex-col gap-5 w-[700px] shrink-0">
                                 <h3 class="font-bold text-2xl">Resources</h3>
                                 <p class="font-medium leading-[30px]">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt eos et accusantium quia exercitationem reiciendis? Doloribus, voluptate natus voluptas deserunt aliquam nesciunt blanditiis ipsum porro hic! Iusto maxime ullam soluta.
+                                    Access our Resource Page, your one-stop destination for downloading course materials designed to help you learn and excel. From detailed guides to practice files, find everything you need to enhance your learning experience and make the most out of your studies. Click the button below to explore and download the resources now!
                                 </p>
+                                <div class="flex gap-6 w-fit">
+                                    <a href="https://drive.google.com/drive/folders/{{ $course->resource }}"
+                                        class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Download
+                                        Resource</a>
+                                </div>
                             </div>
                         </div>
                         <div id="Reviews" class="tabcontent hidden">
@@ -130,7 +137,8 @@
                             <div class="flex flex-col gap-5 w-[700px] shrink-0">
                                 <h3 class="font-bold text-2xl">Discussions</h3>
                                 <p class="font-medium leading-[30px]">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt eos et accusantium quia exercitationem reiciendis? Doloribus, voluptate natus voluptas deserunt aliquam nesciunt blanditiis ipsum porro hic! Iusto maxime ullam soluta.
+                                    Join our Discord server, an interactive forum designed for students and mentors to exchange ideas, discuss course materials, receive guidance from experienced mentors, and connect with fellow learners. Click the button below to become part of this inspiring learning community!
+
                                 </p>
                             </div>
                         </div>
