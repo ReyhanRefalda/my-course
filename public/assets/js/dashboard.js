@@ -60,7 +60,12 @@ $(function () {
             axisBorder: { show: false },
         },
         yaxis: {
-            labels: { style: { colors: "#707070" } },
+            labels: {
+                style: { colors: "#707070" },
+                formatter: function (value) {
+                    return Math.round(value); // Membulatkan angka ke bilangan bulat
+                },
+            },
         },
         fill: {
             opacity: 1,

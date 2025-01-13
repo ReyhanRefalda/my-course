@@ -13,11 +13,19 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::role('student');
+        $query = User::whereDoesntHave('roles', function ($q) {
+            $q->where('name', 'teacher');
+        });
+
+        $query->whereHas('roles', function ($q) {
+            $q->where('name', 'student');
+        });
 
         if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('email', 'like', '%' . $request->search . '%');
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->filled('subscription')) {
@@ -30,6 +38,7 @@ class UserController extends Controller
 
         return view('admin.user.index', compact('users'));
     }
+
 
     /**
      * Show the form for creating a new resource.

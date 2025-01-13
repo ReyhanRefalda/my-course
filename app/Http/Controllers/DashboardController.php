@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\User;
 use App\Models\Course;
+use App\Models\Teacher;
+use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Models\CourseStudent;
 use App\Models\SubscribeTransaction;
-use App\Models\Teacher;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -41,9 +42,16 @@ class DashboardController extends Controller
         $courses = Course::count();
         $categories = Category::count();
         $transactions = SubscribeTransaction::count();
-        $students = CourseStudent::distinct('user_id')->count('user_id');
+        $students = User::whereHas('roles', function ($q) {
+            $q->where('name', 'student');
+        })->whereDoesntHave('roles', function ($q) {
+            $q->where('name', 'teacher');
+        })->count();
         $teachers = Teacher::count();
+        $balanceOwner = User::whereHas('roles', function ($q) {
+            $q->where('name', 'owner');
+        })->first()->balance;
 
-        return view('admin.dashboard', compact('categories', 'courses', 'transactions', 'students', 'teachers', 'transactionData'));
+        return view('admin.dashboard', compact('categories', 'courses', 'transactions', 'students', 'teachers', 'transactionData', 'balanceOwner'));
     }
 }
