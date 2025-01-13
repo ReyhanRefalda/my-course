@@ -25,7 +25,7 @@
                         </a>
                         <div class="flex flex-col px-4 gap-[32px]">
                             <div class="flex flex-col gap-[10px]">
-                                <a href="{{route('front.details', $course->slug)}}" class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">Modern JavaScript: Bikin Projek Website Seperti Twitter</a>
+                                <a href="{{route('front.details', $course->slug)}}" class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">{{$course->name}}</a>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center gap-[2px]">
                                         <div>
