@@ -22,7 +22,7 @@ class ArtikelRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'title' => 'required|string|max:255|regex:/^[a-zA-Z0-9\s\-_,\.;:()?!$@]+$/|min:10',
+            'title' => 'required|string|max:255|regex:/^[a-zA-Z0-9\s\-_,\.;:()?!$@"]+$/|min:10',
             'content' => 'required|string|min:15',
             'tumbnail' => 'nullable|image|mimes:jpeg,png,jpg,svg,gif,webp|max:10240|dimensions:min_width=300,min_height=300',
         ];

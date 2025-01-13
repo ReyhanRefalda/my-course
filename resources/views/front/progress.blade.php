@@ -99,7 +99,7 @@
                                     <div class="p-2 h-[150px] flex flex-col justify-between overflow-y-hidden">
                                         <h4 class="text-lg font-bold hover:underline hover:text-[#FF6129]">
                                             {{ Str::limit($article->title, 47) }}</h4>
-                                        <p class="text-sm text-gray-500 mt-2">{{ Str::limit($article->content, 60) }}</p>
+                                        <p class="text-sm text-gray-500 mt-2">{!! Str::limit($article->content, 60) !!}</p>
                                         <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
                                             <span>By {{ $article->user->name }}</span>
                                             <span>
