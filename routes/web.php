@@ -14,6 +14,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\UserArtikelController;
 use App\Http\Controllers\SubscribeTransactionController;
+use App\Http\Controllers\WithdrawController;
 
 // Public routes
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
@@ -38,7 +39,6 @@ Route::middleware('auth')->group(function () {
     })->name('teachers.approval-notice');
 
 
-
     // Checkout routes
     Route::get('/checkout/{packageId}', [FrontController::class, 'checkout'])->name('front.checkout')
         ->middleware('role:student');
@@ -57,6 +57,14 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('teachers', TeacherController::class)
             ->middleware('role:owner');
+
+        // Penarikan saldo
+        Route::get('/withdraw', [WithdrawController::class, 'index'])->name('withdraw.index')
+            ->middleware('role:teacher|owner'); // Hanya untuk teacher atau owner
+
+        Route::post('/withdraw', [WithdrawController::class, 'store'])->name('withdraw.store')
+            ->middleware('role:teacher|owner'); // Hanya untuk teacher atau owner
+
 
         Route::get('/teachers/approval', [TeacherController::class, 'approvalRequests'])
             ->middleware('role:owner')
