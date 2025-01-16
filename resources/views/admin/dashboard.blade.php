@@ -15,49 +15,52 @@
                 <div class="space-y-10">
                     <!-- Cards Section -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="p-6 rounded-lg bg-gradient-to-br from-orange-300 to-orange-500 shadow-lg text-white">
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-orange-200 to-orange-400 text-white shadow-md">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold">Balance</h3>
-                                    <p class="text-2xl font-semibold">Rp{{ number_format($balanceOwner, 0, ',', '.') }}</p>
+                                    <h3 class="text-lg font-semibold">Balance</h3>
+                                    <p class="text-2xl font-bold">Rp{{ number_format($balanceOwner, 0, ',', '.') }}</p>
                                 </div>
-                                <div class="p-3 bg-white/30 rounded-full">
-                                    <img src="{{ asset('assets/images/icons/transaction.png') }}" alt="Balance Icon"
+                                <div class="p-3 bg-orange-500 rounded-full">
+                                    <img src="{{ asset('assets/images/icons/balance.png') }}" alt="Balance Icon"
                                         class="w-10 h-10">
                                 </div>
                             </div>
                         </div>
-                        <div class="p-6 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg text-white">
+
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-blue-200 to-blue-400 text-white shadow-md">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold">Transactions</h3>
-                                    <p class="text-2xl font-semibold">{{ $transactions }}</p>
+                                    <h3 class="text-lg font-semibold">Transactions</h3>
+                                    <p class="text-2xl font-bold">{{ $transactions }}</p>
                                 </div>
-                                <div class="p-3 bg-white/30 rounded-full">
+                                <div class="p-3 bg-blue-500 rounded-full">
                                     <img src="{{ asset('assets/images/icons/transaction.png') }}" alt="Transactions Icon"
                                         class="w-10 h-10">
                                 </div>
                             </div>
                         </div>
-                        <div class="p-6 rounded-lg bg-gradient-to-br from-green-400 to-green-600 shadow-lg text-white">
+
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-green-200 to-green-400 text-white shadow-md">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold">Students</h3>
-                                    <p class="text-2xl font-semibold">{{ $students }}</p>
+                                    <h3 class="text-lg font-semibold">Students</h3>
+                                    <p class="text-2xl font-bold">{{ $students }}</p>
                                 </div>
-                                <div class="p-3 bg-white/30 rounded-full">
+                                <div class="p-3 bg-green-500 rounded-full">
                                     <img src="{{ asset('assets/images/icons/student.png') }}" alt="Students Icon"
                                         class="w-10 h-10">
                                 </div>
                             </div>
                         </div>
-                        <div class="p-6 rounded-lg bg-gradient-to-br from-purple-500 to-purple-700 shadow-lg text-white">
+
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-purple-200 to-purple-400 text-white shadow-md">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold">Teachers</h3>
-                                    <p class="text-2xl font-semibold">{{ $teachers }}</p>
+                                    <h3 class="text-lg font-semibold">Teachers</h3>
+                                    <p class="text-2xl font-bold">{{ $teachers }}</p>
                                 </div>
-                                <div class="p-3 bg-white/30 rounded-full">
+                                <div class="p-3 bg-purple-500 rounded-full">
                                     <img src="{{ asset('assets/images/icons/teacher.png') }}" alt="Teachers Icon"
                                         class="w-10 h-10">
                                 </div>
@@ -66,11 +69,43 @@
                     </div>
 
                     <!-- Chart Section -->
-                    <div class="p-6 bg-white rounded-lg shadow-lg">
-                        <div class="flex justify-between items-center mb-4">
-                            <h4 class="text-lg font-bold text-gray-700">Transactions</h4>
+                    <div class="grid [grid-template-columns:2.5fr_1fr] gap-x-4">
+                        <div class="p-6 bg-white rounded-lg shadow-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-lg font-bold text-gray-700">Transactions</h4>
+                            </div>
+                            <div id="profit" data-transactions="{{ json_encode($transactionData) }}" class="h-72">
+                            </div>
                         </div>
-                        <div id="profit" data-transactions="{{ json_encode($transactionData) }}" class="h-72"></div>
+                        <div class="p-6 bg-white rounded-lg shadow-lg">
+                            {{-- list latest transactions --}}
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="text-lg font-bold text-gray-700">Latest Transactions</h4>
+                            </div>
+
+                            <div class="flex flex-col gap-y-4">
+                                @foreach ($latestTransactions as $transaction)
+                                    <div class="flex gap-x-4 items-center border-b border-gray-300 pb-2">
+                                        <div class="flex-shrink-0">
+                                            <img src="{{ Storage::url($transaction->user->avatar) }}" alt=""
+                                                class="w-12 h-12 rounded-full">
+                                        </div>
+                                        <div class="flex-1 text-sm">
+                                            <p class="text-xl font-bold text-[#5628c2]">
+                                                {{ $transaction->user->name }}
+                                            </p>
+                                            <p class="text-orange-500 text-sm">
+                                                {{ $transaction->package->tipe }} Subscriptions
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full mt-10 p-6 bg-white rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-indigo-950 mb-4">Balance Tracking</h3>
+                        <div id="balance-chart" data-balance="{{ json_encode($balancePerMonth) }}"></div>
                     </div>
                 </div>
             @endrole
@@ -122,6 +157,11 @@
                         Create New Course
                     </a>
                 </div>
+
+                {{-- <div class="w-full mt-10 p-6 bg-white rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-indigo-950 mb-4">Student Activity</h3>
+                    <div id="student-chart" data-students="{{ json_encode($studentData) }}"></div>
+                </div> --}}
             @endrole
 
             @role('student')

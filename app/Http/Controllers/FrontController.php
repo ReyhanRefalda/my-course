@@ -78,7 +78,6 @@ class FrontController extends Controller
 
         return view('front.learning', compact('course', 'video', 'categories'));
     }
-f
 
 
 

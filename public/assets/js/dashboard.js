@@ -1,3 +1,4 @@
+// chart transaction
 $(function () {
     const rawTransactionData = $("#profit").data("transactions");
     const transactionData = rawTransactionData || [
@@ -18,7 +19,7 @@ $(function () {
         ],
         chart: {
             type: "bar",
-            height: 370,
+            height: 350,
             fontFamily: "Poppins, sans-serif",
             toolbar: { show: false },
         },
@@ -91,3 +92,101 @@ $(function () {
     );
     chartColumnBasic.render();
 });
+
+// chart balance
+$(function () {
+    const rawBalanceData = $("#balance-chart").data("balance");
+    const balanceData =
+        rawBalanceData || Array(12).fill({ owner: 0, teacher: 0 });
+
+    const ownerBalanceData = balanceData.map((item) => item.owner);
+    const teacherBalanceData = balanceData.map((item) => item.teacher);
+
+    var balanceOptions = {
+        chart: {
+            type: "line",
+            height: 350,
+            fontFamily: "Poppins, sans-serif",
+        },
+        series: [
+            {
+                name: "Balance (Owner)",
+                data: ownerBalanceData,
+            },
+            {
+                name: "Balance (Teacher)",
+                data: teacherBalanceData,
+            },
+        ],
+        stroke: {
+            width: 3,
+            curve: "smooth",
+        },
+        xaxis: {
+            categories: [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+            ],
+        },
+        colors: ["#3525B3", "#F77E21"],
+    };
+
+    var balanceChart = new ApexCharts(
+        document.querySelector("#balance-chart"),
+        balanceOptions
+    );
+    balanceChart.render();
+});
+
+// Chart Student
+// $(function () {
+//     const rawStudentData = $("#student-chart").data("students");
+//     const studentData = rawStudentData || Array(12).fill(0);
+
+//     var studentChartOptions = {
+//         chart: {
+//             type: "bar",
+//             height: 350,
+//             fontFamily: "Poppins, sans-serif",
+//         },
+//         series: [
+//             {
+//                 name: "Students",
+//                 data: studentData,
+//             },
+//         ],
+//         colors: ["#28a745"],
+//         xaxis: {
+//             categories: [
+//                 "January",
+//                 "February",
+//                 "March",
+//                 "April",
+//                 "May",
+//                 "June",
+//                 "July",
+//                 "August",
+//                 "September",
+//                 "October",
+//                 "November",
+//                 "December",
+//             ],
+//         },
+//     };
+
+//     var studentChart = new ApexCharts(
+//         document.querySelector("#student-chart"),
+//         studentChartOptions
+//     );
+//     studentChart.render();
+// });
