@@ -22,39 +22,39 @@ class CourseController extends Controller
     public function index()
     {
         $user = Auth::user();
-    
+
         // Load courses with related models
         $query = Course::with(['categories', 'teacher', 'students'])->orderByDesc('id');
-    
+
         // Filter berdasarkan role "teacher"
         if ($user->hasRole('teacher')) {
             $query->whereHas('teacher', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             });
         }
-    
+
         // Filter berdasarkan kategori (many-to-many)
         if (request('category')) {
             $query->whereHas('categories', function ($query) {
                 $query->where('categories.id', request('category')); // Perbaikan di sini
             });
         }
-    
+
         // Filter berdasarkan teacher
         if (request('teacher')) {
             $query->where('teacher_id', request('teacher'));
         }
-    
+
         $courses = $query->paginate(10);
-    
-        // Ambil data untuk dropdown filter 
+
+        // Ambil data untuk dropdown filter
         $categories = Category::all();
         $teachers = Teacher::with('user')->get();
-    
+
         return view('admin.courses.index', compact('courses', 'categories', 'teachers'));
     }
-    
-    
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -130,17 +130,17 @@ class CourseController extends Controller
 
 
 
-    
+
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
         $course = Course::withTrashed()->findOrFail($id);
-    
+
         // Ambil role user
         $userRole = auth()->user()->getRoleNames()->first();
-    
+
         // Ambil video kursus dengan logika sesuai role
         $courseVideos = $course->course_videos()
             ->when($userRole === 'owner', function ($query) {
@@ -150,20 +150,20 @@ class CourseController extends Controller
                 return $query->withTrashed();
             })
             ->get();
-    
+
         $categories = Category::all();
-    
+
         return view('admin.courses.show', compact('course', 'categories', 'courseVideos', 'userRole'));
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -180,7 +180,7 @@ class CourseController extends Controller
     return view('admin.courses.edit', compact('course', 'categories'));
 }
 
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -189,25 +189,25 @@ class CourseController extends Controller
     {
         DB::transaction(function () use ($request, $course) {
             $validated = $request->validated();
-    
+
             // Periksa dan proses upload thumbnail baru jika ada
             if ($request->hasFile('thumbnail')) {
                 // Hapus thumbnail lama jika ada
                 if ($course->thumbnail) {
                     Storage::disk('public')->delete($course->thumbnail);
                 }
-    
+
                 // Simpan thumbnail baru
                 $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
                 $validated['thumbnail'] = $thumbnailPath;
             }
-    
+
             // Generate slug baru berdasarkan nama
             $validated['slug'] = Str::slug($validated['name']);
-    
+
             // Update data course
             $course->update($validated);
-    
+
             // Sinkronisasi kategori
             if ($request->has('category_ids') && !empty($request->category_ids)) {
                 // Sinkronisasi kategori baru
@@ -216,12 +216,12 @@ class CourseController extends Controller
                 // Jika tidak ada kategori dipilih, hapus semua kategori terkait
                 $course->categories()->detach();
             }
-    
+
             // Update course keypoints
             if (!empty($validated['course_keypoints'])) {
                 // Hapus semua keypoint lama
                 $course->course_keypoints()->delete();
-    
+
                 // Tambahkan keypoint baru
                 foreach ($validated['course_keypoints'] as $keypointText) {
                     $course->course_keypoints()->create([
@@ -230,11 +230,11 @@ class CourseController extends Controller
                 }
             }
         });
-    
+
         return redirect()->route('admin.courses.show', $course)
             ->with('success', 'Course updated successfully!');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -242,7 +242,7 @@ class CourseController extends Controller
     public function destroy(CourseVideo $courseVideo)
     {
         $user = auth()->user();
-    
+
         // Debugging untuk role
         if ($user->hasRole('teacher')) {
             // Teacher hanya dapat menghapus permanen jika video belum soft deleted
@@ -253,7 +253,7 @@ class CourseController extends Controller
                 return redirect()->back()->with('error', 'Teacher tidak dapat menghapus video yang sudah dihapus (soft delete).');
             }
         }
-    
+
         if ($user->hasRole('owner')) {
             // Owner melakukan soft delete
             if (!$courseVideo->trashed()) {
@@ -264,11 +264,11 @@ class CourseController extends Controller
                 return redirect()->back()->with('error', 'Video sudah dihapus sebelumnya.');
             }
         }
-    
+
         return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus video.');
     }
-    
-    
-    
-    
+
+
+
+
 }
