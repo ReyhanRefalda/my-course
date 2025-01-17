@@ -104,13 +104,23 @@
                         </a>
                     </li>
                 @endrole
-                @role('owner|teacher')
+                @role('teacher')
                     <li class="sidebar-item">
                         <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
                             href="{{ route('admin.withdraw.index') }}">
                             <!-- Gunakan ikon wallet atau arrow outward -->
                             <i class="ti ti-currency-dollar ps-2 text-2xl"></i>
                             <span>Balance Withdrawal</span>
+                        </a>
+                    </li>
+                @endrole
+                @role('owner')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
+                            href="{{ route('admin.withdraw.manage') }}">
+                            <!-- Gunakan ikon wallet atau arrow outward -->
+                            <i class="ti ti-currency-dollar ps-2 text-2xl"></i>
+                            <span>Manage Withdrawal</span>
                         </a>
                     </li>
                 @endrole
