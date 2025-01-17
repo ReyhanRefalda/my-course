@@ -14,11 +14,14 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-{
-    $categories = Category::orderBy('id', 'desc')->get();
-    return view('admin.categories.index', compact('categories'));
-}
+    public function index(Request $request)
+    {
+        $input = request('search');
+        $categories = Category::when($input, function ($query, $input) {
+            return $query->where('name', 'like', '%' . $input . '%');
+        })->orderByDesc('id')->get();
+        return view('admin.categories.index', compact('categories'));
+    }
 
     /**
      * Show the form for creating a new resource.
