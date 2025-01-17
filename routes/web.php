@@ -38,7 +38,6 @@ Route::middleware('auth')->group(function () {
         return view('teachers.approval-notice');
     })->name('teachers.approval-notice');
 
-
     // Checkout routes
     Route::get('/checkout/{packageId}', [FrontController::class, 'checkout'])->name('front.checkout')
         ->middleware('role:student');
@@ -61,10 +60,21 @@ Route::middleware('auth')->group(function () {
         // Penarikan saldo
         Route::get('/withdraw', [WithdrawController::class, 'index'])->name('withdraw.index')
             ->middleware('role:teacher|owner'); // Hanya untuk teacher atau owner
+       
+            Route::get('/withdraw/manage', [WithdrawController::class, 'manage'])->name('withdraw.manage')
+            ->middleware('role:owner');
 
         Route::post('/withdraw', [WithdrawController::class, 'store'])->name('withdraw.store')
-            ->middleware('role:teacher|owner'); // Hanya untuk teacher atau owner
+            ->middleware('role:teacher'); // Hanya untuk teacher yang mengajukan
 
+        Route::get('/withdraw/approval', [WithdrawController::class, 'approvalList'])->name('withdraw.approval')
+            ->middleware('role:owner'); // Hanya untuk owner yang melihat daftar pending
+
+        Route::put('/withdraw/{id}/approve', [WithdrawController::class, 'approve'])->name('withdraw.approve')
+            ->middleware('role:owner'); // Owner menyetujui penarikan
+
+        Route::put('/withdraw/{id}/reject', [WithdrawController::class, 'reject'])->name('withdraw.reject')
+            ->middleware('role:owner'); // Owner menolak penarikan
 
         Route::get('/teachers/approval', [TeacherController::class, 'approvalRequests'])
             ->middleware('role:owner')
