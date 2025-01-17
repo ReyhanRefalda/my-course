@@ -27,7 +27,7 @@ class DashboardController extends Controller
             }
         }
 
-        // chart transaction
+        // chart transaction start
         $transactionsPerMonth = SubscribeTransaction::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
             ->groupBy('month')
             ->pluck('count', 'month')
@@ -37,9 +37,10 @@ class DashboardController extends Controller
         for ($i = 1; $i <= 12; $i++) {
             $transactionData[] = $transactionsPerMonth[$i] ?? 0;
         }
+        // chart balance end
 
 
-        // chart balance
+        // chart balance start
         $balancePerMonth = [];
         $totalBalance = 0;
 
@@ -82,8 +83,29 @@ class DashboardController extends Controller
 
             $totalBalance += $monthlyBalanceOwner + $monthlyBalanceTeacher;
         }
+        // chart balance end
 
-        // other data
+        // Top Performers Teacher
+        $topPerformingTeachers = Teacher::with(['courses.students'])
+            ->get()
+            ->map(function ($teacher) {
+                $totalCourses = $teacher->courses->count();
+                $totalViewers = $teacher->courses->sum(function ($course) {
+                    return $course->students->count();
+                });
+
+                return [
+                    'teacher_name' => $teacher->user->name,
+                    'total_courses' => $totalCourses,
+                    'total_viewers' => $totalViewers,
+                    'teacher_email' => $teacher->user->email,
+                    'teacher_avatar' => $teacher->user->avatar,
+                ];
+            })
+            ->sortByDesc('total_viewers')
+            ->take(5);
+
+        // other data for owner
         $courses = Course::count();
         $categories = Category::count();
         $transactions = SubscribeTransaction::count();
@@ -98,6 +120,22 @@ class DashboardController extends Controller
         })->first()->balance;
         $latestTransactions = SubscribeTransaction::with('package')->orderBy('created_at', 'desc')->limit(5)->get();
 
+        // other data for teacher
+        $balance = $user->balance;
+        // Data Dashboard Teacher
+        $totalCourses = $totalViewers = $totalStudents = null;
+        if ($user->hasRole('teacher')) {
+            $teacher = $user->teacher;
+
+            $totalCourses = $teacher->courses->count();
+            $totalViewers = $teacher->courses->sum(function ($course) {
+                return $course->students->count();
+            });
+            $totalStudents = $teacher->courses->map(function ($course) {
+                return $course->students;
+            })->flatten()->unique('id')->count();
+        }
+
         return view('admin.dashboard', compact(
             'categories',
             'courses',
@@ -109,6 +147,11 @@ class DashboardController extends Controller
             'balancePerMonth',
             'totalBalance',
             'latestTransactions',
+            'topPerformingTeachers',
+            'balance',
+            'totalCourses',
+            'totalViewers',
+            'totalStudents'
         ));
     }
 }
