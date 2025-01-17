@@ -169,18 +169,7 @@
                         </div>
                         <p class="font-medium">Assets</p>
                     </div>
-                    <div class="flex gap-2 items-center">
-                        <div>
-                            <img src="assets/icon/award.svg" alt="icon">
-                        </div>
-                        <p class="font-medium">Certificates</p>
-                    </div>
-                    <div class="flex gap-2 items-center">
-                        <div>
-                            <img src="assets/icon/book.svg" alt="icon">
-                        </div>
-                        <p class="font-medium">Documentations</p>
-                    </div>
+
                 </div>
             </div>
             <div class="flex flex-col text-left gap-[30px]">
