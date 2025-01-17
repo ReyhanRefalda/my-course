@@ -40,6 +40,7 @@
 <body class="bg-gray-100">
     <main>
         <!-- Start the project -->
+        @role('owner|teacher')
         <div id="main-wrapper" class="flex p-5 xl:pr-0 min-h-screen">
             @include('layouts.components.sidebar')
 
@@ -57,7 +58,24 @@
                 </main>
                 <!-- Main Content End -->
             </div>
+
+
         </div>
+        @elserole('student')
+
+        <!-- Main Content -->
+        <main class="h-full max-w-full">
+            <div class="container full-container p-0 flex flex-col gap-6">
+                <!-- Header Start -->
+                <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
+                    @include('layouts.components.navbar')
+                </header>
+                <!-- Header End -->
+                {{ $slot }}
+            </div>
+        </main>
+        @endrole
+        <!-- Main Content End -->
         <!-- End of project -->
     </main>
 
