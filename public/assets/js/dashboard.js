@@ -148,45 +148,66 @@ $(function () {
     balanceChart.render();
 });
 
-// Chart Student
-// $(function () {
-//     const rawStudentData = $("#student-chart").data("students");
-//     const studentData = rawStudentData || Array(12).fill(0);
+document.addEventListener("DOMContentLoaded", () => {
+    // Ambil data viewers dari elemen
+    const rawViewersData = JSON.parse(
+        document.querySelector("#viewersChart").dataset.viewers || "[]"
+    );
 
-//     var studentChartOptions = {
-//         chart: {
-//             type: "bar",
-//             height: 350,
-//             fontFamily: "Poppins, sans-serif",
-//         },
-//         series: [
-//             {
-//                 name: "Students",
-//                 data: studentData,
-//             },
-//         ],
-//         colors: ["#28a745"],
-//         xaxis: {
-//             categories: [
-//                 "January",
-//                 "February",
-//                 "March",
-//                 "April",
-//                 "May",
-//                 "June",
-//                 "July",
-//                 "August",
-//                 "September",
-//                 "October",
-//                 "November",
-//                 "December",
-//             ],
-//         },
-//     };
+    // Konversi data ke format ApexCharts
+    const categories = rawViewersData.map((data) => data.month);
+    const viewersData = rawViewersData.map((data) => data.viewers);
 
-//     var studentChart = new ApexCharts(
-//         document.querySelector("#student-chart"),
-//         studentChartOptions
-//     );
-//     studentChart.render();
-// });
+    // Konfigurasi chart
+    const options = {
+        chart: {
+            type: "line",
+            height: 350,
+            toolbar: { show: false },
+        },
+        series: [
+            {
+                name: "Viewers",
+                data: viewersData,
+            },
+        ],
+        xaxis: {
+            categories: categories,
+            labels: {
+                style: {
+                    colors: "#707070",
+                    fontSize: "12px",
+                },
+            },
+        },
+        yaxis: {
+            labels: {
+                formatter: (val) => val.toFixed(0),
+                style: {
+                    colors: "#707070",
+                    fontSize: "12px",
+                },
+            },
+        },
+        colors: ["#3525B3"], // Warna garis chart
+        title: {
+            text: "Viewers per Bulan",
+            align: "center",
+            style: { fontSize: "16px" },
+        },
+        grid: {
+            borderColor: "rgba(0,0,0,0.1)",
+            strokeDashArray: 3,
+        },
+        tooltip: {
+            theme: "dark",
+        },
+    };
+
+    // Render chart
+    const chart = new ApexCharts(
+        document.querySelector("#viewersChart"),
+        options
+    );
+    chart.render();
+});
