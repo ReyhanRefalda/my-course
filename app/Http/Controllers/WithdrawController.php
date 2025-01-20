@@ -16,17 +16,17 @@ class WithdrawController extends Controller
     {
         $user = Auth::user();
         $balance = $user->balance;
-    
+
         // Ambil data withdrawal berdasarkan user dan status
         $withdrawals = Withdrawal::where('user_id', $user->id)
-                                  ->orderBy('created_at', 'desc') // Urutkan berdasarkan waktu
-                                  ->get();
-    
+            ->orderBy('created_at', 'desc') // Urutkan berdasarkan waktu
+            ->get();
+
         return view('admin.withdraw.index', compact('balance', 'withdrawals'));
     }
-    
-    
-    
+
+
+
 
     /**
      * Teacher melakukan permintaan penarikan saldo.
@@ -56,7 +56,7 @@ class WithdrawController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('admin.withdraw.index')->with('success', 'Permintaan penarikan berhasil diajukan. Menunggu persetujuan.');
+        return redirect()->route('admin.withdraw.index')->with('success', 'Withdrawal request submitted successfully. Waiting for approval');
     }
 
     /**
@@ -68,14 +68,14 @@ class WithdrawController extends Controller
         if (!auth()->user()->hasRole('owner')) {
             abort(403, 'Unauthorized action.');
         }
-    
+
         // Retrieve withdrawal requests with 'pending' or 'approved' status
-        $withdrawals = Withdrawal::whereIn('status', ['pending', 'approved'])->get();
-    
+        $withdrawals = Withdrawal::whereIn('status', ['pending', 'approved'])->orderByDesc('id')->get();
+
         return view('admin.withdraw.manage', compact('withdrawals'));
     }
-    
-    
+
+
 
     /**
      * Owner menyetujui penarikan saldo.
@@ -83,35 +83,40 @@ class WithdrawController extends Controller
     public function approve(Request $request, $id)
     {
         // Validasi file bukti
-        $request->validate([
-            'proof_file' => 'required|file|mimes:jpg,png,pdf|max:2048', // Validasi file bukti
-        ]);
-    
+        $request->validate(
+            [
+                'proof_file' => 'required|file|mimes:jpg,png,pdf|max:20048', // Validasi file bukti
+            ],
+            [
+                'proof_file.required' => 'proof must be filled in.',
+            ]
+        );
+
         // Ambil data penarikan berdasarkan ID
         $withdrawal = Withdrawal::findOrFail($id);
-    
+
         // Cek jika status bukan 'pending', jika sudah diproses, beri pesan error
         if ($withdrawal->status !== 'pending') {
-            return redirect()->back()->with('error', 'Permintaan ini sudah diproses.');
+            return redirect()->back()->with('error', 'This request has been processed.');
         }
-    
+
         // Simpan file bukti yang diupload
         $filePath = $request->file('proof_file')->store('proofs', 'public');
-    
+
         // Update status dan tambahkan file bukti
         $withdrawal->update([
             'status' => 'approved',
             'proof_file' => $filePath,
         ]);
-    
+
         // Kurangi saldo user (teacher)
         $user = $withdrawal->user;
         $user->decrement('balance', $withdrawal->amount);
-    
+
         // Redirect dengan pesan sukses
-        return redirect()->route('admin.withdraw.manage')->with('success', 'Penarikan berhasil disetujui.');
+        return redirect()->route('admin.withdraw.manage')->with('success', 'Withdrawal successfully approved.');
     }
-    
+
 
     /**
      * Owner menolak permintaan penarikan.
@@ -120,19 +125,18 @@ class WithdrawController extends Controller
     {
         // Ambil data penarikan berdasarkan ID
         $withdrawal = Withdrawal::findOrFail($id);
-    
+
         // Cek jika status bukan 'pending', jika sudah diproses, beri pesan error
         if ($withdrawal->status !== 'pending') {
-            return redirect()->back()->with('error', 'Permintaan ini sudah diproses.');
+            return redirect()->back()->with('error', 'This request has been processed.');
         }
-    
+
         // Update status menjadi 'rejected'
         $withdrawal->update([
             'status' => 'rejected',
         ]);
-    
+
         // Redirect dengan pesan sukses
-        return redirect()->route('admin.withdraw.manage')->with('success', 'Permintaan penarikan berhasil ditolak.');
+        return redirect()->route('admin.withdraw.manage')->with('success', 'The withdrawal request was successfully rejected.');
     }
-    
 }

@@ -178,5 +178,4 @@
                 });
             </script>
         @endif
-        </script>
 </x-app-layout>
