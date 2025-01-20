@@ -1,15 +1,16 @@
     .section-btn {
-        background-color: #3525B3; /* Default button color */
+        background-color: #ccc; /* Default button color */
         padding: 10px 20px;
         border-radius: 30px;
     }
 
     .section-btn.active-btn {
-        background-color: #FF6129; /* Warna tombol aktif */
+        background-color: #3525B3;
+        color: #fff; /* Warna tombol aktif */
     }
 
     .section-btn:not(.active-btn):hover {
-        color: #ffa786;
+        color: #333;
     }
 
     /* Gaya untuk gambar kecil */
