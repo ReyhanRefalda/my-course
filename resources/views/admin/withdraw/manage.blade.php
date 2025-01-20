@@ -8,7 +8,7 @@
     </x-slot>
 
     {{-- Start Button for Change Section --}}
-    <div class="grig [grid-template-columns:1fr_1fr] grid items-center text-white rounded-[30px] bg-[#3525B3] w-fit">
+    <div class="grig [grid-template-columns:1fr_1fr] grid items-center text-gray-600 rounded-[30px] bg-[#cccccc] w-fit">
         <button id="btn-prnding" class="section-btn active-btn transition-all duration-300 ease-in-out">Pending
             withdrawal</button>
         <button id="btn-approved" class="section-btn transition-all duration-300 ease-in-out">Approved</button>

@@ -12,18 +12,29 @@ class WithdrawController extends Controller
     /**
      * Tampilkan form penarikan saldo untuk teacher.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $balance = $user->balance;
 
-        // Ambil data withdrawal berdasarkan user dan status
+        // Ambil parameter filter
+        $status = $request->get('status');
+        $date = $request->get('date');
+
+        // Query withdrawals
         $withdrawals = Withdrawal::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc') // Urutkan berdasarkan waktu
+            ->when($status, function ($query, $status) {
+                return $query->where('status', $status);
+            })
+            ->when($date, function ($query, $date) {
+                return $query->whereDate('created_at', $date);
+            })
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('admin.withdraw.index', compact('balance', 'withdrawals'));
     }
+
 
 
 
@@ -36,9 +47,9 @@ class WithdrawController extends Controller
         $request->validate([
             'amount' => 'required|numeric|min:1',
         ], [
-            'amount.required' => 'Jumlah penarikan harus diisi.',
-            'amount.numeric' => 'Jumlah penarikan harus berupa angka.',
-            'amount.min' => 'Jumlah penarikan minimal adalah 1.',
+            'amount.required' => 'The withdrawal amount must be filled in.',
+            'amount.numeric' => 'The withdrawal amount must be a number.',
+            'amount.min' => 'The minimum withdrawal amount is 1.',
         ]);
 
         $user = Auth::user();
@@ -46,7 +57,7 @@ class WithdrawController extends Controller
 
         // Cek apakah saldo mencukupi
         if ($user->balance < $amount) {
-            return redirect()->back()->with('error', 'Saldo Anda tidak mencukupi.');
+            return redirect()->back()->with('error', 'Your balance is insufficient.');
         }
 
         // Buat permintaan penarikan dengan status pending
