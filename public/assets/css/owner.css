@@ -1,0 +1,141 @@
+    .section-btn {
+        background-color: #3525B3; /* Default button color */
+        padding: 10px 20px;
+        border-radius: 30px;
+    }
+
+    .section-btn.active-btn {
+        background-color: #FF6129; /* Warna tombol aktif */
+    }
+
+    .section-btn:not(.active-btn):hover {
+        color: #ffa786;
+    }
+
+    /* Gaya untuk gambar kecil */
+.preview-image {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.preview-image:hover {
+    transform: scale(1.1);
+}
+
+/* Gaya modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background-color: white;
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.modal-content img {
+    width: 100%;
+    height: 100vh;
+    border-radius: 10px;
+}
+
+/* Tombol close */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    font-size: 24px;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+    background-color: darkred;
+}
+
+
+#withdrawalSlider {
+        -webkit-appearance: none; /* Remove default styling for Webkit browsers */
+        appearance: none;
+        width: 100%;
+        height: 10px; /* Track height */
+        background: linear-gradient(to right, #3525B3, #FF6129); /* Gradient color */
+        border-radius: 10px; /* Rounded corners for the track */
+        outline: none;
+        opacity: 0.9; /* Transparency for the slider track */
+        transition: opacity 0.3s ease;
+    }
+
+    #withdrawalSlider:hover {
+        opacity: 1;
+    }
+
+    #withdrawalSlider::-webkit-slider-thumb {
+        -webkit-appearance: none; /* Remove default styling for Webkit browsers */
+        appearance: none;
+        width: 20px; /* Thumb width */
+        height: 20px; /* Thumb height */
+        background: #FF6129; /* Thumb color */
+        border: 3px solid #FFFFFF; /* White border around the thumb */
+        border-radius: 50%; /* Make the thumb circular */
+        cursor: pointer; /* Pointer cursor on hover */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+        transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    #withdrawalSlider::-webkit-slider-thumb:hover {
+        transform: scale(1.2); /* Scale up the thumb slightly */
+        background: #3525B3; /* Change color on hover */
+    }
+
+    #withdrawalSlider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #FF6129;
+        border: 3px solid #FFFFFF;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    #withdrawalSlider::-moz-range-thumb:hover {
+        transform: scale(1.2);
+        background: #3525B3;
+    }
+
+    #withdrawalSlider:focus::-webkit-slider-thumb {
+        box-shadow: 0 0 8px rgba(53, 37, 179, 0.6); /* Highlight effect when focused */
+    }
+
+    #withdrawalSlider:focus::-moz-range-thumb {
+        box-shadow: 0 0 8px rgba(53, 37, 179, 0.6);
+    }
+

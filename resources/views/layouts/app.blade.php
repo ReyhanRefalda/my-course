@@ -29,6 +29,7 @@
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/owner.css') }}" />
 
     <!-- Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
@@ -41,39 +42,39 @@
     <main>
         <!-- Start the project -->
         @role('owner|teacher')
-        <div id="main-wrapper" class="flex p-5 xl:pr-0 min-h-screen">
-            @include('layouts.components.sidebar')
+            <div id="main-wrapper" class="flex p-5 xl:pr-0 min-h-screen">
+                @include('layouts.components.sidebar')
 
-            <div class="w-full page-wrapper xl:px-6 px-0">
-                <!-- Main Content -->
-                <main class="h-full max-w-full">
-                    <div class="container full-container p-0 flex flex-col gap-6">
-                        <!-- Header Start -->
-                        <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
-                            @include('layouts.components.navbar')
-                        </header>
-                        <!-- Header End -->
-                        {{ $slot }}
-                    </div>
-                </main>
-                <!-- Main Content End -->
+                <div class="w-full page-wrapper xl:px-6 px-0">
+                    <!-- Main Content -->
+                    <main class="h-full max-w-full">
+                        <div class="container full-container p-0 flex flex-col gap-6">
+                            <!-- Header Start -->
+                            <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
+                                @include('layouts.components.navbar')
+                            </header>
+                            <!-- Header End -->
+                            {{ $slot }}
+                        </div>
+                    </main>
+                    <!-- Main Content End -->
+                </div>
+
+
             </div>
+            @elserole('student')
 
-
-        </div>
-        @elserole('student')
-
-        <!-- Main Content -->
-        <main class="h-full max-w-full">
-            <div class="container full-container p-0 flex flex-col gap-6">
-                <!-- Header Start -->
-                <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
-                    @include('layouts.components.navbar')
-                </header>
-                <!-- Header End -->
-                {{ $slot }}
-            </div>
-        </main>
+            <!-- Main Content -->
+            <main class="h-full max-w-full">
+                <div class="container full-container p-0 flex flex-col gap-6">
+                    <!-- Header Start -->
+                    <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
+                        @include('layouts.components.navbar')
+                    </header>
+                    <!-- Header End -->
+                    {{ $slot }}
+                </div>
+            </main>
         @endrole
         <!-- Main Content End -->
         <!-- End of project -->

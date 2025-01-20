@@ -27,6 +27,26 @@ class DashboardController extends Controller
             }
         }
 
+        $totalViewersPerMonth = []; // Default jika user bukan teacher
+
+        if ($user->hasRole('teacher')) {
+            $teacher = $user->teacher;
+            $currentYear = now()->year;
+
+            for ($month = 1; $month <= 6; $month++) {
+                $viewersCount = $teacher->courses()
+                    ->join('course_students', 'courses.id', '=', 'course_students.course_id')
+                    ->whereMonth('course_students.created_at', $month)
+                    ->whereYear('course_students.created_at', $currentYear)
+                    ->count();
+
+                $totalViewersPerMonth[] = [
+                    'month' => date('F', mktime(0, 0, 0, $month, 1)),
+                    'viewers' => $viewersCount,
+                ];
+            }
+        }
+
         // chart transaction start
         $transactionsPerMonth = SubscribeTransaction::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
             ->groupBy('month')
@@ -37,8 +57,7 @@ class DashboardController extends Controller
         for ($i = 1; $i <= 12; $i++) {
             $transactionData[] = $transactionsPerMonth[$i] ?? 0;
         }
-        // chart balance end
-
+        // chart transaction end
 
         // chart balance start
         $balancePerMonth = [];
@@ -122,7 +141,6 @@ class DashboardController extends Controller
 
         // other data for teacher
         $balance = $user->balance;
-        // Data Dashboard Teacher
         $totalCourses = $totalViewers = $totalStudents = null;
         if ($user->hasRole('teacher')) {
             $teacher = $user->teacher;
@@ -151,7 +169,8 @@ class DashboardController extends Controller
             'balance',
             'totalCourses',
             'totalViewers',
-            'totalStudents'
+            'totalStudents',
+            'totalViewersPerMonth'
         ));
     }
 }
