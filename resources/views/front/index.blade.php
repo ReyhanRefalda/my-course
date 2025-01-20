@@ -209,7 +209,7 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src="{{ asset('assets/photo/photo4.png') }}" class="w-full h-full object-cover" alt="photo">
                                 </div>
                                 <p class="font-semibold">Shayna</p>
                             </div>
@@ -236,12 +236,11 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo1.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
-                                <p class="font-semibold">Shayna</p>
+                                <p class="font-semibold">Michael</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">The course materials are easy to understand and have helped me grow professionally.</p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
@@ -263,12 +262,11 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo2.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
-                                <p class="font-semibold">Shayna</p>
+                                <p class="font-semibold">Stepen</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">This course has been extremely helpful in improving my practical skills in the workplace.</p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
@@ -290,12 +288,11 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo3.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
-                                <p class="font-semibold">Shayna</p>
+                                <p class="font-semibold">Azriel</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">I highly recommend My Course to anyone looking to enhance their skills.</p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
@@ -323,7 +320,7 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo4.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
                                 <p class="font-semibold">Shayna</p>
                             </div>
@@ -350,12 +347,11 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo1.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
-                                <p class="font-semibold">Shayna</p>
+                                <p class="font-semibold">Michael</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">The course materials are easy to understand and have helped me grow professionally.</p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
@@ -377,12 +373,11 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo2.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
-                                <p class="font-semibold">Shayna</p>
+                                <p class="font-semibold">Stepen</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">This course has been extremely helpful in improving my practical skills in the workplace.</p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
@@ -404,12 +399,11 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo3.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
-                                <p class="font-semibold">Shayna</p>
+                                <p class="font-semibold">Azriel</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">I highly recommend My Course to anyone looking to enhance their skills.</p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
@@ -434,12 +428,12 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo5.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
-                                <p class="font-semibold">Shayna</p>
+                                <p class="font-semibold">Rani</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">My Course The Best Material. I Like My Course, The price is quite affordable
+                                Thankyou!</p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
@@ -461,12 +455,12 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo6.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
-                                <p class="font-semibold">Shayna</p>
+                                <p class="font-semibold">Sano</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">Thanks to My Course, I was able to switch careers smoothly and land my dream job.
+                                 The lessons were practical and easy to follow!</p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
@@ -488,12 +482,13 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/Demas.jpg') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
-                                <p class="font-semibold">Shayna</p>
+                                <p class="font-semibold">Ncos</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">Enrolling in My Course was the best decision I've ever made.
+                                It gave me the tools to succeed and stand out in a competitive job market.
+                            </p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
@@ -515,12 +510,13 @@
                         <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                    <img src="assets/photo/photo4.png" class="w-full h-full object-cover" alt="photo">
+                                    <img src={{ asset('assets/photo/photo4.png') }} class="w-full h-full object-cover" alt="photo">
                                 </div>
                                 <p class="font-semibold">Shayna</p>
                             </div>
-                            <p class="text-sm text-[#475466]">My Course has helped me to grow from zero to perfect career,
-                                thank you!</p>
+                            <p class="text-sm text-[#475466]">The support and guidance I received from My Course were outstanding.
+                                 It truly transformed my career and opened new opportunities!
+                                </p>
                             <div class="flex gap-[2px]">
                                 <div>
                                     <img src="assets/icon/star.svg" alt="star">
