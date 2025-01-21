@@ -10,30 +10,28 @@
     {{-- button balance withdraw --}}
     <div class="flex justify-between items-center">
         <form action="{{ route('admin.withdraw.index') }}" method="GET"
-            class="flex flex-col md:flex-row items-center gap-y-4 gap-x-6 bg-white p-6 rounded-lg shadow-lg">
+            class="flex flex-col md:flex-row items-center gap-x-3">
             <!-- Dropdown Status -->
             <div class="w-full md:w-auto">
-                <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">Filter Status</label>
                 <select name="status" id="status"
-                    class="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-full focus:ring-[#3525B3] focus:border-[#3525B3] text-gray-700 shadow-sm">
+                    class="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-full focus:ring-[#3525B3] focus:border-[#3525B3] text-gray-700 shadow-sm">
                     <option value="">All</option>
                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
-                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                    </select>
+                    <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                </select>
             </div>
 
             <!-- Date Filter -->
             <div class="w-full md:w-auto">
-                <label for="date" class="block text-sm font-semibold text-gray-700 mb-2">Filter by Date</label>
                 <input type="date" id="date" name="date" value="{{ request('date') }}"
-                    class="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-full focus:ring-[#3525B3] focus:border-[#3525B3] text-gray-700 shadow-sm">
+                    class="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-full focus:ring-[#3525B3] focus:border-[#3525B3] text-gray-700 shadow-sm">
             </div>
 
             <!-- Filter Button -->
             <div class="w-full md:w-auto flex justify-center">
                 <button type="submit"
-                    class="flex items-center justify-center px-6 py-3 bg-[#3525B3] text-white font-semibold rounded-full shadow-md hover:bg-[#FF6129] transition-transform transform hover:scale-105">
+                    class="flex items-center justify-center px-6 py-2 bg-[#3525B3] text-white font-semibold rounded-full shadow-md hover:bg-[#FF6129] transition-transform transform hover:scale-105">
                     Filter
                 </button>
             </div>

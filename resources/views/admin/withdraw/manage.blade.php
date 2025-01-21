@@ -89,8 +89,12 @@
                                         </div>
                                         <x-input-error :messages="$errors->get('proof_file')" />
 
-                                        <button type="submit"
-                                            class="w-full py-3 bg-[#3525B3] hover:bg-opacity-90 text-white font-bold rounded-lg shadow-md transition-transform transform hover:scale-105">
+                                        <button type="button"
+                                            class="w-full py-3 bg-[#3525B3] hover:bg-opacity-90 text-white font-bold rounded-lg shadow-md transition-transform transform hover:scale-105"
+                                            data-action="{{ route('admin.withdraw.approve', $withdrawal->id) }}"
+                                            data-title="Confirm Approval"
+                                            data-message="Are you sure you want to approve this withdrawal?"
+                                            onclick="openModal(this)">
                                             Approve Withdrawal
                                         </button>
                                     </form>
@@ -99,8 +103,14 @@
                                     <form action="{{ route('admin.withdraw.reject', $withdrawal->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <button type="submit"
-                                            class="w-full py-3 bg-[#FF6129] text-white font-bold rounded-lg shadow-md transition-transform transform hover:scale-105">
+
+                                        <!-- Reject Button -->
+                                        <button type="button"
+                                            class="w-full py-3 bg-[#FF6129] text-white font-bold rounded-lg shadow-md transition-transform transform hover:scale-105"
+                                            data-action="{{ route('admin.withdraw.reject', $withdrawal->id) }}"
+                                            data-title="Confirm Rejection"
+                                            data-message="Are you sure you want to reject this withdrawal?"
+                                            onclick="openModal(this)">
                                             Reject Withdrawal
                                         </button>
                                     </form>
@@ -175,27 +185,23 @@
                     @endforeach
                 </div>
 
-                <!-- Modal Konfirmasi -->
-                <div id="approveModal" tabindex="-1" aria-hidden="true"
-                    class="hidden fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex justify-center items-center">
-                    <div class="relative p-4 w-full max-w-md">
-                        <div class="relative p-4 bg-white rounded-lg shadow sm:p-5">
-                            <button type="button"
-                                class="absolute top-2.5 right-2.5 text-gray-700 hover:text-gray-900 rounded-lg text-sm p-1.5"
-                                onclick="closeApproveModal()">
-                                ✖
+                <!-- Modal -->
+                <div id="confirmation-modal"
+                    class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+                    <div class="bg-white rounded-lg shadow-lg w-[90%] max-w-md p-6">
+                        <h3 id="modal-title" class="text-lg font-bold text-gray-800">Confirm</h3>
+                        <p id="modal-message" class="mt-2 text-sm text-gray-600">Are you sure you want to do this?
+                        </p>
+
+                        <div class="flex justify-end gap-4 mt-6">
+                            <button id="cancel-button"
+                                class="px-4 py-2 text-sm font-bold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
+                                Cancel
                             </button>
-                            <p class="mb-4 text-gray-700">Are you sure you want to approve this withdrawal?</p>
-                            <div class="flex justify-center space-x-4">
-                                <!-- Cancel Button -->
-                                <button type="button"
-                                    class="px-4 py-2 font-semibold bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-                                    onclick="closeApproveModal()">Cancel</button>
-                                <!-- Confirm Button -->
-                                <button type="button"
-                                    class="px-4 py-2 font-semibold bg-[#3525B3] text-white rounded-lg hover:bg-[#FF6129]"
-                                    onclick="submitApproveForm()">Confirm</button>
-                            </div>
+                            <button id="confirm-button"
+                                class="px-4 py-2 text-sm font-bold text-white bg-[#3525B3] rounded-lg hover:bg-[#FF6129]">
+                                Confirm
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -306,18 +312,50 @@
             });
         });
 
+        const modal = document.getElementById('confirmation-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const cancelButton = document.getElementById('cancel-button');
+        const confirmButton = document.getElementById('confirm-button');
 
-        // modal approved withdrawal
-        function openApproveModal() {
-            document.getElementById('approveModal').classList.remove('hidden');
+        let currentForm = null; // Variabel untuk menyimpan form yang akan disubmit
+
+        function openModal(button) {
+            const title = button.getAttribute('data-title');
+            const message = button.getAttribute('data-message');
+
+            // Set judul dan pesan modal
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            // Simpan referensi form utama yang terkait dengan tombol ini
+            currentForm = button.closest('form');
+
+            // Tampilkan modal
+            modal.classList.remove('hidden');
         }
 
-        function closeApproveModal() {
-            document.getElementById('approveModal').classList.add('hidden');
-        }
+        // Event listener untuk tombol "Batal"
+        cancelButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            currentForm = null; // Reset form yang disimpan
+        });
 
-        function submitApproveForm() {
-            document.getElementById('approve-form').submit();
-        }
+        // Event listener untuk klik di luar modal
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.add('hidden');
+                currentForm = null; // Reset form yang disimpan
+            }
+        });
+
+        // Event listener untuk tombol "Konfirmasi"
+        confirmButton.addEventListener('click', () => {
+            if (currentForm) {
+                currentForm.submit(); // Submit form utama
+            }
+            modal.classList.add('hidden');
+            currentForm = null; // Reset form yang disimpan
+        });
     </script>
 </x-app-layout>
