@@ -68,14 +68,21 @@
             <main class="h-full max-w-full">
                 <div class="container full-container p-0 flex flex-col gap-6">
                     <!-- Header Start -->
-                    <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
-                        @include('layouts.components.navbar')
-                    </header>
-                    <!-- Header End -->
+                    <div id="hero-section"
+                        class="mx-auto w-full flex flex-col gap-10 bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden mt-10"
+                        style="background-image: url('{{ asset('assets/background/Hero-Banner.png') }}');">
+                        <x-navcat />
+                    </div>
+
                     {{ $slot }}
                 </div>
             </main>
+
         @endrole
+        {{-- <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
+                        @include('layouts.components.navbar')
+                    </header> --}}
+        <!-- Header End -->
         <!-- Main Content End -->
         <!-- End of project -->
     </main>
