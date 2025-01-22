@@ -7,10 +7,34 @@
         </div>
     </x-slot>
 
-    <div class="flex justify-between items-center space-x-4 mb-6">
-        <form action="" method="GET" class="">
-            <!-- Add search form if needed -->
+    <div class="flex justify-between items-center space-x-4">
+        <form action="{{ route('admin.teachers.index') }}" method="GET" class="flex items-center gap-2">
+            <!-- Search Input -->
+            <div
+                class="flex items-center space-x-2 bg-white border border-gray-300 rounded-[30px] px-4 py-[2px] shadow-md">
+                <button type="submit" class="text-gray-400">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <input type="text" name="search" placeholder="Search Teacher..." value="{{ request('search') }}"
+                    class="block w-full px-4 text-[#898D93] bg-[#fff] [border:2px_solid_#fff] focus:ring-[#fff] focus:border-[#fff] sm:text-sm">
+            </div>
+
+            <!-- Status Filter -->
+            <select name="status" class="block px-4 py-2 bg-white border border-gray-300 rounded-[30px] shadow-sm text-[#898D93]">
+                <option value="" {{ request('status') == '' ? 'selected' : '' }}>All Status</option>
+                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+            </select>
+
+            <button type="submit"
+                class="px-4 py-2 bg-[#3525B3] text-white rounded-[30px] hover:bg-[#3122a1] focus:outline-none">Filter</button>
         </form>
+
         {{--
         <button onclick="openModal()"
             class="font-bold py-2 px-6 bg-indigo-700 text-white rounded-full shadow hover:bg-indigo-800">
@@ -52,12 +76,12 @@
                                         @else
                                             <button type="button" data-modal-target="approveModal-{{ $teacher->id }}"
                                                 data-modal-toggle="approveModal-{{ $teacher->id }}"
-                                                class="px-4 py-2 bg-green-500 text-white rounded-lg">
+                                                class="px-4 py-2 bg-[#3525B3] text-white rounded-[30px]">
                                                 Approve
                                             </button>
                                             <button type="button" data-modal-target="rejectModal-{{ $teacher->id }}"
                                                 data-modal-toggle="rejectModal-{{ $teacher->id }}"
-                                                class="px-4 py-2 bg-red-500 text-white rounded-lg">
+                                                class="px-4 py-2 bg-red-600 text-white rounded-[30px]">
                                                 Reject
                                             </button>
                                         @endif
@@ -107,7 +131,7 @@
                                 @csrf
                                 @method('PUT')
                                 <button type="submit"
-                                    class="px-4 py-2 font-semibold bg-green-500 text-white rounded-lg">
+                                    class="px-4 py-2 font-semibold bg-[#3525B3] text-white rounded-lg">
                                     Approve
                                 </button>
                             </form>
@@ -140,7 +164,8 @@
                                 class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="px-4 py-2 font-semibold bg-red-500 text-white rounded-lg">
+                                <button type="submit"
+                                    class="px-4 py-2 font-semibold bg-red-500 text-white rounded-lg">
                                     Reject
                                 </button>
                             </form>

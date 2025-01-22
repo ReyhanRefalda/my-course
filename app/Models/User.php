@@ -73,6 +73,16 @@ class User extends Authenticatable
         return $latestSubscription !== null;
     }
 
+    public function getActiveSubscription()
+    {
+        return $this->subscribe_transactions()
+            ->where('is_paid', true)
+            ->where('expired_at', '>=', now())
+            ->latest('expired_at')
+            ->first();
+    }
+
+
     public function teacher()
     {
         return $this->hasOne(Teacher::class);

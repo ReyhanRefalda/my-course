@@ -14,10 +14,24 @@ class TeacherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Hanya menampilkan teachers yang status = 'pending'
-        $teachers = Teacher::all();
+        $search = $request->input('search');
+        $status = $request->input('status');
+
+        $teachers = Teacher::with('user')
+            ->whereHas('user', function ($query) use ($search) {
+                if ($search) {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                }
+            })
+            ->when($status, function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->orderByRaw("FIELD(status, 'pending', 'rejected', 'approved')")
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('admin.teachers.index', [
             'teachers' => $teachers,

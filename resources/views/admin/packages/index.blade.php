@@ -6,7 +6,7 @@
             </h2>
         </div>
     </x-slot>
-    <div class="flex justify-end items-center space-x-4 mb-6">
+    <div class="flex justify-end items-center space-x-4">
         <a href="{{ route('admin.packages.create') }}"
             class="font-bold py-2 px-6 text-white rounded-full shadow bg-[#3525B3]">
             Add New
@@ -31,7 +31,7 @@
                                 <!-- Package & Description in One Column -->
                                 <td class="px-4 py-4 flex items-center gap-4">
                                     <div>
-                                        <h3 class="text-gray-900 font-semibold text-xl">{{ $package->name }}</h3>
+                                        <h3 class="text-gray-900 font-semibold text-lg">{{ $package->name }}</h3>
                                         <!-- Make Package Name Larger -->
                                         <p class="text-gray-500 text-sm">{{ Str::limit($package->description, 50) }}</p>
                                     </div>

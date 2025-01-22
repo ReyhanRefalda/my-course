@@ -41,19 +41,28 @@
                 <div class="flex flex-col items-end justify-center mr-4">
                     <h3 class="text-lg font-semibold mb-1 text-white">Hi, {{ Auth::user()->name }}</h3>
                     {{-- role user  owner, teacher, or student --}}
-                    <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
-                        @if (Auth::user()->hasRole('owner'))
-                            <span class="badge badge-success">Owner</span>
-                        @elseif (Auth::user()->hasRole('teacher') && Auth::user()->teacher?->status === 'pending')
-                            <span class="badge badge-warning">Pending</span>
-                        @elseif(Auth::user()->hasRole('teacher'))
-                            <span class="badge badge-warning">Teacher</span>
-                        @elseif (Auth::user()->hasRole('student') && Auth::user()->hasActiveSubscription())
-                            <span class="badge badge-primary">PRO</span>
-                        @elseif (Auth::user()->hasRole('student'))
-                            <span class="badge badge-warning">Student</span>
+                    <div class="flex justify-center items-center gap-x-2">
+                        @if ($remainingDays !== null)
+                            @if ($remainingDays > 0)
+                                <span class="text-[#FF6129] text-sm">Remaining {{ $remainingDays }} days!</span>
+                            @elseif($remainingDays === 0)
+                                <span class="text-[#FF6129] text-sm">Last Day!</span>
+                            @endif
                         @endif
-                    </p>
+                        <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
+                            @if (Auth::user()->hasRole('owner'))
+                                <span class="badge badge-success">Owner</span>
+                            @elseif (Auth::user()->hasRole('teacher') && Auth::user()->teacher?->status === 'pending')
+                                <span class="badge badge-warning">Pending</span>
+                            @elseif(Auth::user()->hasRole('teacher'))
+                                <span class="badge badge-warning">Teacher</span>
+                            @elseif (Auth::user()->hasRole('student') && Auth::user()->hasActiveSubscription())
+                                <span class="badge badge-primary">PRO</span>
+                            @elseif (Auth::user()->hasRole('student'))
+                                <span class="badge badge-warning">Student</span>
+                            @endif
+                        </p>
+                    </div>
                 </div>
                 <a
                     class="w-12 h-12 relative flex items-center justify-center hs-dropdown-toggle cursor-pointer align-middle rounded-full">

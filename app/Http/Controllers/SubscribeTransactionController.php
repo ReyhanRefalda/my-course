@@ -15,9 +15,35 @@ class SubscribeTransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = SubscribeTransaction::with(['user'])->orderByDesc('id')->get();
+        $search = $request->input('search');
+        $packageType = $request->input('package_type');
+        $status = $request->input('status');
+
+        $transactions = SubscribeTransaction::with(['user', 'package'])
+            ->whereHas('user', function ($query) use ($search) {
+                if ($search) {
+                    $query->where('name', 'like', "%{$search}%");
+                }
+            })
+            ->when($packageType, function ($query) use ($packageType) {
+                $query->whereHas('package', function ($q) use ($packageType) {
+                    $q->where('tipe', $packageType);
+                });
+            })
+            ->when($status, function ($query) use ($status) {
+                if ($status === 'PENDING') {
+                    $query->where('is_paid', false);
+                } elseif ($status === 'ACTIVE') {
+                    $query->where('is_paid', true)->where('expired_at', '>=', now());
+                } elseif ($status === 'EXPIRED') {
+                    $query->where('is_paid', true)->where('expired_at', '<', now());
+                }
+            })
+            ->orderByDesc('id')
+            ->get();
+
         return view('admin.transactions.index', compact('transactions'));
     }
 
@@ -57,50 +83,50 @@ class SubscribeTransactionController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, SubscribeTransaction $subscribeTransaction)
-{
-    DB::transaction(function () use ($subscribeTransaction) {
+    {
+        DB::transaction(function () use ($subscribeTransaction) {
 
-        $totalAmount = $subscribeTransaction->total_amount;
-        $owners = User::role('owner')->get();
-        $teachers = User::role('teacher')->get();
+            $totalAmount = $subscribeTransaction->total_amount;
+            $owners = User::role('owner')->get();
+            $teachers = User::role('teacher')->get();
 
-        $totalOwner = $owners->count();
-        $totalTeacher = $teachers->count();
+            $totalOwner = $owners->count();
+            $totalTeacher = $teachers->count();
 
-        $benefitOwner = $totalAmount * 0.5;
-        $benefitTeacherTotal = $totalAmount * 0.5;
-        $teacherPerShare = $totalTeacher > 0 ? $benefitTeacherTotal / 50 : 0;
-        $distributedBenefitTeacher = $teacherPerShare * $totalTeacher;
-        $remainingMoney = $benefitTeacherTotal - $distributedBenefitTeacher;
+            $benefitOwner = $totalAmount * 0.5;
+            $benefitTeacherTotal = $totalAmount * 0.5;
+            $teacherPerShare = $totalTeacher > 0 ? $benefitTeacherTotal / 50 : 0;
+            $distributedBenefitTeacher = $teacherPerShare * $totalTeacher;
+            $remainingMoney = $benefitTeacherTotal - $distributedBenefitTeacher;
 
-        $benefitOwner += $remainingMoney;
+            $benefitOwner += $remainingMoney;
 
-        foreach ($owners as $owner) {
-            $owner->increment('balance', $benefitOwner / $totalOwner);
-        }
+            foreach ($owners as $owner) {
+                $owner->increment('balance', $benefitOwner / $totalOwner);
+            }
 
-        foreach ($teachers as $teacher) {
-            $teacher->increment('balance', $teacherPerShare);
-        }
+            foreach ($teachers as $teacher) {
+                $teacher->increment('balance', $teacherPerShare);
+            }
 
-        $package = Package::findOrFail($subscribeTransaction->package_id); // Mengambil package berdasarkan package_id dari transaksi
+            $package = Package::findOrFail($subscribeTransaction->package_id); // Mengambil package berdasarkan package_id dari transaksi
 
-        // Update transaksi langganan
-        $subscribeTransaction->update([
-            'is_paid' => true,
-            'subscription_start_date' => Carbon::now(),
-            'expired_at' => Carbon::now()->addDays(match ($package->tipe) {
-                'daily' => 1,
-                'weekly' => 7,
-                'monthly' => 30,
-                'yearly' => 365,
-                default => 0,
-            }),
-        ]);
-    });
+            // Update transaksi langganan
+            $subscribeTransaction->update([
+                'is_paid' => true,
+                'subscription_start_date' => Carbon::now(),
+                'expired_at' => Carbon::now()->addDays(match ($package->tipe) {
+                    'daily' => 1,
+                    'weekly' => 7,
+                    'monthly' => 30,
+                    'yearly' => 365,
+                    default => 0,
+                }),
+            ]);
+        });
 
-    return redirect()->route('admin.subscribe_transactions.show', $subscribeTransaction)->with('success', 'Subscribe transaction updated successfully!');
-}
+        return redirect()->route('admin.subscribe_transactions.show', $subscribeTransaction)->with('success', 'Subscribe transaction updated successfully!');
+    }
 
 
     /**

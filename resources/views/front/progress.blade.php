@@ -35,89 +35,101 @@
                 </div>
 
                 <div class="">
-                    <h1 class="text-2xl font-semibold mb-6">Course History</h1>
+                    <h1 class="text-2xl font-semibold mb-4">Course History</h1>
 
                     <div class="grid grid-cols-3 gap-[30px] w-full">
                         @forelse ($courses as $course)
-                        <div class="course-card">
-                            <div class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[32px] bg-white w-full pb-[10px] overflow-hidden ring-1 ring-[#DADEE4] transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
-                                <a href="{{route('front.details', $course->slug)}}" class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
-                                    <img src="{{Storage::url($course->thumbnail)}}" class="w-full h-full object-cover" alt="thumbnail">
-                                </a>
-                                <div class="flex flex-col px-4 gap-[32px]">
-                                    <div class="flex flex-col gap-[10px]">
-                                        <a href="{{route('front.details', $course->slug)}}" class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">Modern JavaScript: Bikin Projek Website Seperti Twitter</a>
-                                        <div class="flex justify-between items-center">
-                                            <div class="flex items-center gap-[2px]">
-                                                <div>
-                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
+                            <div class="course-card">
+                                <div
+                                    class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[32px] bg-white w-full pb-[10px] overflow-hidden ring-1 ring-[#DADEE4] transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
+                                    <a href="{{ route('front.details', $course->slug) }}"
+                                        class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
+                                        <img src="{{ Storage::url($course->thumbnail) }}" class="w-full h-full object-cover"
+                                            alt="thumbnail">
+                                    </a>
+                                    <div class="flex flex-col px-4 gap-[32px]">
+                                        <div class="flex flex-col gap-[10px]">
+                                            <a href="{{ route('front.details', $course->slug) }}"
+                                                class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">Modern
+                                                JavaScript: Bikin Projek Website Seperti Twitter</a>
+                                            <div class="flex justify-between items-center">
+                                                <div class="flex items-center gap-[2px]">
+                                                    <div>
+                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                    </div>
+                                                    <div>
+                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                    </div>
+                                                    <div>
+                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                    </div>
+                                                    <div>
+                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                    </div>
+                                                    <div>
+                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
-                                                </div>
-                                                <div>
-                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
-                                                </div>
-                                                <div>
-                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
-                                                </div>
-                                                <div>
-                                                    <img src="{{asset('assets/icon/star.svg')}}" alt="star">
-                                                </div>
+                                                <p class="text-right text-[#6D7786]">{{ $course->students->count() }}</p>
                                             </div>
-                                            <p class="text-right text-[#6D7786]">{{$course->students->count()}}</p>
                                         </div>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                            <img src="{{Storage::url($course->teacher->user->avatar)}}" class="w-full h-full object-cover" alt="icon">
-                                        </div>
-                                        <div class="flex flex-col">
-                                            <p class="font-semibold">{{$course->teacher->user->name}}</p>
-                                            <p class="text-[#6D7786]">{{$course->teacher->user->occupation}}</p>
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
+                                                <img src="{{ Storage::url($course->teacher->user->avatar) }}"
+                                                    class="w-full h-full object-cover" alt="icon">
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <p class="font-semibold">{{ $course->teacher->user->name }}</p>
+                                                <p class="text-[#6D7786]">{{ $course->teacher->user->occupation }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @empty
-
                         @endforelse
                     </div>
 
 
-                <div class="container mx-auto p-6">
-                    <h1 class="text-2xl font-semibold mb-6">Lastest Artikel</h1>
+                    <div class="container mx-auto p-6 mt-4">
+                        <h1 class="text-2xl font-semibold">Lastest Artikel</h1>
 
-                    <div class="grid grid-cols-3 gap-4 w-full">
-                        @forelse ($articles as $article)
-                            <div class="bg-[#F5F8FA] rounded-2xl shadow-md p-4" style="w-full">
-                                <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}">
-                                    <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $article->tumbnail) }}"
-                                        alt="Article Image"
-                                        class="w-full object-cover rounded-xl border-2 border-gray-300 mb-4 h-[200px]">
-                                    <div class="p-2 h-[150px] flex flex-col justify-between overflow-y-hidden">
-                                        <h4 class="text-lg font-bold hover:underline hover:text-[#FF6129]">
-                                            {{ Str::limit($article->title, 47) }}</h4>
-                                        <p class="text-sm text-gray-500 mt-2">{!! Str::limit($article->content, 60) !!}</p>
-                                        <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                            <span>By {{ $article->user->name }}</span>
-                                            <span>
-                                                @if ($article->created_at->diffInHours(now()) < 24)
-                                                    {{ $article->created_at->diffForHumans() }}
-                                                @else
-                                                    {{ $article->created_at->isoFormat('dddd, D MMMM Y') }}
-                                                @endif
-                                            </span>
+                        <div class="grid grid-cols-3 gap-x-4 w-full">
+                            @forelse ($articles as $article)
+                                <div class="">
+                                    <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}">
+                                        <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $article->tumbnail) }}"
+                                            alt="Article Image"
+                                            class="w-full object-cover rounded-xl border-2 border-gray-300 mb-4 h-[200px]">
+                                        <div class="p-2 h-[150px] flex flex-col justify-between overflow-y-hidden">
+                                            <h4 class="text-lg font-bold hover:underline hover:text-[#FF6129]">
+                                                {{ Str::limit($article->title, 47) }}</h4>
+                                            <p class="text-sm text-gray-500 mt-2">{!! Str::limit($article->content, 60) !!}</p>
+                                            <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
+                                                <span>By {{ $article->user->name }}</span>
+                                                <span>
+                                                    @if ($article->created_at->diffInHours(now()) < 24)
+                                                        {{ $article->created_at->diffForHumans() }}
+                                                    @else
+                                                        {{ $article->created_at->isoFormat('dddd, D MMMM Y') }}
+                                                    @endif
+                                                </span>
+                                            </div>
                                         </div>
+                                    </a>
+                                </div>
+                            @empty
+                                <div class="text-center">
+                                    <div class="col-12 text-center flex justify-center">
+                                        <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
+                                            class="img-fluid" style="width: clamp(150px, 50vw, 300px);">
                                     </div>
-                                </a>
-                            </div>
-                        @empty
-                        @endforelse
+                                    <p class="pb-4 text-gray-500">No data avilable</p>
+                                </div>
+                            @endforelse
+                        </div>
                     </div>
                 </div>
-            </div>
 
         </section>
         <x-footer />

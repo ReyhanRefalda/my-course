@@ -73,15 +73,23 @@ class WithdrawController extends Controller
     /**
      * Tampilkan permintaan penarikan untuk owner.
      */
-    public function manage()
+    public function manage(Request $request)
     {
         // Ensure only users with the 'owner' role can access
         if (!auth()->user()->hasRole('owner')) {
             abort(403, 'Unauthorized action.');
         }
 
+        $search = $request->input('search');
+
+        $withdrawals = Withdrawal::with('user')
+            ->whereHas('user', function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->whereIn('status', ['pending', 'approved'])->orderByDesc('id')->get();
+
         // Retrieve withdrawal requests with 'pending' or 'approved' status
-        $withdrawals = Withdrawal::whereIn('status', ['pending', 'approved'])->orderByDesc('id')->get();
+        // $withdrawals = Withdrawal::whereIn('status', ['pending', 'approved'])->orderByDesc('id')->get();
 
         return view('admin.withdraw.manage', compact('withdrawals'));
     }
