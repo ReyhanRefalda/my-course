@@ -18,48 +18,65 @@
             </div>
             <div class="max-w-[1000px] w-full flex gap-[30px]">
                 @forelse ($packages as $package)
-                <div class="flex flex-col justify-between rounded-3xl p-8 gap-[30px] bg-white min-h-[520px]">
-                    <div class="flex flex-col gap-5">
-                        <div class="flex flex-col gap-4">
-                            <p class="font-semibold text-4xl leading-[54px]">{{ $package->name }}</p>
-                            <p class="text-[#475466] text-lg">{{ $package->description }}</p>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <p class="font-semibold text-4xl leading-[54px]">Rp {{ number_format($package->harga, 0, ',', '.') }}</p>
-                            <p class="text-[#475466] text-lg">{{ ucfirst($package->tipe) }}</p>
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            @foreach ($package->benefits as $benefit)
-                            <div class="flex gap-3">
-                                <div class="w-6 h-6 flex shrink-0">
-                                    <img src="{{ asset('assets/icon/tick-circle.svg') }}" class="w-full h-full object-cover" alt="icon">
-                                </div>
-                                <p class="text-[#475466]">{{ $benefit->name }}</p>
+                    @php
+                        // Tentukan apakah pengguna memiliki langganan aktif
+                        $currentPackage = Auth::check() && Auth::user()->hasActiveSubscription()
+                            ? Auth::user()->subscribe_transactions()->latest()->first()->package
+                            : null;
+
+                        // Tentukan apakah paket ini adalah yang aktif
+                        $isCurrentPackage = $currentPackage && $package->id === $currentPackage->id;
+
+                        // Tentukan apakah paket lebih rendah atau sama dibandingkan paket aktif
+                        $isLowerOrEqual = $currentPackage && $package->harga <= $currentPackage->harga;
+                    @endphp
+
+                    <div class="flex flex-col justify-between rounded-3xl p-8 gap-[30px] bg-white min-h-[520px]">
+                        <div class="flex flex-col gap-5">
+                            <div class="flex flex-col gap-4">
+                                <p class="font-semibold text-4xl leading-[54px]">{{ $package->name }}</p>
+                                <p class="text-[#475466] text-lg">{{ $package->description }}</p>
                             </div>
-                            @endforeach
+                            <div class="flex flex-col gap-1">
+                                <p class="font-semibold text-4xl leading-[54px]">Rp {{ number_format($package->harga, 0, ',', '.') }}</p>
+                                <p class="text-[#475466] text-lg">{{ ucfirst($package->tipe) }}</p>
+                            </div>
+                            <div class="flex flex-col gap-4">
+                                @foreach ($package->benefits as $benefit)
+                                <div class="flex gap-3">
+                                    <div class="w-6 h-6 flex shrink-0">
+                                        <img src="{{ asset('assets/icon/tick-circle.svg') }}" class="w-full h-full object-cover" alt="icon">
+                                    </div>
+                                    <p class="text-[#475466]">{{ $benefit->name }}</p>
+                                </div>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                    <!-- Kondisi tombol -->
-                    @if (Auth::check())
-                            @if (Auth::user()->hasActiveSubscription())
+                        <!-- Kondisi tombol -->
+                        @if (Auth::check())
+                            @if ($isCurrentPackage)
                                 <div class="p-[20px_32px] bg-gray-500 text-white rounded-full text-center font-semibold text-xl cursor-not-allowed">
-                                    Already Subscribed
+                                    Current Plan
+                                </div>
+                            @elseif ($isLowerOrEqual)
+                                <div class="p-[20px_32px] bg-gray-500 text-white rounded-full text-center font-semibold text-xl cursor-not-allowed">
+                                    Not Available
                                 </div>
                             @else
                                 <a href="{{ route('front.checkout', $package->id) }}"
                                 class="p-[20px_32px] bg-[#FF6129] text-white rounded-full text-center font-semibold text-xl transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">
-                                    Subscribe Now
+                                    Upgrade
                                 </a>
                             @endif
                         @else
-                        <a href="{{ route('login') }}"
-                        class="p-[20px_32px] bg-[#FF6129] text-white rounded-full text-center font-semibold text-xl transition-all duration-300 hover:shadow-[0_10px_20px_0_#00000080]">
-                            Login to Subscribe
-                        </a>
-                    @endif
-                </div>
+                            <a href="{{ route('login') }}"
+                            class="p-[20px_32px] bg-[#FF6129] text-white rounded-full text-center font-semibold text-xl transition-all duration-300 hover:shadow-[0_10px_20px_0_#00000080]">
+                                Login to Subscribe
+                            </a>
+                        @endif
+                    </div>
                 @empty
-                <p>No packages available</p>
+                    <p>No packages available</p>
                 @endforelse
             </div>
         </div>

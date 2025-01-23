@@ -12,13 +12,13 @@
         <li>
             <a href="{{ route('artikel.index') }}" class="font-semibold">Article</a>
         </li>
-        @if (!Auth::check() || (Auth::check() && !Auth::user()->hasActiveSubscription()))
+        @if (!Auth::check() || (Auth::user()->hasRole('student') && !Auth::user()->hasRole('teacher')))
             <li>
                 <a href="{{ route('front.pricing') }}" class="font-semibold">Pricing</a>
             </li>
         @endif
         @auth
-            @if (Auth::user()->hasRole('student') && !Auth::user()->hasRole('teacher') && !Auth::user()->hasRole('owner'))
+            @if (Auth::user()->hasRole('student') && Auth::user()->roles->count() === 1)
                 <li>
                     <a href="{{ route('front.progress') }}" class="font-semibold">Progress</a>
                 </li>

@@ -32,7 +32,9 @@ class FrontController extends Controller
     public function detail(Course $course)
     {
         // Ambil video kursus dengan logika sesuai role
-        $userRole = auth()->user()->getRoleNames()->first();
+        $user = auth()->user();
+        $userRole = $user ? $user->getRoleNames()->first() : 'student';
+
         $courseVideos = $course->course_videos()
             ->when($userRole === 'owner', function ($query) {
                 return $query->withTrashed(); // Tampilkan semua video termasuk yang dihapus
@@ -49,35 +51,36 @@ class FrontController extends Controller
     }
 
     public function learning($courseId, $courseVideoId)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        if (!$user->hasActiveSubscription()) {
-            return redirect()->route('front.pricing');
-        }
-
-        // Fetch the course by ID and ensure it's available (not deleted)
-        $course = Course::where('id', $courseId)->whereNull('deleted_at')->first();
-
-        if (!$course) {
-            return redirect()->route('front.courses')->with('error', 'Course not found or has been removed.');
-        }
-
-        // Fetch the video by ID and ensure it's available (not deleted)
-        $video = $course->course_videos()->where('id', $courseVideoId)->whereNull('deleted_at')->first();
-
-        if (!$video) {
-            return redirect()->route('front.courses')->with('error', 'Video not found or has been removed.');
-        }
-
-        // Attach the course to the user's courses without detaching existing ones
-        $user->courses()->syncWithoutDetaching($course->id);
-
-        // Retrieve category names for the course
-        $categories = $course->categories()->pluck('name');
-
-        return view('front.learning', compact('course', 'video', 'categories'));
+    if (
+        !($user->hasRole('owner') ||
+          $user->hasRole('teacher') ||
+          ($user->hasRole('student') && $user->hasActiveSubscription()))
+    ) {
+        return redirect()->route('front.pricing');
     }
+
+    $course = Course::with(['categories', 'course_videos' => function ($query) use ($courseVideoId) {
+        $query->where('id', $courseVideoId)->whereNull('deleted_at');
+    }])->where('id', $courseId)->whereNull('deleted_at')->first();
+
+    if (!$course || $course->course_videos->isEmpty()) {
+        return redirect()->route('front.courses')->with('error', 'Course or video not found or has been removed.');
+    }
+
+    $video = $course->course_videos->first();
+
+    // Tambahkan ke pivot hanya untuk student dengan 1 role
+    if ($user->hasRole('student') && $user->roles->count() === 1) {
+        $user->courses()->syncWithoutDetaching($course->id);
+    }
+
+    $categories = $course->categories->pluck('name');
+
+    return view('front.learning', compact('course', 'video', 'categories'));
+}
 
 
 
@@ -91,7 +94,7 @@ class FrontController extends Controller
         return view('front.pricing', compact('packages'));
     }
 
-    public function checkout($packageId)
+     public function checkout($packageId)
     {
         $package = Package::findOrFail($packageId);
         $payment = Payment::first();
@@ -99,6 +102,22 @@ class FrontController extends Controller
         if (!$payment) {
             abort(404, 'Payment details not found.');
         }
+
+        if (Auth::check() && Auth::user()->hasActiveSubscription()) {
+            $user = Auth::user();
+            $currentPackage = $user->subscribe_transactions()
+                ->where('is_paid', true)
+                ->where('expired_at', '>=', now())
+                ->latest('expired_at')
+                ->first()->package;
+                // dd($currentPackage);
+
+            // Jika paket yang dipilih sama atau lebih rendah dari paket aktif
+            if ($package->harga <= $currentPackage->harga) {
+                return redirect()->route('front.pricing');
+            }
+        }
+
         return view('front.checkout', compact('package', 'payment'));
     }
 
@@ -106,9 +125,9 @@ class FrontController extends Controller
     {
         $user = Auth::user();
 
-        if (Auth::user()->hasActiveSubscription()) {
-            return redirect()->route('front.index');
-        }
+        // if (Auth::user()->hasActiveSubscription()) {
+        //     return redirect()->route('front.index');
+        // }
 
         DB::transaction(function () use ($request, $user) {
             $validated = $request->validated();
