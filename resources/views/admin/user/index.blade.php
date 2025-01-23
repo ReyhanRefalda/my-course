@@ -46,7 +46,9 @@
                             <th></th>
                             <th class="py-3 text-sm font-semibold text-gray-600 text-left">Name</th>
                             <th class="py-3 text-sm font-semibold text-gray-600 text-left pl-12">Email</th>
-                            <th></th>
+                            <th class="py-3 text-sm font-semibold text-gray-600 text-left">Status</th>
+                            <th class="py-3 text-sm font-semibold text-gray-600 text-left">Expires On</th>
+                            <th class="py-3 text-sm font-semibold text-gray-600 text-left">Remaining Days</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -64,19 +66,50 @@
                                     {{ $user->email }}
                                 </td>
                                 <td class="font-semibold">
-                                    @if ($user->hasActiveSubscription())
+                                    @php
+                                        $subscription = $user->subscribe_transactions->first(); // Ambil langganan terbaru
+                                        $isExpired =
+                                            $subscription && \Carbon\Carbon::parse($subscription->expired_at)->isPast();
+                                    @endphp
+                                    @if ($subscription && !$isExpired)
                                         <p class="text-sm py-3 rounded-full bg-[#009C0A] text-white">
                                             Active
                                         </p>
                                     @else
                                         <p class="text-sm py-3 rounded-full bg-[#FF0004] text-white">
-                                            Non Active
+                                            Non-Active
                                         </p>
                                     @endif
                                 </td>
+
+                                <td class="py-4 text-gray-500 text-sm font-semibold text-left">
+                                    @if ($subscription)
+                                        {{ \Carbon\Carbon::parse($subscription->expired_at)->format('d M Y') }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td class="py-4 text-gray-500 text-sm font-semibold text-left">
+                                    @if ($subscription)
+                                        @php
+                                            $remainingDays = \Carbon\Carbon::now()->diffInDays(
+                                                $subscription->expired_at,
+                                                false,
+                                            );
+                                        @endphp
+                                        @if ($remainingDays > 0)
+                                            {{ (int) $remainingDays }} days
+                                        @else
+                                            Expired
+                                        @endif
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+
+
                                 <td class="px-4 py-4">
                                     <div class="flex items-center justify-end gap-2">
-                                        {{-- Button Edit --}}
                                         <button onclick="openEditModal({{ $user }})"
                                             class="bg-indigo-600 text-white px-4 py-2 rounded-2xl">
                                             Edit
@@ -90,7 +123,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-8">
+                                <td colspan="7" class="text-center py-8">
                                     <div class="flex justify-center">
                                         <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
                                             class="w-40 h-auto">
@@ -107,6 +140,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!-- Modal -->
     <div id="editModal"

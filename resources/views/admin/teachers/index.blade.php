@@ -40,6 +40,7 @@
             class="font-bold py-2 px-6 bg-indigo-700 text-white rounded-full shadow hover:bg-indigo-800">
             Add New
         </button> --}}
+
     </div>
     <div class="py-2">
         <div class="max-w-7xl mx-auto">
@@ -101,7 +102,6 @@
                         @endforelse
                     </tbody>
                 </table>
-
             </div>
         </div>
 
@@ -155,30 +155,28 @@
                             </svg>
                         </button>
                         <p class="mb-4 text-gray-500">Are you sure you want to reject this teacher?</p>
-                        <div class="flex justify-center items-center space-x-4">
-                            <button type="button" data-modal-toggle="rejectModal-{{ $teacher->id }}"
-                                class="px-4 py-2 font-semibold bg-gray-300 rounded-lg">
-                                Cancel
-                            </button>
-                            <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST"
-                                class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="px-4 py-2 font-semibold bg-red-500 text-white rounded-lg">
+
+                        <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <textarea name="reason" rows="4" placeholder="Enter rejection reason" class="w-full p-2 border rounded mb-4"></textarea>
+                            <div class="flex justify-center items-center space-x-4">
+                                <button type="button" data-modal-toggle="rejectModal-{{ $teacher->id }}"
+                                    class="px-4 py-2 font-semibold bg-gray-300 rounded-lg">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-4 py-2 font-semibold bg-red-500 text-white rounded-lg">
                                     Reject
                                 </button>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         @endforeach
 
-
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        {{-- <script> --}}
         @if (session('success') || session('error'))
             <script>
                 document.addEventListener('DOMContentLoaded', function() {

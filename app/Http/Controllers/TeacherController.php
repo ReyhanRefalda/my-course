@@ -105,23 +105,36 @@ class TeacherController extends Controller
      * Remove the specified resource from storage.
      */
     // TeacherController.php
-    public function destroy(Teacher $teacher)
+    public function destroy(Request $request, Teacher $teacher)
     {
+        $request->validate([
+            'reason' => 'required|string|max:255',
+        ]);
+
         try {
-            $teacher->delete();
+            // Simpan alasan penolakan ke kolom rejection_reason
+            $teacher->rejection_reason = $request->reason;
+            $teacher->status = 'rejected'; // Pastikan status diperbarui menjadi 'rejected'
+            $teacher->save();
 
             // Menghapus role 'teacher' dan menggantinya menjadi 'student'
             $user = User::find($teacher->user_id);
             $user->removeRole('teacher');
             $user->assignRole('student');
 
-            return redirect()->route('admin.teachers.index')->with('success', 'Account teacher deleted successfully.');
+            // Jangan hapus data teacher jika alasan penolakan ingin disimpan
+            // $teacher->delete(); // Hapus atau komentari ini
+
+            return redirect()->route('admin.teachers.index')->with('success', 'Account teacher rejected successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             $error = ValidationException::withMessages([
-                'system_error' => ['System error!' . $e->getMessage()],
+                'system_error' => ['System error! ' . $e->getMessage()],
             ]);
             throw $error;
         }
     }
+
+
+
 }
