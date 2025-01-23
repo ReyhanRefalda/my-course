@@ -15,6 +15,7 @@ use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\UserArtikelController;
 use App\Http\Controllers\SubscribeTransactionController;
 use App\Http\Controllers\WithdrawController;
+use App\Http\Middleware\ProvideRejectionReason;
 
 // Public routes
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
@@ -34,9 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Teacher-specific routes
-    Route::get('/teachers/approval-notice', function () {
-        return view('teachers.approval-notice');
-    })->name('teachers.approval-notice');
+    Route::middleware(ProvideRejectionReason::class)->group(function () {
+        Route::get('/teachers/approval-notice', function () {
+            return view('teachers.approval-notice');
+        })->name('teachers.approval-notice');
+    });
 
     // Checkout routes
     Route::get('/checkout/{packageId}', [FrontController::class, 'checkout'])->name('front.checkout')

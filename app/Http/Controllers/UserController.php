@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -16,29 +17,34 @@ class UserController extends Controller
         $query = User::whereDoesntHave('roles', function ($q) {
             $q->where('name', 'teacher');
         });
-
+    
         $query->whereHas('roles', function ($q) {
             $q->where('name', 'student');
         });
-
+    
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%');
             });
         }
-
+    
         if ($request->filled('subscription')) {
             $query->whereHas('subscribe_transactions', function ($q) {
-                $q->where('is_paid', true);
+                $q->where('is_paid', true)
+                  ->where('expired_at', '>=', \Carbon\Carbon::now());
             });
         }
-
-        $users = $query->paginate(6);
-
+    
+        // Ambil data user dengan relasi subscription
+        $users = $query->with(['subscribe_transactions' => function ($q) {
+            $q->where('is_paid', true)
+              ->orderBy('expired_at', 'desc');
+        }])->paginate(6);
+    
         return view('admin.user.index', compact('users'));
     }
-
+    
 
     /**
      * Show the form for creating a new resource.
