@@ -22,7 +22,7 @@ class StoreCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:21',
             'path_trailer' => 'required|string|max:255',
             'about' => 'required|string',
             'category_ids' => 'required|array',  // Mengubah menjadi array
@@ -32,5 +32,5 @@ class StoreCourseRequest extends FormRequest
             'resource' => 'required|string|unique:courses,resource,' . $this->route('course'),  // Cegah duplikasi saat update
         ];
     }
-    
+
 }
