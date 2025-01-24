@@ -110,14 +110,12 @@
 
                                 <td class="px-4 py-4">
                                     <div class="flex items-center justify-end gap-2">
-                                        <button onclick="openEditModal({{ $user }})"
+                                        <a href="{{ route('admin.users.show', $user->id) }}"
                                             class="bg-indigo-600 text-white px-4 py-2 rounded-2xl">
-                                            Edit
-                                        </button>
-                                        <button type="button" data-modal-target="deleteModal-{{ $user->id }}"
-                                            data-modal-toggle="deleteModal-{{ $user->id }}">
-                                            <i class="ti ti-trash text-[25px] text-red-500"></i>
-                                        </button>
+                                             View Detail
+                                         </a>
+
+
                                     </div>
                                 </td>
                             </tr>
@@ -144,86 +142,10 @@
 
 
     <!-- Modal -->
-    <div id="editModal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 ease-out">
-        <div
-            class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md transform scale-95 transition-transform duration-300 ease-out">
-            <div class="flex justify-between items-center mb-4 border-b pb-4">
-                <h2 class="text-xl font-semibold text-gray-800">Edit User</h2>
-                <button onclick="closeEditModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-            </div>
 
-            <form id="editForm" method="POST" action="" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-
-                <div class="mb-4">
-                    <x-input-label for="name" :value="'Name'" />
-                    <x-text-input id="name" name="name" type="text" required class="block w-full mt-1" />
-                </div>
-
-                <div class="mb-4">
-                    <x-input-label for="avatar" :value="'Avatar'" />
-                    <!-- Current Image Preview -->
-                    <div class="mb-2">
-                        <img id="currentAvatarPreview" src="" alt="Current Avatar"
-                            class="w-32 h-32 rounded-xl object-cover">
-                    </div>
-                    <!-- Input for New Image -->
-                    <input id="avatar" name="avatar" type="file" class="block w-full mt-1 rounded-full"
-                        onchange="previewImage(event)">
-                </div>
-
-                <div class="flex justify-end mt-6">
-                    <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-2xl font-semibold">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <!-- Delete modal -->
-    @foreach ($users as $user)
-        <div id="deleteModal-{{ $user->id }}" tabindex="-1" aria-hidden="true"
-            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="relative p-4 w-full max-w-md max-h-full">
-                <!-- Modal content -->
-                <div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-50 sm:p-5">
-                    <button type="button"
-                        class="text-gray-700 absolute top-2.5 right-2.5 bg-transparent hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center  dark:hover:text-gray-900"
-                        data-modal-toggle="deleteModal-{{ $user->id }}">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                    <svg class="text-gray-400 dark:text-red-500 w-11 h-11 mb-3.5 mx-auto" aria-hidden="true"
-                        fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <p class="mb-4 text-gray-500 dark:text-gray-800">Do you want to delete this article?</p>
-                    <div class="flex justify-center items-center space-x-4">
-                        <button data-modal-toggle="deleteModal-{{ $user->id }}" type="button"
-                            class="flex items-center px-4 py-2 font-semibold bg-[#3525B3] text-white rounded-2xl focus:outline-none focus:ring-2">Cancel</button>
-                        <form method="POST" action="{{ route('admin.users.destroy', $user) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="flex items-center px-4 py-2 font-semibold bg-[#FFD9D9] text-red-700 rounded-2xl focus:outline-none focus:ring-none">
-                                Delete
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
