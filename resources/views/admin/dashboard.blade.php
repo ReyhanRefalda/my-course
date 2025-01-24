@@ -215,46 +215,6 @@
                     <h2 class="text-lg font-bold mb-4">Total Viewers (6 Bulan Terakhir)</h2>
                     <div id="viewersChart" data-viewers='@json($totalViewersPerMonth)'></div>
                 </div>
-
-                <div class="mt-4 py-2">
-                    <div class="max-w-7xl mx-auto">
-                        <div class="bg-white overflow-hidden shadow-sm rounded-lg p-8">
-                            <h3 class="text-lg font-semibold mb-6">Top Performers Teacher</h3>
-                            <table class="table-auto w-full">
-                                <thead>
-                                    <tr class="border-b border-gray-200">
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">#</th>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Name</th>
-                                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Email</th>
-                                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600">Total
-                                            Courses</th>
-                                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600">Total
-                                            Viewers</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-100">
-                                    @foreach ($topPerformingTeachers as $index => $teacher)
-                                        <tr class="hover:bg-gray-50">
-                                            <td class="px-4 py-4 text-sm text-gray-700">{{ $index + 1 }}</td>
-                                            <td class="px-4 py-4 flex items-center gap-4">
-                                                <img src="{{ Storage::url($teacher['teacher_avatar']) }}" alt="Thumbnail"
-                                                    class="w-12 h-12 rounded-full object-cover">
-                                                <span
-                                                    class="text-gray-900 font-medium">{{ $teacher['teacher_name'] }}</span>
-                                            </td>
-                                            <td class="px-4 py-4 text-sm text-gray-700">{{ $teacher['teacher_email'] }}
-                                            </td>
-                                            <td class="px-4 py-4 text-center text-sm text-gray-700">
-                                                {{ $teacher['total_courses'] }}</td>
-                                            <td class="px-4 py-4 text-center text-sm text-gray-700">
-                                                {{ $teacher['total_viewers'] }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             @endrole
         </div>
     </div>

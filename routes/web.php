@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GuidelineController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FrontController;
@@ -63,7 +64,7 @@ Route::middleware('auth')->group(function () {
         // Penarikan saldo
         Route::get('/withdraw', [WithdrawController::class, 'index'])->name('withdraw.index')
             ->middleware('role:teacher|owner'); // Hanya untuk teacher atau owner
-       
+
             Route::get('/withdraw/manage', [WithdrawController::class, 'manage'])->name('withdraw.manage')
             ->middleware('role:owner');
 
@@ -119,6 +120,8 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('users', UserController::class)
             ->middleware('role:owner');
+        Route::resource('guideline', GuidelineController::class)
+            ->middleware('role:teacher');
     });
 
     // Dashboard
