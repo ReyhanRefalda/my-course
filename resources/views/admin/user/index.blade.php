@@ -47,8 +47,8 @@
                             <th class="py-3 text-sm font-semibold text-gray-600 text-left">Name</th>
                             <th class="py-3 text-sm font-semibold text-gray-600 text-left pl-12">Email</th>
                             <th class="py-3 text-sm font-semibold text-gray-600 text-left">Status</th>
-                            <th class="py-3 text-sm font-semibold text-gray-600 text-left">Expires On</th>
-                            <th class="py-3 text-sm font-semibold text-gray-600 text-left">Remaining Days</th>
+                            <th class="py-3 text-sm font-semibold text-gray-600 text-left pl-12">Expires On</th>
+                            <th class="py-3 text-sm font-semibold text-gray-600 text-left pl-8">Remaining Days</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -67,29 +67,29 @@
                                 </td>
                                 <td class="font-semibold">
                                     @php
-                                        $subscription = $user->subscribe_transactions->first(); // Ambil langganan terbaru
+                                        $subscription = $user->subscribe_transactions->first();
                                         $isExpired =
                                             $subscription && \Carbon\Carbon::parse($subscription->expired_at)->isPast();
                                     @endphp
                                     @if ($subscription && !$isExpired)
-                                        <p class="text-sm py-3 rounded-full bg-[#009C0A] text-white">
+                                        <p class="text-sm py-2 rounded-full bg-[#009C0A] text-white">
                                             Active
                                         </p>
                                     @else
-                                        <p class="text-sm py-3 rounded-full bg-[#FF0004] text-white">
+                                        <p class="text-sm py-2 rounded-full bg-[#FF0004] text-white">
                                             Non-Active
                                         </p>
                                     @endif
                                 </td>
 
-                                <td class="py-4 text-gray-500 text-sm font-semibold text-left">
+                                <td class="py-4 text-gray-500 text-sm font-semibold text-left pl-12">
                                     @if ($subscription)
                                         {{ \Carbon\Carbon::parse($subscription->expired_at)->format('d M Y') }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td class="py-4 text-gray-500 text-sm font-semibold text-left">
+                                <td class="py-4 text-gray-500 text-sm font-semibold text-left pl-8">
                                     @if ($subscription)
                                         @php
                                             $remainingDays = \Carbon\Carbon::now()->diffInDays(

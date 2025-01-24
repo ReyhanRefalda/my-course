@@ -71,9 +71,9 @@
                         <tr class="border-b border-gray-200">
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600 w-96">Course</th>
                             <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600 w-2">Students</th>
-                            <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600 w-2">Category</th>
+                            <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600 w-44">Category</th>
                             <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600 w-2">Videos</th>
-                            <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600 w-2">Teacher</th>
+                            <th class="px-4 py-3 text-center text-sm font-semibold text-gray-600 w-44">Teacher</th>
                             <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600"></th>
                         </tr>
                     </thead>

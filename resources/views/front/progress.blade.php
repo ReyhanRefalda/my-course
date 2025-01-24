@@ -91,40 +91,48 @@
                     </div>
 
 
-                    <div class="container mx-auto p-6 mt-4">
+                    <div class="container mx-auto py-6 px-0 mt-4">
                         <h1 class="text-2xl font-semibold">Lastest Artikel</h1>
 
-                        <div class="grid grid-cols-3 gap-x-4 w-full">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4 py-4 px-0">
                             @forelse ($articles as $article)
-                                <div class="">
-                                    <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}">
-                                        <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $article->tumbnail) }}"
-                                            alt="Article Image"
-                                            class="w-full object-cover rounded-xl border-2 border-gray-300 mb-4 h-[200px]">
-                                        <div class="p-2 h-[150px] flex flex-col justify-between overflow-y-hidden">
-                                            <h4 class="text-lg font-bold hover:underline hover:text-[#FF6129]">
-                                                {{ Str::limit($article->title, 47) }}</h4>
-                                            <p class="text-sm text-gray-500 mt-2">{!! Str::limit($article->content, 60) !!}</p>
-                                            <div class="flex justify-between items-center text-xs text-gray-400 mt-4">
-                                                <span>By {{ $article->user->name }}</span>
-                                                <span>
+                                <!-- Card -->
+                                <div>
+                                    <div class="mb-2 min-h-[340px] overflow-hidden [border-bottom:1px_solid_#FF6129]">
+                                        <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}"
+                                            class="overflow-hidden">
+                                            <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $article->tumbnail) }}"
+                                                class="w-full h-[190px] object-cover rounded-lg overflow-hidden transition hover:scale-[1.02] duration-300"
+                                                alt{{ $article->title }}">
+                                        </a>
+                                        <div class="h-[150px] flex flex-col justify-between p-2 overflow-y-hidden">
+                                            <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}"
+                                                class="hover:underline hover:text-[#FF6129] text-[#181818] text[1.3rem] font-bold">
+                                                <h3 class="text-[1.3rem] font-bold">{{ Str::limit($article->title, 47) }}
+                                                </h3>
+                                            </a>
+                                            <div class="flex justify-between">
+                                                <p class="text-sm text-gray-600 font-semibold hover:text-[#FF6129]">By
+                                                    {{ $article->user->name }}</p>
+                                                <p class="text-sm text-gray-600">
                                                     @if ($article->created_at->diffInHours(now()) < 24)
                                                         {{ $article->created_at->diffForHumans() }}
                                                     @else
                                                         {{ $article->created_at->isoFormat('dddd, D MMMM Y') }}
                                                     @endif
-                                                </span>
+                                                </p>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
                             @empty
-                                <div class="text-center">
-                                    <div class="col-12 text-center flex justify-center">
+                                <!-- Empty State -->
+                                <div class="col-span-full text-center">
+                                    <div class="flex justify-center">
                                         <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
-                                            class="img-fluid" style="width: clamp(150px, 50vw, 300px);">
+                                            class="w-[150px] md:w-[200px] lg:w-[300px]">
                                     </div>
-                                    <p class="pb-4 text-gray-500">No data avilable</p>
+                                    <p class="text-gray-500 mt-4">No data available</p>
                                 </div>
                             @endforelse
                         </div>
