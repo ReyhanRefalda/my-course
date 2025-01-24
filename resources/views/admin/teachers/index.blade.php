@@ -159,13 +159,13 @@
                         <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
-                            <textarea name="reason" rows="4" placeholder="Enter rejection reason" class="w-full p-2 border rounded mb-4"></textarea>
+                            <textarea name="reason" rows="4" placeholder="Enter rejection reason" class="w-full p-2 border rounded-lg mb-4"></textarea>
                             <div class="flex justify-center items-center space-x-4">
                                 <button type="button" data-modal-toggle="rejectModal-{{ $teacher->id }}"
                                     class="px-4 py-2 font-semibold bg-gray-300 rounded-lg">
                                     Cancel
                                 </button>
-                                <button type="submit" class="px-4 py-2 font-semibold bg-red-500 text-white rounded-lg">
+                                <button type="submit" class="px-4 py-2 font-semibold bg-red-600 text-white rounded-lg">
                                     Reject
                                 </button>
                             </div>
