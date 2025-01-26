@@ -45,6 +45,18 @@ class CourseController extends Controller
             $query->where('teacher_id', request('teacher'));
         }
 
+        if ($search = request('query')) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhereHas('teacher.user', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('categories', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
         $courses = $query->paginate(10);
 
         // Ambil data untuk dropdown filter
@@ -169,16 +181,16 @@ class CourseController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit($id)
-{
-    $course = Course::find($id);
+    {
+        $course = Course::find($id);
 
-    if (!$course) {
-        return redirect()->route('admin.courses.index')->with('error', 'Course tidak ditemukan.');
+        if (!$course) {
+            return redirect()->route('admin.courses.index')->with('error', 'Course tidak ditemukan.');
+        }
+
+        $categories = Category::all();
+        return view('admin.courses.edit', compact('course', 'categories'));
     }
-
-    $categories = Category::all();
-    return view('admin.courses.edit', compact('course', 'categories'));
-}
 
 
 
@@ -267,8 +279,4 @@ class CourseController extends Controller
 
         return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus video.');
     }
-
-
-
-
 }

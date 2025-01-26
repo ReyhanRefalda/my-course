@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
         })->name('teachers.approval-notice');
     });
 
+    Route::get('/reapply-teacher', [FrontController::class, 'reapplyForm'])->name('teacher.reapply');
+    Route::post('/reapply-teacher', [FrontController::class, 'submitReapply'])->name('teacher.reapply.submit');
+
+
     // Checkout routes
     Route::get('/checkout/{packageId}', [FrontController::class, 'checkout'])->name('front.checkout')
         ->middleware('role:student');
@@ -65,7 +69,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/withdraw', [WithdrawController::class, 'index'])->name('withdraw.index')
             ->middleware('role:teacher|owner'); // Hanya untuk teacher atau owner
 
-            Route::get('/withdraw/manage', [WithdrawController::class, 'manage'])->name('withdraw.manage')
+        Route::get('/withdraw/manage', [WithdrawController::class, 'manage'])->name('withdraw.manage')
             ->middleware('role:owner');
 
         Route::post('/withdraw', [WithdrawController::class, 'store'])->name('withdraw.store')
