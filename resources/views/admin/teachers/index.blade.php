@@ -24,7 +24,8 @@
             </div>
 
             <!-- Status Filter -->
-            <select name="status" class="block px-4 py-2 bg-white border border-gray-300 rounded-[30px] shadow-sm text-[#898D93]">
+            <select name="status"
+                class="block px-4 py-2 bg-white border border-gray-300 rounded-[30px] shadow-sm text-[#898D93]">
                 <option value="" {{ request('status') == '' ? 'selected' : '' }}>All Status</option>
                 <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                 <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
@@ -74,6 +75,8 @@
                                     <div class="flex gap-2 justify-end">
                                         @if ($teacher->status === 'approved')
                                             <span class="text-green-600 font-semibold">Approved</span>
+                                        @elseif ($teacher->status === 'rejected')
+                                            <span class="text-red-600 font-semibold">Rejected</span>
                                         @else
                                             <button type="button" data-modal-target="approveModal-{{ $teacher->id }}"
                                                 data-modal-toggle="approveModal-{{ $teacher->id }}"
@@ -156,16 +159,19 @@
                         </button>
                         <p class="mb-4 text-gray-500">Are you sure you want to reject this teacher?</p>
 
-                        <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST" class="inline">
+                        <form action="{{ route('admin.teachers.destroy', $teacher->id) }}" method="POST"
+                            class="inline">
                             @csrf
                             @method('DELETE')
-                            <textarea name="reason" rows="4" placeholder="Enter rejection reason" class="w-full p-2 border rounded-lg mb-4"></textarea>
+                            <textarea name="reason" rows="4" placeholder="Enter rejection reason"
+                                class="w-full p-2 border rounded-lg mb-4"></textarea>
                             <div class="flex justify-center items-center space-x-4">
                                 <button type="button" data-modal-toggle="rejectModal-{{ $teacher->id }}"
                                     class="px-4 py-2 font-semibold bg-gray-300 rounded-lg">
                                     Cancel
                                 </button>
-                                <button type="submit" class="px-4 py-2 font-semibold bg-red-600 text-white rounded-lg">
+                                <button type="submit"
+                                    class="px-4 py-2 font-semibold bg-red-600 text-white rounded-lg">
                                     Reject
                                 </button>
                             </div>

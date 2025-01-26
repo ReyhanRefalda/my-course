@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Course;
 use App\Models\Artikel;
 use App\Models\Package;
 use App\Models\Payment;
+use App\Models\Teacher;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -51,36 +53,36 @@ class FrontController extends Controller
     }
 
     public function learning($courseId, $courseVideoId)
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    if (
-        !($user->hasRole('owner') ||
-          $user->hasRole('teacher') ||
-          ($user->hasRole('student') && $user->hasActiveSubscription()))
-    ) {
-        return redirect()->route('front.pricing');
+        if (
+            !($user->hasRole('owner') ||
+                $user->hasRole('teacher') ||
+                ($user->hasRole('student') && $user->hasActiveSubscription()))
+        ) {
+            return redirect()->route('front.pricing');
+        }
+
+        $course = Course::with(['categories', 'course_videos' => function ($query) use ($courseVideoId) {
+            $query->where('id', $courseVideoId)->whereNull('deleted_at');
+        }])->where('id', $courseId)->whereNull('deleted_at')->first();
+
+        if (!$course || $course->course_videos->isEmpty()) {
+            return redirect()->route('front.courses')->with('error', 'Course or video not found or has been removed.');
+        }
+
+        $video = $course->course_videos->first();
+
+        // Tambahkan ke pivot hanya untuk student dengan 1 role
+        if ($user->hasRole('student') && $user->roles->count() === 1) {
+            $user->courses()->syncWithoutDetaching($course->id);
+        }
+
+        $categories = $course->categories->pluck('name');
+
+        return view('front.learning', compact('course', 'video', 'categories'));
     }
-
-    $course = Course::with(['categories', 'course_videos' => function ($query) use ($courseVideoId) {
-        $query->where('id', $courseVideoId)->whereNull('deleted_at');
-    }])->where('id', $courseId)->whereNull('deleted_at')->first();
-
-    if (!$course || $course->course_videos->isEmpty()) {
-        return redirect()->route('front.courses')->with('error', 'Course or video not found or has been removed.');
-    }
-
-    $video = $course->course_videos->first();
-
-    // Tambahkan ke pivot hanya untuk student dengan 1 role
-    if ($user->hasRole('student') && $user->roles->count() === 1) {
-        $user->courses()->syncWithoutDetaching($course->id);
-    }
-
-    $categories = $course->categories->pluck('name');
-
-    return view('front.learning', compact('course', 'video', 'categories'));
-}
 
 
 
@@ -94,7 +96,7 @@ class FrontController extends Controller
         return view('front.pricing', compact('packages'));
     }
 
-     public function checkout($packageId)
+    public function checkout($packageId)
     {
         $package = Package::findOrFail($packageId);
         $payment = Payment::first();
@@ -110,7 +112,7 @@ class FrontController extends Controller
                 ->where('expired_at', '>=', now())
                 ->latest('expired_at')
                 ->first()->package;
-                // dd($currentPackage);
+            // dd($currentPackage);
 
             // Jika paket yang dipilih sama atau lebih rendah dari paket aktif
             if ($package->harga <= $currentPackage->harga) {
@@ -166,9 +168,9 @@ class FrontController extends Controller
     {
         $user = auth()->user();
 
-    // Ambil semua kursus yang diikuti oleh user
-    $courses = $user->courses()->get();
-    // dd($courses);
+        // Ambil semua kursus yang diikuti oleh user
+        $courses = $user->courses()->get();
+        // dd($courses);
         $articles = Artikel::where('status', 'publish')->orderBy('created_at', 'desc')->take(3)->get();
         return view('front.progress', compact('courses', 'articles'));
     }
@@ -185,5 +187,37 @@ class FrontController extends Controller
             ->paginate(3);
 
         return view('front.search', compact('courses', 'keyword'));
+    }
+
+    public function reapplyForm()
+    {
+        $teacher = auth()->user()->teacher;
+
+        return view('teachers.reapply');
+    }
+
+    public function submitReapply(Request $request)
+    {
+        $user = auth()->user();
+
+        if ($user->hasRole('owner')) {
+            return redirect()->back()->with('error', 'Reapply is not allowed because you are an owner.');
+        }
+
+        $teacher = $user->teacher;
+        if (!$teacher) {
+            return redirect()->back()->with('error', 'No teacher data found.');
+        }
+
+        if ($teacher->status === 'approved') {
+            return redirect()->back()->with('error', 'You are already approved.');
+        }
+
+        $teacher->update([
+            'status' => 'pending',
+            'rejection_reason' => null,
+        ]);
+
+        return redirect()->route('teachers.approval-notice')->with('success', 'Reapply submitted successfully. Please wait for admin approval.');
     }
 }

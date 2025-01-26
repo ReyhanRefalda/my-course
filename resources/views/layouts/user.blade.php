@@ -48,7 +48,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-[#F5F8FA] [font-family:Poppins,_sans-serif]">
+<body class="bg-[#fff] [font-family:Poppins,_sans-serif]">
     <div class="min-h-screen">
         <div id="hero-section"
             class="max-w-[1200px] mt-10 mx-auto w-full flex flex-col gap-10 bg-[url('{{ asset('assets/background/Hero-Banner.png') }}')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">

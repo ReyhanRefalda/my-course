@@ -134,7 +134,4 @@ class TeacherController extends Controller
             throw $error;
         }
     }
-
-
-
 }

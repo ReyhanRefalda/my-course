@@ -100,4 +100,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Withdrawal::class);
     }
+
+    public function isTeacherReapplicationAllowed()
+    {
+        return $this->status === 'rejected';
+    }
 }

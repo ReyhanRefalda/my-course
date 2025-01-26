@@ -41,7 +41,7 @@
 <body class="bg-gray-100">
     <main>
         <!-- Start the project -->
-        @role('owner|teacher')
+        @role('owner')
             <div id="main-wrapper" class="flex p-5 xl:pr-0 min-h-screen">
                 @include('layouts.components.sidebar')
 
@@ -62,7 +62,7 @@
 
 
             </div>
-            @elserole('student')
+            @elserole('teacher|student')
 
             <!-- Main Content -->
             <main class="h-full max-w-full">
@@ -77,7 +77,6 @@
                     {{ $slot }}
                 </div>
             </main>
-
         @endrole
         {{-- <header class="bg-white shadow-lg rounded-[30px] w-full text-sm py-4 px-8">
                         @include('layouts.components.navbar')
