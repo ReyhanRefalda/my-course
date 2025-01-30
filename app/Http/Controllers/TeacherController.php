@@ -14,16 +14,30 @@ class TeacherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Menampilkan teachers dengan status 'pending' atau 'approved'
-        $teachers = Teacher::whereIn('status', ['pending', 'approved'])->get();
-    
+        $search = $request->input('search');
+        $status = $request->input('status');
+
+        $teachers = Teacher::with('user')
+            ->whereHas('user', function ($query) use ($search) {
+                if ($search) {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                }
+            })
+            ->when($status, function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->orderByRaw("FIELD(status, 'pending', 'rejected', 'approved')")
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('admin.teachers.index', [
             'teachers' => $teachers,
         ]);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -96,21 +110,21 @@ class TeacherController extends Controller
         $request->validate([
             'reason' => 'required|string|max:255',
         ]);
-    
+
         try {
             // Simpan alasan penolakan ke kolom rejection_reason
             $teacher->rejection_reason = $request->reason;
             $teacher->status = 'rejected'; // Pastikan status diperbarui menjadi 'rejected'
             $teacher->save();
-    
+
             // Menghapus role 'teacher' dan menggantinya menjadi 'student'
             $user = User::find($teacher->user_id);
             $user->removeRole('teacher');
             $user->assignRole('student');
-    
+
             // Jangan hapus data teacher jika alasan penolakan ingin disimpan
             // $teacher->delete(); // Hapus atau komentari ini
-    
+
             return redirect()->route('admin.teachers.index')->with('success', 'Account teacher rejected successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -120,7 +134,4 @@ class TeacherController extends Controller
             throw $error;
         }
     }
-    
-
-
 }

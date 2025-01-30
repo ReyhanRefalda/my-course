@@ -235,9 +235,9 @@
             });
             Toast.fire({
                 icon: "error",
-                title: "{{ session('success') }}",
-                color: "#fff",
-                background: "#FF0000",
+                title: "{{ session('error') }}",
+                color: "#ff0000",
+                background: "#FFD9D9",
             });
         @endif
     </script>

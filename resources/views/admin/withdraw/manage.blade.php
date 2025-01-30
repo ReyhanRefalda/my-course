@@ -7,19 +7,39 @@
         </div>
     </x-slot>
 
-    {{-- Start Button for Change Section --}}
-    <div class="grig [grid-template-columns:1fr_1fr] grid items-center text-gray-600 rounded-[30px] bg-[#cccccc] w-fit">
-        <button id="btn-prnding" class="section-btn active-btn transition-all duration-300 ease-in-out">Pending
-            withdrawal</button>
-        <button id="btn-approved" class="section-btn transition-all duration-300 ease-in-out">Approved</button>
+    <div class="flex justify-between items-center">
+        <div
+            class="grig [grid-template-columns:1fr_1fr] grid items-center text-gray-600 rounded-[30px] bg-[#cccccc] w-fit">
+            <button id="btn-prnding" class="section-btn active-btn transition-all duration-300 ease-in-out">Pending
+                withdrawal</button>
+            <button id="btn-approved" class="section-btn transition-all duration-300 ease-in-out">Approved</button>
+        </div>
+
+        <form action="{{ route('admin.withdraw.manage') }}" method="GET" class="flex items-center space-x-4 mb-4">
+            <div
+                class="flex items-center space-x-2 bg-white border border-gray-300 rounded-[30px] px-4 py-[2px] shadow-sm">
+                <button type="submit" class="text-gray-400">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <input type="text" name="search" placeholder="Search Name..." value="{{ request('search') }}"
+                    class="block w-full px-4 text-[#898D93] bg-[#fff] [border:2px_solid_#fff] focus:ring-[#fff] focus:border-[#fff] sm:text-sm">
+            </div>
+        </form>
     </div>
-    {{-- End Button for Change Section --}}
 
     <div>
         @role('owner')
             @if ($withdrawals->isEmpty())
-                <div class="alert alert-info" role="alert">
-                    No withdrawal requests at the moment.
+                <div class="text-center">
+                    <div class="col-12 text-center flex justify-center">
+                        <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data" class="img-fluid"
+                            style="width: clamp(150px, 50vw, 300px);">
+                    </div>
+                    <p class="pb-4 text-gray-500">No data avilable</p>
                 </div>
             @else
                 {{-- pending section --}}
@@ -90,7 +110,7 @@
                                         <x-input-error :messages="$errors->get('proof_file')" />
 
                                         <button type="button"
-                                            class="w-full py-3 bg-[#3525B3] hover:bg-opacity-90 text-white font-bold rounded-lg shadow-md transition-transform transform hover:scale-105"
+                                            class="w-full py-3 bg-[#3525B3] hover:bg-opacity-90 text-white font-bold rounded-lg shadow-md"
                                             data-action="{{ route('admin.withdraw.approve', $withdrawal->id) }}"
                                             data-title="Confirm Approval"
                                             data-message="Are you sure you want to approve this withdrawal?"
@@ -106,7 +126,7 @@
 
                                         <!-- Reject Button -->
                                         <button type="button"
-                                            class="w-full py-3 bg-[#FF6129] text-white font-bold rounded-lg shadow-md transition-transform transform hover:scale-105"
+                                            class="w-full py-3 bg-[#FF6129] hover:opacity-90 text-white font-bold rounded-lg shadow-md"
                                             data-action="{{ route('admin.withdraw.reject', $withdrawal->id) }}"
                                             data-title="Confirm Rejection"
                                             data-message="Are you sure you want to reject this withdrawal?"
@@ -168,7 +188,8 @@
                                     <div class="text-center space-y-3">
                                         <strong class="block text-[#3525B3] font-semibold">Proof:</strong>
                                         @if ($withdrawal->proof_file)
-                                            <img src="{{ asset('storage/' . $withdrawal->proof_file) }}" alt="Proof Photo"
+                                            <img src="{{ asset('storage/' . $withdrawal->proof_file) }}"
+                                                alt="Proof Photo"
                                                 class="w-full h-[200px] object-cover rounded-lg border border-gray-200 shadow-sm">
                                         @else
                                             <p class="text-gray-500">No proof provided.</p>

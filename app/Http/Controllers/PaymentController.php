@@ -13,9 +13,10 @@ class PaymentController extends Controller
      */
     public function index()
     {
+        $paymentExists = Payment::exists();
         $payments = Payment::all();
 
-        return view('admin.payments.index', compact('payments'));
+        return view('admin.payments.index', compact('payments', 'paymentExists'));
     }
 
     /**
@@ -37,7 +38,7 @@ class PaymentController extends Controller
             'number' => $request->number,
             'account_name' => $request->account_name,
         ]);
-    
+
         return redirect()->route('admin.payments.index')->with('success', 'Payment created successfully.');
     }
 
