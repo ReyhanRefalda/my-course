@@ -41,7 +41,7 @@
 <body class="bg-gray-100">
     <main>
         <!-- Start the project -->
-        @role('owner')
+        @role('owner|teacher')
             <div id="main-wrapper" class="flex p-5 xl:pr-0 min-h-screen">
                 @include('layouts.components.sidebar')
 
@@ -62,7 +62,7 @@
 
 
             </div>
-            @elserole('teacher|student')
+            @elserole('student')
 
             <!-- Main Content -->
             <main class="h-full max-w-full">
