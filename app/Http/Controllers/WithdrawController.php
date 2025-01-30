@@ -46,14 +46,19 @@ class WithdrawController extends Controller
     {
         $request->validate([
             'amount' => 'required|numeric|min:1',
+            'account_number' => 'required|numeric|min:5',
         ], [
             'amount.required' => 'The withdrawal amount must be filled in.',
             'amount.numeric' => 'The withdrawal amount must be a number.',
             'amount.min' => 'The minimum withdrawal amount is 1.',
+            'account_number.required' => 'The account number must be filled in.',
+            'account_number.numeric' => 'The account number must be a number.',
+            'account_number.min' => 'The minimum account number is 5.',
         ]);
 
         $user = Auth::user();
         $amount = $request->input('amount');
+        $accountNumber = $request->input('account_number');
 
         // Cek apakah saldo mencukupi
         if ($user->balance < $amount) {
@@ -64,6 +69,7 @@ class WithdrawController extends Controller
         Withdrawal::create([
             'user_id' => $user->id,
             'amount' => $amount,
+            'account_number' => $accountNumber,
             'status' => 'pending',
         ]);
 
