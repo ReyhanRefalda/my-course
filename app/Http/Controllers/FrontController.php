@@ -206,7 +206,7 @@ class FrontController extends Controller
 
         $teacher = $user->teacher;
         if (!$teacher) {
-            return redirect()->back()->with('error', 'No teacher data found.');
+            return redirect()->back()->with('error', 'You are not a teacher.');
         }
 
         if ($teacher->status === 'approved') {

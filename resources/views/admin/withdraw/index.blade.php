@@ -59,6 +59,7 @@
                                 <tr class="border-b border-gray-200">
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Amount</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Account Number</th>
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Status</th>
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Proof Photo
                                     </th>
@@ -72,6 +73,9 @@
                                         </td>
                                         <td class="px-4 py-4 text-gray-700 text-sm">
                                             Rp {{ number_format($withdrawal->amount, 0, ',', '.') }}
+                                        </td>
+                                        <td class="px-4 py-4 text-gray-700 text-sm">
+                                            {{ $withdrawal->account_number }}
                                         </td>
                                         <td class="px-4 py-4">
                                             @if ($withdrawal->status === 'pending')
@@ -132,12 +136,19 @@
                         Current Balance: <span class="text-[#3525B3]">Rp {{ number_format($balance, 0, ',', '.') }}
                         </span>
                     </p>
-                    <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">
+                    {{-- account number --}}
+                    <label for="account_number" class="block text-sm font-medium text-gray-700">
+                        Account Number
+                    </label>
+                    <input type="number" id="account_number" name="account_number" min="5" max="9999999999"
+                        required value="{{ old('account_number') }}"
+                        class="text-[#3525B3] block w-full px-4 py-2 border border-gray-300 rounded-[30px] focus:ring-[#3525B3] focus:border-[#3525B3] shadow-sm">
+                    <label for="amount" class="block text-sm font-medium text-gray-700 mt-4">
                         Withdrawal Amount
                     </label>
                     <input type="number" id="amount" name="amount" min="1" max="{{ $balance }}"
                         required value="{{ old('amount') }}"
-                        class="text-[#3525B3] block w-full px-4 py-3 border border-gray-300 rounded-[30px] focus:ring-[#3525B3] focus:border-[#3525B3] shadow-sm">
+                        class="text-[#3525B3] block w-full px-4 py-2 border border-gray-300 rounded-[30px] focus:ring-[#3525B3] focus:border-[#3525B3] shadow-sm">
                     @error('amount')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror

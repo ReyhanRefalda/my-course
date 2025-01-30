@@ -21,7 +21,13 @@ class Withdrawal extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'amount', 'status', 'proof_file'];
+    protected $fillable = [
+        'user_id',
+        'amount',
+        'status',
+        'proof_file',
+        'account_number'
+    ];
     /**
      * Get the user who made the withdrawal.
      */

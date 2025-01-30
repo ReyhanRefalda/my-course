@@ -57,23 +57,31 @@
                                 <div class="p-6 space-y-2">
                                     {{-- name teacher section --}}
                                     <div class="flex justify-between items-center">
-                                        <span class="text-gray-700 font-semibold text-lg">Name:</span>
-                                        <span class="text-[#3525B3] font-bold text-lg">
+                                        <span class="text-gray-700 font-semibold text-md">Name:</span>
+                                        <span class="text-[#3525B3] font-bold text-md">
                                             {{ $withdrawal->user->name }}
                                         </span>
                                     </div>
 
                                     <!-- Amount Section -->
                                     <div class="flex justify-between items-center">
-                                        <span class="text-gray-700 font-semibold text-lg">Amount:</span>
-                                        <span class="text-[#FF6129] font-bold text-lg">
+                                        <span class="text-gray-700 font-semibold text-md">Amount:</span>
+                                        <span class="text-[#FF6129] font-bold text-md">
                                             Rp {{ number_format($withdrawal->amount, 0, ',', '.') }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Account Number Section -->
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-700 font-semibold text-md">Account Number:</span>
+                                        <span class="text-gray-700 font-bold text-md">
+                                            {{ $withdrawal->account_number }}
                                         </span>
                                     </div>
 
                                     <!-- Status Section -->
                                     <div class="flex justify-between items-center">
-                                        <span class="text-gray-700 font-semibold text-lg">Status:</span>
+                                        <span class="text-gray-700 font-semibold text-md">Status:</span>
                                         <span
                                             class="px-4 py-1 text-sm font-semibold rounded-full text-[#FF6129] bg-[#FFCB94]">
                                             {{ ucfirst($withdrawal->status) }}

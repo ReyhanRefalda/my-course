@@ -177,7 +177,7 @@
                 <p class="text-[#475466] text-lg leading-[34px]">Growing new skills would be more flexible without <br>
                     limit we help you to access all course materials.</p>
                 <a href="{{ route('teacher.reapply') }}"
-                    class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980] w-fit">Reapply</a>
+                    class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980] w-fit">Apply</a>
             </div>
         </section>
         <section id="Zero-to-Success"
