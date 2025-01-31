@@ -7,7 +7,8 @@
         </div>
     </x-slot>
 
-    <form action="{{ route('admin.subscribe_transactions.index') }}" method="GET" class="flex items-center space-x-4 mb-4">
+    <form action="{{ route('admin.subscribe_transactions.index') }}" method="GET"
+        class="flex items-center space-x-4 mb-4">
         <!-- Search Input -->
         <div class="flex items-center space-x-2 bg-white border border-gray-300 rounded-[30px] px-4 py-[2px] shadow-sm">
             <button type="submit" class="text-gray-400">
@@ -22,7 +23,8 @@
         </div>
 
         <!-- Filter by Package Type -->
-        <select name="package_type" class="block px-4 py-2 bg-white border border-gray-300 rounded-[30px] text-[#898D93] shadow-sm">
+        <select name="package_type"
+            class="block px-4 py-2 bg-white border border-gray-300 rounded-[30px] text-[#898D93] shadow-sm">
             <option value="" {{ request('package_type') == '' ? 'selected' : '' }}>All Packages</option>
             <option value="daily" {{ request('package_type') == 'daily' ? 'selected' : '' }}>Daily</option>
             <option value="weekly" {{ request('package_type') == 'weekly' ? 'selected' : '' }}>Weekly</option>
@@ -31,7 +33,8 @@
         </select>
 
         <!-- Filter by Status -->
-        <select name="status" class="block px-4 py-2 bg-white border border-gray-300 rounded-[30px] text-[#898D93] shadow-sm">
+        <select name="status"
+            class="block px-4 py-2 bg-white border border-gray-300 rounded-[30px] text-[#898D93] shadow-sm">
             <option value="" {{ request('status') == '' ? 'selected' : '' }}>All Status</option>
             <option value="PENDING" {{ request('status') == 'PENDING' ? 'selected' : '' }}>Pending</option>
             <option value="ACTIVE" {{ request('status') == 'ACTIVE' ? 'selected' : '' }}>Active</option>
@@ -119,4 +122,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let table = document.querySelector("table tbody"); // Ambil tbody dari tabel
+            let rows = Array.from(table.querySelectorAll("tr")); // Ambil semua baris dalam tabel
+
+            rows.sort((a, b) => {
+                let statusA = a.querySelector("td span").innerText.trim();
+                let statusB = b.querySelector("td span").innerText.trim();
+
+                let order = {
+                    "PENDING": 1,
+                    "ACTIVE": 2,
+                    "EXPIRED": 3
+                };
+
+                return (order[statusA] || 4) - (order[statusB] || 4);
+            });
+
+            rows.forEach(row => table.appendChild(row)); // Reorder rows dalam tabel
+        });
+    </script>
 </x-app-layout>

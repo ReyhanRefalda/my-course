@@ -83,9 +83,9 @@ class User extends Authenticatable
     }
 
 
-    public function teacher()
+    public function teachers()
     {
-        return $this->hasOne(Teacher::class);
+        return $this->hasMany(Teacher::class);
     }
 
     public function isTeacherActive()

@@ -5,8 +5,7 @@
         <div id="hero-section"
             class="max-w-[1200px] mx-auto w-full flex flex-col gap-10 pb-[50px] bg-[url('{{ asset('assets/background/Hero-Banner.png') }}')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">
             <x-nav />
-            <div class="flex flex-col items-center gap-[30px]">
-
+            <div class="flex flex-col items-center gap-[30px]" data-aos="fade-up" data-aos-duration="1000">
                 <div class="w-fit flex items-center gap-3 p-2 pr-6 rounded-full bg-[#FFFFFF1F] border border-[#3477FF24]">
                     <div class="w-[100px] h-[48px] flex shrink-0">
                         <img src="assets/icon/avatar-group.png" class="object-contain" alt="icon">
@@ -49,13 +48,13 @@
                     </div>
                     <p class="font-medium text-sm text-[#FF6129]">Top Categories</p>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col" data-aos="fade-up" data-aos-duration="1000">
                     <h2 class="font-bold text-[40px] leading-[60px]">Browse Courses</h2>
                     <p class="text-[#6D7786] text-lg -tracking-[2%]">Catching up the on demand skills and high paying career
                         this year</p>
                 </div>
             </div>
-            <div class="grid grid-cols-4 gap-[30px]">
+            <div class="grid grid-cols-4 gap-[30px]" data-aos="fade-up" data-aos-duration="1000">
                 @forelse ($categories as $category)
                     <a href="{{ route('front.category', $category->slug) }}"
                         class="card flex items-center p-4 gap-3 ring-1 ring-[#DADEE4] rounded-2xl hover:ring-2 hover:ring-[#FF6129] transition-all duration-300">
@@ -79,13 +78,13 @@
                     </div>
                     <p class="font-medium text-sm text-[#FF6129]">Popular Courses</p>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col" data-aos="fade-up" data-aos-duration="1000">
                     <h2 class="font-bold text-[40px] leading-[60px]">Don’t Missed It, Learn Now</h2>
                     <p class="text-[#6D7786] text-lg -tracking-[2%]">Catching up the on demand skills and high paying career
                         this year</p>
                 </div>
             </div>
-            <div class="relative">
+            <div class="relative" data-aos="fade-up" data-aos-duration="1000">
                 <button class="btn-prev absolute rotate-180 -left-[52px] top-[216px]">
                     <img src="assets/icon/arrow-right.svg" alt="icon">
                 </button>
@@ -143,8 +142,16 @@
                 </div>
             </div>
         </section>
-        <section id="Pricing" class="max-w-[1200px] mx-auto flex justify-between items-center p-[70px_100px]">
-            <div class="relative">
+        <div class="w-full flex justify-center items-center mt-[70px]">
+            <div class="gradient-badge w-fit p-[8px_16px] rounded-full border border-[#FED6AD] flex items-center gap-[6px]">
+                <div>
+                    <img src="assets/icon/medal-star.svg" alt="icon">
+                </div>
+                <p class="font-medium text-sm text-[#FF6129]">Apply as a Teacher</p>
+            </div>
+        </div>
+        <section id="Pricing" class="max-w-[1200px] mx-auto flex justify-between items-center px-[100px] pb-[70px] pt-[40px]">
+            <div class="relative" data-aos="fade-up" data-aos-duration="1000">
                 <div class="w-[355px] h-[488px]">
                     <img src="assets/background/benefit_illustration.png" alt="icon">
                 </div>
@@ -172,7 +179,7 @@
 
                 </div>
             </div>
-            <div class="flex flex-col text-left gap-[30px]">
+            <div class="flex flex-col text-left gap-[30px]" data-aos="fade-up" data-aos-duration="2000">
                 <h2 class="font-bold text-[36px] leading-[52px]">Be a Teacher And,<br>Get Some Benefits</h2>
                 <p class="text-[#475466] text-lg leading-[34px]">Growing new skills would be more flexible without <br>
                     limit we help you to access all course materials.</p>
@@ -190,13 +197,14 @@
                     </div>
                     <p class="font-medium text-sm text-[#FF6129]">Zero to Success People</p>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col" data-aos="fade-up" data-aos-duration="1000">
                     <h2 class="font-bold text-[40px] leading-[60px]">Happy & Success Students</h2>
                     <p class="text-[#6D7786] text-lg -tracking-[2%]">Acquiring skills and new high paying career become
                         much easier</p>
                 </div>
             </div>
-            <div class="testi w-full overflow-hidden flex flex-col gap-6 relative">
+            <div class="testi w-full overflow-hidden flex flex-col gap-6 relative" data-aos="fade-up"
+                data-aos-duration="2000">
                 <div class="fade-overlay absolute z-10 h-full w-[50px] bg-gradient-to-r from-[#F5F8FA] to-[#F5F8FA00]">
                 </div>
                 <div

@@ -15,8 +15,8 @@
                         <img src="{{ Storage::url($course->thumbnail) }}" alt=""
                             class="rounded-2xl object-cover w-[200px] h-[150px]">
                         <div class="flex flex-col">
-                            <h3 class="text-indigo-950 text-xl font-bold">{{ $course->name }}</h3>
-                            @foreach ($categories as $category)
+                            <h3 class="text-indigo-950 text-xl font-bold">{{ Str::limit($course->name, 21) }}</h3>
+                            @foreach ($course->categories as $category)
                                 <option value="{{ $category->id }}"
                                     {{ request('category') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
@@ -104,46 +104,64 @@
                                             {{-- Teacher hanya dapat hard delete jika video belum dihapus --}}
                                             <button type="submit"
                                                 class="font-bold py-2 px-4 bg-red-700 text-white rounded-full hover:bg-red-800">
-                                                Hapus 
+                                                Hapus
                                             </button>
                                         @elseif (auth()->user()->hasRole('owner') && !$video->trashed())
                                             {{-- Owner hanya dapat soft delete jika video belum dihapus --}}
                                             <button type="submit"
                                                 class="font-bold py-2 px-4 bg-red-700 text-white rounded-full hover:bg-red-800">
-                                                Hapus 
+                                                Hapus
                                             </button>
                                         @endif
                                     </form>
                                 </div>
                             @endif
-
                         </div>
-
-
                     </div>
                 @endforeach
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Modal -->
+    {{-- <div id="infoModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md text-center">
+            <h2 class="text-xl font-semibold text-gray-800">
+                Apakah Anda sudah mengerti cara menambahkan video di My Course?
+            </h2>
+            <div class="mt-4 flex justify-center gap-4">
+                <a href="{{ route('admin.guideline.index') }}" class="px-4 py-2 bg-red-500 text-white rounded-lg">
+                    Belum Paham
+                </a>
+                <button id="closeModal" class="px-4 py-2 bg-green-500 text-white rounded-lg">
+                    Sudah Mengerti
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let modal = document.getElementById("infoModal");
+            let closeModal = document.getElementById("closeModal");
+
+            // Cek apakah halaman sebelumnya berasal dari admin.course.index
+            let referrer = document.referrer;
+            if (referrer.includes("admin/courses")) {
+                modal.classList.remove("hidden"); // Tampilkan modal
+            }
+
+            // Tutup modal jika user sudah mengerti
+            closeModal.addEventListener("click", function() {
+                modal.classList.add("hidden");
+            });
+        });
+    </script> --}}
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         //message with sweetalert
         @if (session('success'))

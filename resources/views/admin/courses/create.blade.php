@@ -52,8 +52,7 @@
                         <x-input-label for="category_ids" :value="__('Category')" />
 
                         <select name="category_ids[]" id="category_ids"
-                            class="select2 form-control select2-bootstrap-5 shadow-sm w-full"
-                            multiple>
+                            class="select2 form-control select2-bootstrap-5 shadow-sm w-full" multiple>
                             @forelse($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @empty
@@ -79,7 +78,8 @@
                             <x-input-label for="keypoints" :value="__('Keypoints')" />
                             @for ($i = 0; $i < 4; $i++)
                                 <input type="text" class="py-3 rounded-lg border-slate-300 border"
-                                    placeholder="Write your copywriting" name="course_keypoints[]" value="{{ old('course_keypoints.' . $i) }}">
+                                    placeholder="Write your copywriting" name="course_keypoints[]"
+                                    value="{{ old('course_keypoints.' . $i) }}">
                             @endfor
                         </div>
                         <x-input-error :messages="$errors->get('keypoints')" class="mt-2" />
@@ -96,7 +96,40 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div id="infoModal" class="fixed inset-0 bg-gray-800 bg-opacity-60 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md text-center">
+            <h2 class="text-xl font-semibold text-gray-800">
+                Do you understand how to add videos to My Course?
+            </h2>
+            <div class="mt-4 flex justify-center gap-4">
+                <a href="{{ route('admin.guideline.index') }}"
+                    class="px-4 py-2 font-semibold bg-[#FF6129] text-white rounded-[30px]">
+                    Read the guideline
+                </a>
+                <button id="closeModal" class="px-4 py-2 font-semibold bg-indigo-700 text-white rounded-[30px]">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let modal = document.getElementById("infoModal");
+            let closeModal = document.getElementById("closeModal");
 
+            // Cek apakah halaman sebelumnya berasal dari admin.course.index
+            let referrer = document.referrer;
+            if (referrer.includes("admin/course")) {
+                modal.classList.remove("hidden"); // Tampilkan modal
+            }
+
+            // Tutup modal jika user sudah mengerti
+            closeModal.addEventListener("click", function() {
+                modal.classList.add("hidden");
+            });
+        });
+    </script>
 
 </x-app-layout>
