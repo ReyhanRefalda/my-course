@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\Category;
+use App\Models\CourseVideo;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 
@@ -148,7 +150,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        $course = Course::withTrashed()->findOrFail($id);
+        $course = Course::with('categories')->withTrashed()->findOrFail($id);
 
         // Ambil role user
         $userRole = auth()->user()->getRoleNames()->first();

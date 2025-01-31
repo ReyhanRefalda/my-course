@@ -22,7 +22,7 @@ class UpdateCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:21',
+            'name' => 'required|string',
             'path_trailer' => 'required|string|max:255',
             'about' => 'required|string',
             'category_ids' => 'required|array',  // Ubah ke array untuk multiple categories

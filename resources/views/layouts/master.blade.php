@@ -21,12 +21,14 @@
     {{-- tabler icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 
-
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     {{-- favicon --}}
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/mycourse.png" />
+
+    {{-- aos --}}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 @yield('content')
 @stack('before-scripts')
@@ -34,5 +36,11 @@
 @stack('after-scripts')
 
 <script src="{{ asset('assets/libs/@preline/dropdown/index.js') }}"></script>
+
+{{-- aos --}}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
 
 </html>
