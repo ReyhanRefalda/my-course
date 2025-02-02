@@ -25,8 +25,8 @@ class Teacher extends Model
         return $this->hasMany(Course::class);
     }
 
-    public function isTeacherReapplicationAllowed()
-    {
-        return $this->status === 'rejected';
-    }
+    // public function isTeacherReapplicationAllowed()
+    // {
+    //     return $this->status === 'rejected';
+    // }
 }
