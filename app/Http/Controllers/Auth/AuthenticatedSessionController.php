@@ -33,9 +33,9 @@ class AuthenticatedSessionController extends Controller
             $user = Auth::user(); // Dapatkan data pengguna
             $userRole = $user->role; // Ambil atribut role dari pengguna
 
-            // Cari data teacher terkait pengguna, jika ada
-            $teacher = \App\Models\Teacher::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')->first();
+            // Cari data teacher terkait pengguna, jika ada dan yang paling terbaru
+             $teacher = \App\Models\Teacher::where('user_id', $user->id)
+                ->orderBy('created_at', 'desc')->first();
 
             // Jika data teacher ditemukan dan statusnya "rejected", arahkan ke approval-notice
             if ($teacher && $teacher->status === 'rejected') {
