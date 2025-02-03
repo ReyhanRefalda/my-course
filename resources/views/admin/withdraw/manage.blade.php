@@ -183,6 +183,14 @@
                                         </span>
                                     </div>
 
+                                    <!-- Account Number Section -->
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-700 font-semibold text-md">Account Number:</span>
+                                        <span class="text-gray-700 font-bold text-md">
+                                            {{ $withdrawal->account_number }}
+                                        </span>
+                                    </div>
+
                                     <!-- Status Section -->
                                     <div class="flex justify-between items-center">
                                         <span class="text-gray-700 font-semibold text-lg">Status:</span>

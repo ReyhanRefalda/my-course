@@ -204,6 +204,10 @@ class FrontController extends Controller
             return redirect()->back()->with('error', 'Reapply is not allowed because you are an owner.');
         }
 
+        if ($user->hasRole('teacher')) {
+            return redirect()->back()->with('error', 'Reapply is not allowed because you are a teacher.');
+        }
+
         $existingTeacher = $user->teachers()->where('status', '!=', 'approved')->latest()->first();
 
         if ($existingTeacher && $existingTeacher->status === 'pending') {

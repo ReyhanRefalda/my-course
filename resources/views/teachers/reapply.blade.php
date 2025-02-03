@@ -3,7 +3,7 @@
         <!-- Container Form -->
         <div class="shadow-lg rounded-lg p-8 w-full max-w-md relative bg-gray-100">
             <!-- Judul -->
-            <h2 class="text-3xl font-bold text-[#3525B3] mb-6 text-center">Reapply as Teacher</h2>
+            <h2 class="text-3xl font-bold text-[#3525B3] mb-6 text-center">Apply as Teacher</h2>
 
             <!-- Alert Konfirmasi -->
             <div id="alert-box" class="hidden bg-[#FF6129] text-white px-4 py-2 rounded-lg mb-4 text-center">
