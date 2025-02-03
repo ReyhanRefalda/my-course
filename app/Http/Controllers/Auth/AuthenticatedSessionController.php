@@ -25,36 +25,37 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-    
+
         $request->session()->regenerate();
-    
+
         // Periksa apakah pengguna sudah login
         if (Auth::check()) {
             $user = Auth::user(); // Dapatkan data pengguna
             $userRole = $user->role; // Ambil atribut role dari pengguna
-    
-            // Cari data teacher terkait pengguna, jika ada
-            $teacher = \App\Models\Teacher::where('user_id', $user->id)->first();
-    
+
+            // Cari data teacher terkait pengguna, jika ada dan yang paling terbaru
+             $teacher = \App\Models\Teacher::where('user_id', $user->id)
+                ->orderBy('created_at', 'desc')->first();
+
             // Jika data teacher ditemukan dan statusnya "rejected", arahkan ke approval-notice
             if ($teacher && $teacher->status === 'rejected') {
                 return redirect()->route('teachers.approval-notice');
             }
-    
+
             // Jika role adalah teacher atau owner, arahkan ke dashboard
             if (in_array($userRole, ['teacher', 'owner'])) {
                 return redirect()->route('dashboard');
             }
-    
+
             // Jika role adalah student atau lainnya, arahkan ke landing page
             return redirect()->route('front.index');
         }
-    
+
         // Default fallback jika kondisi login tidak terpenuhi
         return redirect()->route('front.index');
     }
-    
-    
+
+
 
 
     /**
