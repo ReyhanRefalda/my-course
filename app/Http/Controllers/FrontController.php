@@ -204,19 +204,19 @@ class FrontController extends Controller
             return redirect()->back()->with('error', 'Reapply is not allowed because you are an owner.');
         }
 
-        $teacher = $user->teacher;
-        if (!$teacher) {
-            return redirect()->back()->with('error', 'No teacher data found.');
+        $existingTeacher = $user->teachers()->where('status', '!=', 'approved')->latest()->first();
+
+        if ($existingTeacher && $existingTeacher->status === 'pending') {
+            return redirect()->back()->with('error', 'You already have a pending application.');
         }
 
-        if ($teacher->status === 'approved') {
-            return redirect()->back()->with('error', 'You are already approved.');
-        }
-
-        $teacher->update([
+        $newTeacher = new Teacher([
+            'user_id' => $user->id,
             'status' => 'pending',
             'rejection_reason' => null,
         ]);
+
+        $newTeacher->save();
 
         return redirect()->route('teachers.approval-notice')->with('success', 'Reapply submitted successfully. Please wait for admin approval.');
     }

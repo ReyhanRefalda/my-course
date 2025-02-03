@@ -29,7 +29,7 @@ class TeacherController extends Controller
             ->when($status, function ($query) use ($status) {
                 $query->where('status', $status);
             })
-            ->orderByRaw("FIELD(status, 'pending', 'rejected', 'approved')")
+            ->orderByRaw("FIELD(status, 'pending', 'approved', 'rejected')")
             ->orderBy('created_at', 'desc')
             ->get();
 

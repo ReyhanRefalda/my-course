@@ -52,6 +52,7 @@
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600 w-96">Teacher</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Email</th>
                             <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-600">rejection reason</th>
                             <th class="px-4 py-3 text-right text-sm font-semibold text-gray-600">Actions</th>
                         </tr>
                     </thead>
@@ -70,6 +71,15 @@
                                 </td>
                                 <td class="px-4 py-4 text-gray-700 text-sm">
                                     {{ $teacher->created_at->isoFormat('dddd, D MMMM YYYY') }}
+                                </td>
+                                <td class="px-4 py-4 text-gray-700 text-sm">
+                                    @isset($teacher->rejection_reason)
+                                        <span class="text-gray-500 line-clamp-2 hover:line-clamp-none">
+                                            {{ $teacher->rejection_reason }}
+                                        </span>
+                                    @else
+                                        <span class="text-gray-500">No reason</span>
+                                    @endisset
                                 </td>
                                 <td class="px-4 py-4 text-right">
                                     <div class="flex gap-2 justify-end">
