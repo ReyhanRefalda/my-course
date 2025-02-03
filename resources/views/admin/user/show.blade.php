@@ -86,7 +86,7 @@
                 @else
                     <table class="min-w-full text-sm text-gray-700">
                         <thead>
-                            <tr class="bg-[#FF6129] text-white">
+                            <tr class="bg-[#3525B3] text-white">
                                 <th class="px-4 py-3 text-center">Package</th>
                                 <th class="px-4 py-3 text-center">Amount</th>
                                 <th class="px-4 py-3 text-center">Status</th>
