@@ -91,7 +91,7 @@ class User extends Authenticatable
     public function isTeacherActive()
     {
         if ($this->hasRole('teacher')) {
-            $teacher = $this->teacher; // Ambil data dari relasi
+            $teacher = $this->teachers()->first(); // Ambil data dari relasi
             return $teacher && $teacher->is_active;
         }
         return false;
@@ -101,8 +101,8 @@ class User extends Authenticatable
         return $this->hasMany(Withdrawal::class);
     }
 
-    public function isTeacherReapplicationAllowed()
-    {
-        return $this->status === 'rejected';
-    }
+    // public function isTeacherReapplicationAllowed()
+    // {
+    //     return $this->status === 'rejected';
+    // }
 }

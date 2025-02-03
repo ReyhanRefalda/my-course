@@ -103,7 +103,7 @@
                 Do you understand how to add videos to My Course?
             </h2>
             <div class="mt-4 flex justify-center gap-4">
-                <a href="{{ route('admin.guideline.index') }}"
+                <a id="readGuideline" href="{{ route('admin.guideline.index') }}"
                     class="px-4 py-2 font-semibold bg-[#FF6129] text-white rounded-[30px]">
                     Read the guideline
                 </a>
@@ -118,17 +118,25 @@
         document.addEventListener("DOMContentLoaded", function() {
             let modal = document.getElementById("infoModal");
             let closeModal = document.getElementById("closeModal");
+            let readGuideline = document.getElementById("readGuideline");
 
-            // Cek apakah halaman sebelumnya berasal dari admin.course.index
-            let referrer = document.referrer;
-            if (referrer.includes("admin/course")) {
-                modal.classList.remove("hidden"); // Tampilkan modal
+            // Cek apakah user sudah menutup modal sebelumnya
+            if (!localStorage.getItem("modalDismissed")) {
+                let referrer = document.referrer;
+                if (referrer.includes("admin/course")) {
+                    modal.classList.remove("hidden"); // Tampilkan modal
+                }
             }
 
-            // Tutup modal jika user sudah mengerti
-            closeModal.addEventListener("click", function() {
+            // Function untuk menyimpan status modal ke Local Storage
+            function dismissModal() {
+                localStorage.setItem("modalDismissed", "true");
                 modal.classList.add("hidden");
-            });
+            }
+
+            // Event saat tombol close atau Read the guideline diklik
+            closeModal.addEventListener("click", dismissModal);
+            readGuideline.addEventListener("click", dismissModal);
         });
     </script>
 

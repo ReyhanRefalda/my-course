@@ -20,7 +20,7 @@ class DashboardController extends Controller
 
         // Cek jika user memiliki role 'teacher' dan status is_active = false
         if ($user->hasRole('teacher')) {
-            $teacher = $user->teacher;
+            $teacher = $user->teachers()->first();
             if (!$teacher || $teacher->status === 'pending' || $teacher->status === 'rejected') {
                 return redirect()->route('teachers.approval-notice')
                     ->with('warning', 'Akun Anda belum disetujui oleh admin.');
@@ -30,7 +30,7 @@ class DashboardController extends Controller
         $totalViewersPerMonth = []; // Default jika user bukan teacher
 
         if ($user->hasRole('teacher')) {
-            $teacher = $user->teacher;
+            $teacher = $user->teachers()->first();
             $currentYear = now()->year;
 
             for ($month = 1; $month <= 6; $month++) {
@@ -143,7 +143,7 @@ class DashboardController extends Controller
         $balance = $user->balance;
         $totalCourses = $totalViewers = $totalStudents = null;
         if ($user->hasRole('teacher')) {
-            $teacher = $user->teacher;
+            $teacher = $user->teachers()->first();
 
             $totalCourses = $teacher->courses->count();
             $totalViewers = $teacher->courses->sum(function ($course) {
