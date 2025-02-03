@@ -86,7 +86,7 @@
                                     @if ($subscription)
                                         {{ \Carbon\Carbon::parse($subscription->expired_at)->format('d M Y') }}
                                     @else
-                                        -
+                                        Not Subscribed
                                     @endif
                                 </td>
                                 <td class="py-4 text-gray-500 text-sm font-semibold text-left pl-8">
@@ -103,7 +103,7 @@
                                             Expired
                                         @endif
                                     @else
-                                        -
+                                        Not Subscribed
                                     @endif
                                 </td>
 

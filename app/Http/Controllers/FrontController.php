@@ -191,7 +191,7 @@ class FrontController extends Controller
 
     public function reapplyForm()
     {
-        $teacher = auth()->user()->teacher;
+        $teacher = auth()->user()->teachers;
 
         return view('teachers.reapply');
     }
