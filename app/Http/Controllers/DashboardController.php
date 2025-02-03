@@ -20,7 +20,9 @@ class DashboardController extends Controller
 
         // Cek jika user memiliki role 'teacher' dan status is_active = false
         if ($user->hasRole('teacher')) {
-            $teacher = $user->teachers()->first();
+            $teacher = $user->teachers()
+            ->orderBy('created_at', 'desc') // Ambil yang paling baru
+            ->first();
             if (!$teacher || $teacher->status === 'pending' || $teacher->status === 'rejected') {
                 return redirect()->route('teachers.approval-notice')
                     ->with('warning', 'Akun Anda belum disetujui oleh admin.');
