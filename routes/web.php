@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
 
     // Learning system
     Route::get('/learning/{course}/{courseVideoId}', [FrontController::class, 'learning'])->name('front.learning')
-        ->middleware('role:student|teacher');
+        ->middleware('role:student|teacher|owner');
 
     // Admin routes
     Route::prefix('admin')->name('admin.')->group(function () {
