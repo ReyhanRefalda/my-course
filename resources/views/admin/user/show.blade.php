@@ -7,131 +7,128 @@
         </div>
     </x-slot>
 
-    <div class="py-12 bg-gray-50">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-lg rounded-xl overflow-hidden p-10 flex flex-col gap-y-8">
+    <div class="w-full mx-auto bg-white rounded-3xl shadow-2xl p-10">
+        <!-- User Info Section -->
+        <div class="flex flex-col md:flex-row gap-8 items-center border-b border-gray-200 pb-6">
+            <div class="relative">
+                <img src="{{ Storage::url($user->avatar) }}" alt="{{ $user->name }}"
+                    class="w-40 h-40 rounded-full object-cover shadow-lg border-4 border-[#3525B3] transform hover:scale-110 transition duration-300 ease-in-out">
+            </div>
+            <div class="flex flex-col gap-y-4 text-center md:text-left">
+                <h3 class="text-3xl font-bold text-[#3525B3]">Name: {{ $user->name }}</h3>
+                <p class="text-lg text-gray-700">Occupation: {{ $user->occupation }}</p>
+                <p class="text-md text-gray-500">Email: {{ $user->email }}</p>
+            </div>
+        </div>
 
-                <!-- User Info Section -->
-                <div class="flex gap-x-8 items-center">
-                    <div class="relative">
-                        <img src="{{ Storage::url($user->avatar) }}" alt="{{ $user->name }}"
-                            class="w-40 h-40 rounded-full object-cover shadow-lg border-4 border-[#3525B3] transform hover:scale-110 transition duration-300 ease-in-out">
-                    </div>
+        <!-- Subscription Status Section -->
+        <div class="mt-6">
+            <div class="text-center md:text-left">
+                <p class="text-lg font-semibold text-[#3525B3]">Subscription Status:</p>
+                @php
+                    $subscription = $user->subscribe_transactions->first();
+                    $isExpired = $subscription && \Carbon\Carbon::parse($subscription->expired_at)->isPast();
+                @endphp
+                @if ($subscription && !$isExpired)
+                    <p class="inline-block mt-2 px-4 py-2 rounded-full bg-green-600 text-white text-sm">
+                        Active
+                    </p>
+                @else
+                    <p class="inline-block mt-2 px-4 py-2 rounded-full bg-red-600 text-white text-sm">
+                        Non-Active
+                    </p>
+                @endif
+            </div>
 
-                    <div class="flex flex-col gap-y-4">
-                        <div>
-                            <p class="text-slate-500 text-sm">Name</p>
-                            <h3 class="text-[#3525B3] text-2xl font-bold">{{ $user->name }}</h3>
-                        </div>
-                        <div>
-                            <p class="text-slate-500 text-sm">Occupation</p>
-                            <h3 class="text-[#3525B3] text-xl font-semibold">{{ $user->occupation }}</h3>
-                        </div>
-                        <div>
-                            <p class="text-slate-500 text-sm">Email</p>
-                            <h3 class="text-[#3525B3] text-xl font-semibold">{{ $user->email }}</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Registration Date -->
-                <div class="mt-6">
-                    <strong class="text-lg text-[#3525B3]">Registration Date:</strong>
-                    <p class="text-gray-700">{{ $user->created_at->isoFormat('dddd, D MMMM YYYY') }}</p>
-                </div>
-
-                <!-- Subscription Status -->
-                <div class="mt-4">
-                    <strong class="text-lg text-[#3525B3]">Status:</strong>
-                    @php
-                        $subscription = $user->subscribe_transactions->first();
-                        $isExpired = $subscription && \Carbon\Carbon::parse($subscription->expired_at)->isPast();
-                    @endphp
-                    @if ($subscription && !$isExpired)
-                        <p
-                            class="inline-block px-5 py-2 text-base rounded-full bg-[#009C0A] text-white font-semibold transition duration-300 ease-in-out transform hover:scale-105">
-                            Active</p>
-                    @else
-                        <p
-                            class="inline-block px-5 py-2 text-base rounded-full bg-[#FF0004] text-white font-semibold transition duration-300 ease-in-out transform hover:scale-105">
-                            Non-Active</p>
-                    @endif
-                </div>
-
-                <!-- Expiry Date -->
-                <div class="mt-4">
-                    <strong class="text-lg text-[#3525B3]">Expires On:</strong>
+            <div class="mt-4 text-center md:text-left">
+                <p class="text-gray-700">
+                    <span class="font-semibold text-[#3525B3]">Expires On:</span>
                     @if ($subscription)
-                        <p class="text-gray-700">{{ \Carbon\Carbon::parse($subscription->expired_at)->format('d M Y') }}
-                        </p>
+                        {{ \Carbon\Carbon::parse($subscription->expired_at)->format('d M Y') }}
                     @else
-                        <p class="text-gray-700">Not Subscribed</p>
+                        Not Subscribed
                     @endif
-                </div>
+                </p>
+            </div>
 
-                <!-- Remaining Days -->
-                <div class="mt-4">
-                    <strong class="text-lg text-[#3525B3]">Remaining Days:</strong>
+            <div class="mt-4 text-center md:text-left">
+                <p class="text-gray-700">
+                    <span class="font-semibold text-[#3525B3]">Remaining Days:</span>
                     @if ($subscription)
                         @php
                             $remainingDays = \Carbon\Carbon::now()->diffInDays($subscription->expired_at, false);
                         @endphp
                         @if ($remainingDays > 0)
-                            <p class="text-gray-700">{{ (int) $remainingDays }} days</p>
+                            {{ (int) $remainingDays }} days
                         @else
-                            <p class="text-gray-700">Expired</p>
+                            Expired
                         @endif
                     @else
-                        <p class="text-gray-700">Not Subscribed</p>
+                        Not Subscribed
                     @endif
-                </div>
+                </p>
+            </div>
 
-                <h2 class="text-2xl font-semibold mt-6 mb-4 text-[#3525B3]">Riwayat Transaksi Langganan</h2>
-                <div class="bg-white shadow-md rounded-lg p-6 overflow-x-auto">
-                    @if ($user->subscribe_transactions->isEmpty())
-                        <p class="text-gray-600">Belum ada transaksi langganan.</p>
-                    @else
-                        <table class="min-w-full text-sm text-gray-500">
-                            <thead>
-                                <tr class="bg-[#FF6129] text-white">
-                                    <th class="border px-4 py-2 rounded-tl-lg">Paket</th>
-                                    <th class="border px-4 py-2">Total</th>
-                                    <th class="border px-4 py-2">Status</th>
-                                    <th class="border px-4 py-2">Tanggal Mulai</th>
-                                    <th class="border px-4 py-2 rounded-tr-lg">Kadaluarsa</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($user->subscribe_transactions as $transaction)
-                                    <tr class="hover:bg-gray-100 transition duration-300 ease-in-out">
-                                        <td class="border px-4 py-2">
-                                            {{ $transaction->package->name ?? 'Paket Tidak Ditemukan' }}</td>
-                                        <td class="border px-4 py-2">
-                                            Rp{{ number_format($transaction->total_amount, 0, ',', '.') }}</td>
-                                        <td class="border px-4 py-2">
-                                            {{ $transaction->is_paid ? 'Dibayar' : 'Belum Dibayar' }}</td>
-                                        <td class="border px-4 py-2">
-                                            {{ $transaction->subscription_start_date->format('d M Y') }}</td>
-                                        <td class="border px-4 py-2">{{ $transaction->expired_at->format('d M Y') }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @endif
-                </div>
-
-                <!-- Back Button -->
-                <div class="flex justify-end items-center mt-8">
-                    <a href="{{ route('admin.users.index') }}"
-                        class="font-semibold py-3 px-6 bg-[#FF6129] text-white rounded-full shadow-lg transition-all duration-300 ease-in-out hover:bg-[#FF4500] hover:scale-105 hover:shadow-xl">
-                        ← Back
-                    </a>
-                </div>
-
+            <div class="mt-4 text-center md:text-left">
+                <p class="text-gray-700">
+                    <span class="font-semibold text-[#3525B3]">Created at:</span>
+                    {{ $user->created_at->format('d M Y') }}
+                </p>
             </div>
         </div>
+
+        <!-- History Transactions -->
+        <div class="mt-8">
+            <h2 class="text-2xl font-semibold text-[#3525B3] mb-4">Transaction History</h2>
+            <div class="bg-white shadow-md rounded-lg overflow-x-auto">
+                @if ($user->subscribe_transactions->isEmpty())
+                    <p class="text-gray-600 text-center p-4">No transactions available.</p>
+                @else
+                    <table class="min-w-full text-sm text-gray-700">
+                        <thead>
+                            <tr class="bg-[#FF6129] text-white">
+                                <th class="px-4 py-3 text-center">Package</th>
+                                <th class="px-4 py-3 text-center">Amount</th>
+                                <th class="px-4 py-3 text-center">Status</th>
+                                <th class="px-4 py-3 text-center">Start Date</th>
+                                <th class="px-4 py-3 text-center">Expired</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($user->subscribe_transactions as $transaction)
+                                <tr class="border-b hover:bg-gray-100 transition">
+                                    <td class="px-4 py-3 text-center">{{ $transaction->package->name ?? 'Unknown' }}
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
+                                        Rp{{ number_format($transaction->total_amount, 0, ',', '.') }}
+                                    </td>
+                                    <td
+                                        class="px-4 py-3 text-center font-semibold {{ $transaction->is_paid ? 'text-green-600' : 'text-red-600' }}">
+                                        {{ $transaction->is_paid ? 'Paid' : 'Unpaid' }}
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
+                                        {{ $transaction->subscription_start_date->format('d M Y') }}
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
+                                        {{ $transaction->expired_at->format('d M Y') }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="flex justify-center md:justify-end mt-8">
+            <a href="{{ route('admin.users.index') }}"
+                class="inline-block py-3 px-6 bg-[#FF6129] text-white font-semibold rounded-full shadow-lg transition-all duration-300 ease-in-out hover:bg-orange-500 hover:scale-105">
+                ← Back
+            </a>
+        </div>
     </div>
+
 
     <!-- SweetAlert Notifications -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
