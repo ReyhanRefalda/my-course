@@ -36,6 +36,7 @@
             </div>
 
             <!-- Teacher Filter -->
+            @role('owner')
             <div class="flex flex-col md:flex-row items-start md:items-center">
                 <select name="teacher" id="teacher"
                     class="text-sm outline-none text-gray-700 bg-white border border-gray-300 rounded-2xl px-3 py-2 focus:ring-indigo-500">
@@ -47,7 +48,7 @@
                     @endforeach
                 </select>
             </div>
-
+            @endrole
             <!-- Submit Button -->
             <button type="submit"
                 class="text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-800 px-4 py-2 rounded-full shadow-md">
@@ -209,7 +210,7 @@
             });
             Toast.fire({
                 icon: "error",
-                title: "{{ session('error') }}",    
+                title: "{{ session('error') }}",
                 color: "#ff0000",
                 background: "#FFD9D9",
             });
