@@ -50,27 +50,13 @@
                                     <div class="flex flex-col px-4 gap-[32px]">
                                         <div class="flex flex-col gap-[10px]">
                                             <a href="{{ route('front.details', $course->slug) }}"
-                                                class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">Modern
-                                                JavaScript: Bikin Projek Website Seperti Twitter</a>
-                                            <div class="flex justify-between items-center">
-                                                <div class="flex items-center gap-[2px]">
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                    <div>
-                                                        <img src="{{ asset('assets/icon/star.svg') }}" alt="star">
-                                                    </div>
-                                                </div>
-                                                <p class="text-right text-[#6D7786]">{{ $course->students->count() }}</p>
+                                                class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">
+                                                {{ $course->name}}
+                                             </a>
+                                             <div class="flex justify-between items-center">
+                                             
+                                               
+                                                {{-- <p class="text-right text-[#6D7786]">{{ $course->students->count() }}</p> --}}
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-2">
@@ -96,45 +82,42 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4 py-4 px-0">
                             @forelse ($articles as $article)
-                                <!-- Card -->
-                                <div>
-                                    <div class="mb-2 min-h-[340px] overflow-hidden [border-bottom:1px_solid_#FF6129]">
+                            <!-- Card -->
+                            <div>
+                                <div class="mb-2 min-h-[340px] overflow-hidden [border-bottom:1px_solid_#FF6129]">
+                                    <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}" class="overflow-hidden">
+                                        <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $article->tumbnail) }}"
+                                            class="w-full h-[190px] object-cover rounded-lg overflow-hidden transition hover:scale-[1.02] duration-300"
+                                            alt="{{ $article->title }}">
+                                    </a>
+                                    <div class="h-[150px] flex flex-col justify-between p-2 overflow-y-hidden">
                                         <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}"
-                                            class="overflow-hidden">
-                                            <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $article->tumbnail) }}"
-                                                class="w-full h-[190px] object-cover rounded-lg overflow-hidden transition hover:scale-[1.02] duration-300"
-                                                alt{{ $article->title }}">
+                                            class="hover:underline hover:text-[#FF6129] text-[#181818] text[1.3rem] font-bold">
+                                            <h3 class="text-[1.3rem] font-bold">{{ Str::limit($article->title, 47) }}</h3>
                                         </a>
-                                        <div class="h-[150px] flex flex-col justify-between p-2 overflow-y-hidden">
-                                            <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}"
-                                                class="hover:underline hover:text-[#FF6129] text-[#181818] text[1.3rem] font-bold">
-                                                <h3 class="text-[1.3rem] font-bold">{{ Str::limit($article->title, 47) }}
-                                                </h3>
-                                            </a>
-                                            <div class="flex justify-between">
-                                                <p class="text-sm text-gray-600 font-semibold hover:text-[#FF6129]">By
-                                                    {{ $article->user->name }}</p>
-                                                <p class="text-sm text-gray-600">
-                                                    @if ($article->created_at->diffInHours(now()) < 24)
-                                                        {{ $article->created_at->diffForHumans() }}
-                                                    @else
-                                                        {{ $article->created_at->isoFormat('dddd, D MMMM Y') }}
-                                                    @endif
-                                                </p>
-                                            </div>
+                                        <div class="flex justify-between">
+                                            <p class="text-sm text-gray-600 font-semibold hover:text-[#FF6129]">By {{ $article->user->name }}</p>
+                                            <p class="text-sm text-gray-600">
+                                                @if ($article->created_at->diffInHours(now()) < 24)
+                                                    {{ $article->created_at->diffForHumans() }}
+                                                @else
+                                                    {{ $article->created_at->isoFormat('dddd, D MMMM Y') }}
+                                                @endif
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            @empty
-                                <!-- Empty State -->
-                                <div class="col-span-full text-center">
-                                    <div class="flex justify-center">
-                                        <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
-                                            class="w-[150px] md:w-[200px] lg:w-[300px]">
-                                    </div>
-                                    <p class="text-gray-500 mt-4">No data available</p>
+                            </div>
+                        @empty
+                            <!-- Empty State -->
+                            <div class="col-span-full text-center">
+                                <div class="flex justify-center">
+                                    <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
+                                        class="w-[150px] md:w-[200px] lg:w-[300px]">
                                 </div>
-                            @endforelse
+                                <p class="text-gray-500 mt-4">No data available</p>
+                            </div>
+                        @endforelse
                         </div>
                     </div>
                 </div>
