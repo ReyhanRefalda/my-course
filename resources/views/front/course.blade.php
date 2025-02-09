@@ -4,6 +4,7 @@
     <div id="hero-section" class="max-w-[1200px] mx-auto w-full flex flex-col gap-10 bg-[url('{{ asset('assets/background/Hero-Banner.png') }}')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">
         <x-navcat/>
     </div>
+
     <section id="Top-Categories" class="max-w-[1200px] mx-auto flex flex-col py-[70px] px-[100px] gap-[30px]">
         <div class="flex flex-col gap-[30px]">
             <div class="gradient-badge w-fit p-[8px_16px] rounded-full border border-[#FED6AD] flex items-center gap-[6px]">
@@ -12,10 +13,38 @@
                 </div>
                 <p class="font-medium text-sm text-[#FF6129]">Best courses</p>
             </div>
+            
             <div class="flex flex-col">
                 <h2 class="font-bold text-[40px] leading-[60px]">All of our amazing courses</h2>
                 <p class="text-[#6D7786] text-lg -tracking-[2%]">Catching up the on demand skills and high paying career this year</p>
             </div>
+
+            <!-- Filter Form -->
+            <form action="{{ route('front.course') }}" method="GET" class="flex flex-wrap gap-4 mb-6 items-center bg-white p-4 rounded shadow-md">
+                <div class="flex flex-wrap gap-4">
+                    <div class="w-[200px]">
+                        <select name="category" class="p-3 border rounded w-full">
+                            <option value="">Choose Category</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+            
+                    <div class="w-[200px]">
+                        <input type="date" name="created_at" class="p-3 border rounded w-full" value="{{ request('created_at') }}">
+                    </div>
+            
+                    <div class="w-[120px]">
+                        <button type="submit" class="p-3 bg-orange-500 text-white rounded w-full hover:bg-orange-700 transition duration-300">
+                            Filter
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- Grid Course List -->
             <div class="grid grid-cols-3 gap-[30px] w-full">
                 @forelse ($courses as $course)
                 <div class="course-card">
@@ -28,21 +57,11 @@
                                 <a href="{{route('front.details', $course->slug)}}" class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">{{$course->name}}</a>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center gap-[2px]">
-                                        <div>
-                                            <img src="{{asset('assets/icon/star.svg')}}" alt="star">
-                                        </div>
-                                        <div>
-                                            <img src="{{asset('assets/icon/star.svg')}}" alt="star">
-                                        </div>
-                                        <div>
-                                            <img src="{{asset('assets/icon/star.svg')}}" alt="star">
-                                        </div>
-                                        <div>
-                                            <img src="{{asset('assets/icon/star.svg')}}" alt="star">
-                                        </div>
-                                        <div>
-                                            <img src="{{asset('assets/icon/star.svg')}}" alt="star">
-                                        </div>
+                                        @for ($i = 0; $i < 5; $i++)
+                                            <div>
+                                                <img src="{{asset('assets/icon/star.svg')}}" alt="star">
+                                            </div>
+                                        @endfor
                                     </div>
                                     <p class="text-right text-[#6D7786]">{{$course->students->count()}}</p>
                                 </div>
@@ -60,16 +79,23 @@
                     </div>
                 </div>
                 @empty
-
+                <div class="col-span-3 flex flex-col items-center justify-center text-center">
+                    <div class="w-full flex justify-center">
+                        <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
+                            class="w-[clamp(150px,50vw,300px)]">
+                    </div>
+                    <p class="text-gray-500 mt-2">No Data available</p>
+                </div>
                 @endforelse
+
+                
+                
+                
             </div>
         </div>
-
     </section>
 
     <x-footer/>
-    <!-- JavaScript -->
     <script src="{{asset('build/js/main.js')}}"></script>
-
 </body>
 @endsection
