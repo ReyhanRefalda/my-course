@@ -45,7 +45,8 @@
 
                 @role('owner')
                     <li class="sidebar-item">
-                        <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
+                        <a class="
+                            {{ Request::is('users*') ? 'sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full' : '' }}"
                             href="{{ route('admin.users.index') }}">
                             <i class="ti ti-user-circle ps-2 text-2xl"></i> <span>Manage User</span>
                         </a>

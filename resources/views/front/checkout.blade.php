@@ -75,11 +75,15 @@
                 <hr>
                 <p class="font-bold text-lg">Confirm Your Payment</p>
                 <div class="relative">
-                    <button type="button" class="p-4 rounded-full flex gap-3 w-full ring-1 ring-black transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]" onclick="document.getElementById('file').click()">
+                    {{-- <button type="button" class="p-4 rounded-full flex gap-3 w-full ring-1 ring-black transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]" onclick="document.getElementById('file').click()">
                         <div class="w-6 h-6 flex shrink-0">
                             <img src="{{asset('assets/icon/note-add.svg')}}" alt="icon">
                         </div>
                         <p id="fileLabel">Add a file attachment</p>
+                    </button> --}}
+                    <button type="button" class="p-[20px_32px] bg-[#FF6129] text-white rounded-full text-center font-semibold transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]"
+                        data-modal-toggle="checkoutConfirmModal">
+                        I've Made The Payment
                     </button>
                     <input id="file" type="file" name="proof" class="hidden" onchange="updateFileName(this)">
                 </div>
@@ -91,7 +95,37 @@
         </div>
     </div>
 
+    <div id="checkoutConfirmModal" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-50 sm:p-5">
+            <button type="button"
+                class="absolute top-2.5 right-2.5 bg-transparent hover:text-gray-900 rounded-lg text-sm p-1.5"
+                data-modal-toggle="checkoutConfirmModal">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+            <p class="mb-4 text-gray-500">Are you sure you have completed the payment?</p>
+            <div class="flex justify-center items-center space-x-4">
+                <button type="button" data-modal-toggle="checkoutConfirmModal"
+                    class="px-4 py-2 font-semibold bg-gray-300 rounded-lg">
+                    Cancel
+                </button>
+                <button type="submit" id="confirmCheckout"
+                    class="px-4 py-2 font-semibold bg-[#FF6129] text-white rounded-lg">
+                    Confirm Payment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script
         src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
@@ -109,5 +143,37 @@
         }
     </script>
 
+    <script>
+        document.getElementById('confirmCheckout').addEventListener('click', function () {
+            document.querySelector('form').submit();
+        });
+    </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("checkoutConfirmModal");
+        const openModalBtn = document.querySelector("[data-modal-toggle='checkoutConfirmModal']");
+        const closeModalBtns = modal.querySelectorAll("[data-modal-toggle='checkoutConfirmModal']");
+
+        if (openModalBtn && modal) {
+            openModalBtn.addEventListener("click", function () {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            });
+
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                });
+            });
+        }
+
+        // Saat klik tombol "Confirm Payment", submit form
+        document.getElementById("confirmCheckout").addEventListener("click", function () {
+            document.querySelector("form").submit();
+        });
+    });
+</script>
 </body>
 @endsection

@@ -6,19 +6,19 @@
         <div class="my-4 px-6 py-3 flex justify-between items-center leading-[170%] border-y-2 border-[#3525B3]">
             <div class="flex items-center gap-6">
                 <h3 class="text-xl font-semibold text-[#3525B3] [letter-spacing:3px;]">FOLLOW US</h3>
-                <a href="#">
+                <a href="https://www.instagram.com/instagram?igsh=cWo0dGRrcG01OGJ0" target="_blank">
                     <img src="{{ asset('assets/socialmedia/instagram-logo.png') }}" alt="instagram"
                         class="w-12 h-12 p-1 rounded-full [border:1px_solid_#3525B3] hover:[border:1px_solid_#3525B3] hover:bg-[#3525B3] transition-all duration-300">
                 </a>
-                <a href="#">
+                <a href="https://www.facebook.com/facebook?mibextid=ZbWKwL" target="_blank">
                     <img src="{{ asset('assets/socialmedia/facebook-logo.png') }}" alt="facebook"
                         class="w-12 h-12 p-1 rounded-full [border:1px_solid_#3525B3] hover:[border:1px_solid_#3525B3] hover:bg-[#3525B3] transition-all duration-300">
                 </a>
-                <a href="#">
+                <a href="https://x.com/X?t=k2EgR8bQrRihD0sXvDYNSQ&s=08" target="_blank">
                     <img src="{{ asset('assets/socialmedia/X-logo.png') }}" alt="X"
                         class="w-12 h-12 p-1 rounded-full [border:1px_solid_#3525B3] hover:[border:1px_solid_#3525B3] hover:bg-[#3525B3] transition-all duration-300">
                 </a>
-                <a href="#">
+                <a href="https://t.me/telegram/366" target="_blank">
                     <img src="{{ asset('assets/socialmedia/telegram-logo.png') }}" alt="telegram"
                         class="w-12 h-12 p-1 rounded-full [border:1px_solid_#3525B3] hover:[border:1px_solid_#3525B3] hover:bg-[#3525B3] transition-all duration-300">
                 </a>
@@ -124,19 +124,19 @@
             <div class="flex md:flex-row sm:flex-col items-center md:justify-between sm:justify-center w-full px-6">
                 <h3 class="m-0 p-0 text-[16px] font-semibold text-[#fff] [letter-spacing:1px;]">MYCOURSE IN YOUR SOCIAL FEED</h3>
                 <div class="flex items-center justify-center gap-6">
-                    <a href="#">
+                    <a href="https://www.instagram.com/instagram?igsh=cWo0dGRrcG01OGJ0" target="_blank">
                         <img src="{{ asset('assets/socialmedia/instagram-logo.png') }}" alt="instagram"
                             class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#fff] hover:[border:1px_solid_#f7f9fa] hover:bg-[#fff] transition-all duration-300">
                     </a>
-                    <a href="#">
+                    <a href="https://www.facebook.com/facebook?mibextid=ZbWKwL" target="_blank">
                         <img src="{{ asset('assets/socialmedia/facebook-logo.png') }}" alt="facebook"
                             class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#fff] hover:[border:1px_solid_#f7f9fa] hover:bg-[#fff] transition-all duration-300">
                     </a>
-                    <a href="#">
+                    <a href="https://x.com/X?t=k2EgR8bQrRihD0sXvDYNSQ&s=08" target="_blank">
                         <img src="{{ asset('assets/socialmedia/X-logo.png') }}" alt="X"
                             class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#fff] hover:[border:1px_solid_#f7f9fa] hover:bg-[#fff] transition-all duration-300">
                     </a>
-                    <a href="#">
+                    <a href="https://t.me/telegram/366" target="_blank">
                         <img src="{{ asset('assets/socialmedia/telegram-logo.png') }}" alt="telegram"
                             class="m-0 w-[40px] h-[40px] p-1 rounded-full [border:1px_solid_#fff] hover:[border:1px_solid_#f7f9fa] hover:bg-[#fff] transition-all duration-300">
                     </a>

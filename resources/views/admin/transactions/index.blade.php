@@ -118,6 +118,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="mt-6">
+                        {{ $transactions->links() }}
+                    </div>
                 @endif
             </div>
         </div>

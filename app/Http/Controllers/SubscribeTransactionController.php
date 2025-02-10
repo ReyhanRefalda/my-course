@@ -42,8 +42,7 @@ class SubscribeTransactionController extends Controller
                 }
             })
             ->orderByDesc('id')
-            ->get();
-
+            ->paginate(5)->appends($request->query());
         return view('admin.transactions.index', compact('transactions'));
     }
 

@@ -91,7 +91,7 @@ class PackageController extends Controller
     public function update(StorePackageRequest $request, Package $package): RedirectResponse
     {
         DB::beginTransaction();
-    
+
         try {
             $package->update([
                 'name' => $request->name,
@@ -99,10 +99,10 @@ class PackageController extends Controller
                 'harga' => str_replace('.', '', $request->harga),
                 'tipe' => $request->tipe,
             ]);
-    
+
             $existingBenefits = $package->benefits->pluck('name', 'id')->toArray();
             $newBenefits = array_filter($request->package_benefits, fn($benefit) => !empty($benefit));
-    
+
             foreach ($existingBenefits as $id => $name) {
                 if (!in_array($name, $newBenefits)) {
                     Benefit::destroy($id);
@@ -110,14 +110,14 @@ class PackageController extends Controller
                     $newBenefits = array_diff($newBenefits, [$name]);
                 }
             }
-    
+
             foreach ($newBenefits as $benefitName) {
                 Benefit::create([
                     'name' => $benefitName,
                     'packages_id' => $package->id,
                 ]);
             }
-    
+
             DB::commit();
             return redirect()->route('admin.packages.index')->with('success', 'Package updated successfully!');
         } catch (\Exception $e) {
@@ -125,7 +125,7 @@ class PackageController extends Controller
             return redirect()->back()->withErrors(['error' => 'Failed to update package: ' . $e->getMessage()]);
         }
     }
-    
+
 
 
     /**

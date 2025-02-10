@@ -51,7 +51,7 @@
                 </div>
             </div>
         </section>
-        <section id="Video-Resources" class="flex flex-col mt-5">
+        <section id="Video-Resources" class="flex flex-col mt-5 mb-5">
             <div class="max-w-[1100px] w-full mx-auto flex flex-col gap-3">
                 <h1 class="title font-extrabold text-[30px] leading-[45px]">{{ $course->name }}</h1>
                 <div class="flex items-center gap-5">
@@ -137,7 +137,7 @@
                                     </p>
                                     <div class="flex gap-6 w-fit">
                                         <a href="https://discord.gg/JsGNBjmTKE"
-                                            class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Join
+                                            class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]" target="_blank">Join
                                             Forum</a>
                                     </div>
                                 </div>
@@ -169,11 +169,11 @@
                                             <p class="text-sm text-[#6D7786]">{{ $course->teacher->user->occupation }}</p>
                                         </div>
                                     </div>
-                                    <a href=""
-                                        class="p-[4px_12px] rounded-full bg-[#FF6129] font-semibold text-xs text-white text-center">Follow</a>
+                                    {{-- <a href=""
+                                        class="p-[4px_12px] rounded-full bg-[#FF6129] font-semibold text-xs text-white text-center">Follow</a> --}}
                                 </div>
                             </div>
-                            <div class="bg-white flex flex-col gap-5 rounded-2xl p-5">
+                            {{-- <div class="bg-white flex flex-col gap-5 rounded-2xl p-5">
                                 <p class="font-bold text-lg text-left w-full">Unlock Badges</p>
 
                                 <div class="flex items-center gap-3">
@@ -207,10 +207,10 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
-                    <div id="Screenshots" class="flex flex-col gap-3">
+                    {{-- <div id="Screenshots" class="flex flex-col gap-3">
                         <h3 class="title-section font-bold text-xl leading-[30px] ">Students Portfolio</h3>
                         <div class="grid grid-cols-4 gap-5">
                             <div class="rounded-[20px] overflow-hidden w-full h-[200px] hover:shadow-[0_10px_20px_0_#0D051D20] transition-all duration-300"
@@ -238,11 +238,11 @@
                                     alt="image">
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>
-        <section id="FAQ" class="max-w-[1200px] mx-auto flex flex-col py-[70px] px-[100px]">
+        {{-- <section id="FAQ" class="max-w-[1200px] mx-auto flex flex-col py-[70px] px-[100px]">
             <div class="flex justify-between items-center">
                 <div class="flex flex-col gap-[30px]">
                     <div
@@ -320,7 +320,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <x-footer />
 
         <!-- JavaScript -->

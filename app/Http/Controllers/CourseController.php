@@ -63,7 +63,7 @@ class CourseController extends Controller
 
         // Ambil data untuk dropdown filter
         $categories = Category::all();
-        $teachers = Teacher::with('user')->get();
+        $teachers = Teacher::with('user')->get()->unique('user_id');
 
         return view('admin.courses.index', compact('courses', 'categories', 'teachers'));
     }

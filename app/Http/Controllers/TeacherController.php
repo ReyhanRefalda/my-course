@@ -31,7 +31,8 @@ class TeacherController extends Controller
             })
             ->orderByRaw("FIELD(status, 'pending', 'approved', 'rejected')")
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(5)
+            ->appends($request->query());
 
         return view('admin.teachers.index', [
             'teachers' => $teachers,
