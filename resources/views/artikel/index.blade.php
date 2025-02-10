@@ -30,6 +30,9 @@
                             class="block w-full px-4 py-2 text-[#3525B3] [border:2px_solid_#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#f7f9fa] sm:text-sm"
                             value="{{ request('search') }}" />
                     </div>
+                    <div class="relative w-full mx-2">
+                        <input type="date" name="created_at" class="block w-full px-4 py-2 text-[#3525B3] [border:2px_solid_#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#f7f9fa] sm:text-sm" value="{{ request('created_at') }}">
+                    </div>
                     <button type="submit"
                         class="p-2.5 ms-2 text-sm font-medium text-[#3525B3] hover:text-[#f7f9fa] bg-[#f7f9fa] rounded-lg border border-[#f7f9fa] hover:border-[#3525B3] hover:bg-[#3525B3] focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all duration-300">
                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -85,7 +88,7 @@
                         <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data" class="img-fluid"
                             style="width: clamp(150px, 50vw, 300px);">
                     </div>
-                    <p class="">No data avilable</p>
+                    <p class="">No data available</p>
                 </div>
                 <div></div>
             @endif

@@ -158,22 +158,61 @@ class FrontController extends Controller
         return view('front.category', compact('courses', 'category'));
     }
 
-    public function course()
+    public function course(Request $request)
     {
-        $courses = Course::all();
-        return view('front.course', compact('courses'));
+        $query = Course::query();
+    
+        // Filter berdasarkan kategori yang dipilih
+        if ($request->filled('category')) {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('category_id', $request->category);
+            });
+        }
+    
+        // Filter berdasarkan tanggal jika dipilih
+        if ($request->filled('created_at')) {
+            $query->whereDate('created_at', $request->created_at);
+        }
+    
+        $courses = $query->get();
+        $categories = Category::all(); // Ambil semua kategori untuk dropdown
+    
+        return view('front.course', compact('courses', 'categories'));
     }
+    
 
     public function progress()
     {
         $user = auth()->user();
-
-        // Ambil semua kursus yang diikuti oleh user
-        $courses = $user->courses()->get();
-        // dd($courses);
-        $articles = Artikel::where('status', 'publish')->orderBy('created_at', 'desc')->take(3)->get();
+    
+        // Ambil 9 kursus yang baru diikuti user
+        $courses = $user->courses()->latest()->take(9)->get();
+    
+        // Ambil daftar artikel yang baru dikunjungi dari session
+        $visitedArticles = session()->get('visited_articles', []);
+    
+        // Debugging: Cek isi visitedArticles
+        \Log::info('Visited Articles:', $visitedArticles);
+    
+        // Cek apakah visitedArticles tidak kosong
+        if (!empty($visitedArticles)) {
+            // Ambil artikel berdasarkan urutan dalam session
+            $articles = Artikel::whereIn('id', $visitedArticles)
+                        ->where('status', 'publish') // Pastikan hanya artikel yang diterbitkan
+                        ->orderByRaw("FIELD(id, " . implode(',', $visitedArticles) . ")")
+                        ->take(9)
+                        ->get();
+        } else {
+            // Jika tidak ada artikel yang dikunjungi, ambil artikel terbaru
+            $articles = Artikel::where('status', 'publish')
+                        ->latest()
+                        ->take(9)
+                        ->get();
+        }
+    
         return view('front.progress', compact('courses', 'articles'));
     }
+
 
     public function search(Request $request)
     {
