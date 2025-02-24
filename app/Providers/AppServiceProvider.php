@@ -22,24 +22,35 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        Gate::policy(Artikel::class, ArtikelPolicy::class);
+   // AppServiceProvider.php
+public function boot(): void
+{
+    // Menambahkan data ke view 'components.nav' dan 'components.navcat'
+    View::composer(['components.nav', 'components.navcat'], function ($view) {
+        $user = Auth::user();
+        $remainingDays = null;
+        $notificationCount = 0;
+        $unreadNotifications = collect();
 
-        View::composer(['components.nav', 'components.navcat'], function ($view) {
-            $user = Auth::user();
-            $remainingDays = null;
-
-            if ($user) {
-                $subscription = $user->getActiveSubscription();
-
-                if ($subscription) {
-                    // Hitung sisa hari dan bulatkan ke bawah
-                    $remainingDays = floor(now()->diffInDays($subscription->expired_at, false));
-                }
+        if ($user) {
+            // Mengambil langganan aktif dan menghitung sisa hari langganan
+            $subscription = $user->getActiveSubscription();
+            if ($subscription) {
+                $remainingDays = floor(now()->diffInDays($subscription->expired_at, false));
             }
 
-            $view->with('remainingDays', $remainingDays);
-        });
-    }
+            // Mengambil notifikasi yang belum dibaca
+            $unreadNotifications = $user->unreadNotifications;
+            $notificationCount = $unreadNotifications->count(); // Menghitung jumlah notifikasi yang belum dibaca
+        }
+
+        // Mengirim data ke view
+        $view->with([
+            'remainingDays' => $remainingDays,
+            'notificationCount' => $notificationCount,
+            'unreadNotifications' => $unreadNotifications
+        ]);
+    });
+}
+
 }
