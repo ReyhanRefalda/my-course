@@ -36,72 +36,79 @@
         </div>
     @endguest
     @auth
-        <div class="flex items-center gap-4">
-            <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
-                <div class="flex flex-col items-end justify-center mr-4">
-                    <h3 class="text-lg font-semibold mb-1 text-white">Hi, {{ Auth::user()->name }}</h3>
-                    {{-- role user  owner, teacher, or student --}}
-                    <div class="flex justify-center items-center gap-x-2">
-                        @if ($remainingDays !== null)
-                            @if ($remainingDays > 0)
-                                <span class="text-[#FF6129] text-sm">Remaining {{ $remainingDays }} days!</span>
-                            @elseif($remainingDays === 0)
-                                <span class="text-[#FF6129] text-sm">Last Day!</span>
-                            @endif
+    <div class="flex items-center gap-4">
+        <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
+            <div class="flex flex-col items-end justify-center mr-4">
+                <h3 class="text-lg font-semibold mb-1 text-white">Hi, {{ Auth::user()->name }}</h3>
+                <div class="flex justify-center items-center gap-x-2">
+                    @if ($remainingDays !== null)
+                        @if ($remainingDays > 0)
+                            <span class="text-[#FF6129] text-sm">Remaining {{ $remainingDays }} days!</span>
+                        @elseif($remainingDays === 0)
+                            <span class="text-[#FF6129] text-sm">Last Day!</span>
                         @endif
-                        <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
-                            @if (Auth::user()->hasRole('owner'))
-                                <span class="badge badge-success">Owner</span>
-                            @elseif (Auth::user()->hasRole('teacher') && Auth::user()->teacher?->status === 'pending')
-                                <span class="badge badge-warning">Pending</span>
-                            @elseif(Auth::user()->hasRole('teacher'))
-                                <span class="badge badge-warning">Teacher</span>
-                            @elseif (Auth::user()->hasRole('student') && Auth::user()->hasActiveSubscription())
-                                <span class="badge badge-primary">PRO</span>
-                            @elseif (Auth::user()->hasRole('student'))
-                                <span class="badge badge-warning">Student</span>
-                            @endif
-                        </p>
-                    </div>
+                    
+                    @endif
+                    <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
+                        @if (Auth::user()->hasRole('owner'))
+                            <span class="badge badge-success">Owner</span>
+                        @elseif (Auth::user()->hasRole('teacher') && Auth::user()->teacher?->status === 'pending')
+                            <span class="badge badge-warning">Pending</span>
+                        @elseif(Auth::user()->hasRole('teacher'))
+                            <span class="badge badge-warning">Teacher</span>
+                        @elseif (Auth::user()->hasRole('student') && Auth::user()->hasActiveSubscription())
+                            <span class="badge badge-primary">PRO</span>
+                        @elseif (Auth::user()->hasRole('student'))
+                            <span class="badge badge-warning">Student</span>
+                        @endif
+                    </p>
                 </div>
-                <a
-                    class="w-12 h-12 relative flex items-center justify-center hs-dropdown-toggle cursor-pointer align-middle rounded-full">
-                    <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
-                        alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
-                </a>
-                <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[20px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  px-6 py-2 hidden z-[12]"
-                    aria-labelledby="hs-dropdown-custom-icon-trigger">
-                    <div class="card-body p-0 py-2">
-                        @role('teacher|owner')
-                            <div
-                                class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
-                                <i class="ti ti-dashboard text-[30px]"></i>
-                                <a href="{{ route('dashboard') }}" class="font-medium">Dashboard</a>
-                            </div>
-                        @endrole
-                        <div
-                            class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
-                            <i class="ti ti-settings text-[30px]"></i>
-                            <a href="{{ route('profile.edit') }}" class="font-medium">Account Setting</a>
+            </div>
+            <a class="w-12 h-12 relative flex items-center justify-center hs-dropdown-toggle cursor-pointer align-middle rounded-full">
+                <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
+                    alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
+                   
+                    @if ($notificationCount > 0)
+                        <span class="absolute top-0 right-0 text-xs bg-red-500 text-white rounded-full px-2 py-1">{{ $notificationCount }}</span>
+                    @endif
+            </a>
+            <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[20px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max px-6 py-2 hidden z-[12]" aria-labelledby="hs-dropdown-custom-icon-trigger">
+                <div class="card-body p-0 py-2">
+                    @role('teacher|owner')
+                        <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                            <i class="ti ti-dashboard text-[30px]"></i>
+                            <a href="{{ route('dashboard') }}" class="font-medium">Dashboard</a>
                         </div>
-                        <div
-                            class="mt-[7px] mb-2 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
-                            <i class="ti ti-logout text-[30px]"></i>
-                            <div class="">
-                                <a href="#"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                    class="font-medium">
-                                    Logout
-                                </a>
-                                <form id="logout-form" method="POST" action="{{ route('logout') }}"
-                                    style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
+                    @endrole
+                    <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                        <i class="ti ti-settings text-[30px]"></i>
+                        <a href="{{ route('profile.edit') }}" class="font-medium">Account Setting</a>
+                    </div>
+                    <div class="mt-[7px] mb-2 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                        <i class="ti ti-logout text-[30px]"></i>
+                        <div class="">
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="font-medium">Logout</a>
+                            <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
+                                @csrf
+                            </form>
                         </div>
                     </div>
+                    @if (Auth::user()->hasRole('student'))
+                        <h4 class="text-gray-800 font-semibold mb-3">Notifications</h4>
+                        @foreach ($unreadNotifications as $notification)
+                            <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                                <i class="ti ti-bell text-[20px] text-white"></i>
+                                <a href="{{ route('notifications.index') }}" class="font-medium">{{ $notification->data['message'] }}</a>
+                            </div>
+                        @endforeach
+                        <a href="{{ route('notifications.index') }}" class="text-gray-600 font-medium hover:text-[#FF6129]">View All</a>
+                    @endif
                 </div>
             </div>
         </div>
-    @endauth
+    </div>
+@endauth
+
+
+
 </nav>

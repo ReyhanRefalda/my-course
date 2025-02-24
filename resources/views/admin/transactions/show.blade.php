@@ -79,13 +79,13 @@
                             class="font-bold py-4 px-6 bg-orange-500 text-white rounded-full hover:bg-orange-400 transition-all duration-300">
                             Back
                         </a>
-                        <form action="{{ route('admin.subscribe_transactions.update', $subscribeTransaction) }}"
+                        <form id="approveForm" action="{{ route('admin.subscribe_transactions.update', $subscribeTransaction) }}"
                             method="POST">
                             @csrf
                             @method('PUT')
-                            <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                                Approve Transaction
-                            </button>
+                            <button type="button"
+                                class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full"
+                                onclick="confirmApprove()">Approve Transaction</button>
                         </form>
                     </div>
                 @endif
@@ -93,11 +93,29 @@
         </div>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        //message with sweetalert
+        // Confirm before approving the transaction
+        function confirmApprove() {
+            Swal.fire({
+                title: 'Are you sure you want to approve this transaction?',
+                text: "This action cannot be undone.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#FF6129',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, approve it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form if user confirms the approval
+                    document.getElementById('approveForm').submit();
+                }
+            });
+        }
+
+        // Success and error messages using SweetAlert
         @if (session('success'))
             const Toast = Swal.mixin({
                 toast: true,

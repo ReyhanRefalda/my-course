@@ -16,6 +16,7 @@ use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\UserArtikelController;
 use App\Http\Controllers\SubscribeTransactionController;
 use App\Http\Controllers\WithdrawController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Middleware\ProvideRejectionReason;
 
 // Public routes
@@ -27,6 +28,10 @@ Route::get('/course', [FrontController::class, 'course'])->name('front.course');
 Route::get('/article', [UserArtikelController::class, 'index'])->name('artikel.index'); // Article list
 Route::get('/article/{slug}', [UserArtikelController::class, 'detail'])->name('artikel.show'); // Article detail
 Route::get('/search/course/', [FrontController::class, 'search'])->name('front.search');
+Route::get('/notifications/read/{notificationId}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+Route::get('/notifications', [NotificationController::class, 'showNotifications'])->name('notifications.index');
+
+
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {
