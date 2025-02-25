@@ -9,6 +9,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\PaymentApproved;
+
 
 class SubscribeTransactionController extends Controller
 {
@@ -84,33 +86,37 @@ class SubscribeTransactionController extends Controller
     public function update(Request $request, SubscribeTransaction $subscribeTransaction)
     {
         DB::transaction(function () use ($subscribeTransaction) {
-
+    
+            // Proses logika penghitungan distribusi saldo untuk owner dan teacher
             $totalAmount = $subscribeTransaction->total_amount;
             $owners = User::role('owner')->get();
             $teachers = User::role('teacher')->get();
-
+    
             $totalOwner = $owners->count();
             $totalTeacher = $teachers->count();
-
+    
             $benefitOwner = $totalAmount * 0.5;
             $benefitTeacherTotal = $totalAmount * 0.5;
             $teacherPerShare = $totalTeacher > 0 ? $benefitTeacherTotal / 50 : 0;
             $distributedBenefitTeacher = $teacherPerShare * $totalTeacher;
             $remainingMoney = $benefitTeacherTotal - $distributedBenefitTeacher;
-
+    
             $benefitOwner += $remainingMoney;
-
+    
+            // Distribusi balance ke owner
             foreach ($owners as $owner) {
                 $owner->increment('balance', $benefitOwner / $totalOwner);
             }
-
+    
+            // Distribusi balance ke teacher
             foreach ($teachers as $teacher) {
                 $teacher->increment('balance', $teacherPerShare);
             }
-
-            $package = Package::findOrFail($subscribeTransaction->package_id); // Mengambil package berdasarkan package_id dari transaksi
-
-            // Update transaksi langganan
+    
+            // Mengambil package berdasarkan transaksi
+            $package = Package::findOrFail($subscribeTransaction->package_id);
+    
+            // Update status transaksi langganan
             $subscribeTransaction->update([
                 'is_paid' => true,
                 'subscription_start_date' => Carbon::now(),
@@ -122,10 +128,16 @@ class SubscribeTransactionController extends Controller
                     default => 0,
                 }),
             ]);
+    
+            // Kirimkan notifikasi ke student setelah pembayaran disetujui
+            $subscribeTransaction->user->notify(new PaymentApproved($subscribeTransaction));
+    
         });
-
+    
+        // Redirect dengan pesan sukses
         return redirect()->route('admin.subscribe_transactions.show', $subscribeTransaction)->with('success', 'Subscribe transaction updated successfully!');
     }
+    
 
 
     /**

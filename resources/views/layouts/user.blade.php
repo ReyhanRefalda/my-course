@@ -29,6 +29,10 @@
     {{-- favicon --}}
     <link rel="shortcut icon" type="image/png" href="../assets/images/logos/mycourse.png" />
 
+
+    <link href="https://cdn.jsdelivr.net/npm/tabler-icons@1.28.0/iconfont/tabler-icons.min.css" rel="stylesheet">
+
+
     {{-- flowbite --}}
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 
