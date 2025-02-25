@@ -39,7 +39,7 @@
                         <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data" class="img-fluid"
                             style="width: clamp(150px, 50vw, 300px);">
                     </div>
-                    <p class="pb-4 text-gray-500">No data avilable</p>
+                    <p class="pb-4 text-gray-500">No data available</p>
                 </div>
             @else
                 {{-- pending section --}}
