@@ -30,7 +30,7 @@ class WithdrawController extends Controller
                 return $query->whereDate('created_at', $date);
             })
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(5)->appends($request->query());
 
         return view('admin.withdraw.index', compact('balance', 'withdrawals'));
     }
@@ -81,23 +81,47 @@ class WithdrawController extends Controller
      */
     public function manage(Request $request)
     {
-        // Ensure only users with the 'owner' role can access
+        // Pastikan hanya owner yang bisa mengakses
         if (!auth()->user()->hasRole('owner')) {
             abort(403, 'Unauthorized action.');
         }
 
+        // Ambil input filter dari request
         $search = $request->input('search');
+        $date = $request->input('date');
+        $sort = $request->input('sort');
 
-        $withdrawals = Withdrawal::with('user')
-            ->whereHas('user', function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%");
-            })
-            ->whereIn('status', ['pending', 'approved'])->orderByDesc('id')->get();
+        // Query dasar
+        $query = Withdrawal::with('user');
 
-        // Retrieve withdrawal requests with 'pending' or 'approved' status
-        // $withdrawals = Withdrawal::whereIn('status', ['pending', 'approved'])->orderByDesc('id')->get();
+        // Filter berdasarkan nama user
+        if ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            });
+        }
 
-        return view('admin.withdraw.manage', compact('withdrawals'));
+        // Filter berdasarkan tanggal
+        if ($date) {
+            $query->whereDate('created_at', $date);
+        }
+
+        // Sorting berdasarkan pilihan user
+        if ($sort === 'latest') {
+            $query->orderByDesc('created_at');
+        } elseif ($sort === 'highest') {
+            $query->orderByDesc('amount');
+        } elseif ($sort === 'lowest') {
+            $query->orderBy('amount');
+        } else {
+            $query->orderByDesc('id'); // Default sorting
+        }
+
+        // Pisahkan data pending dan approved
+        $pendingWithdrawals = (clone $query)->where('status', 'pending')->paginate(6, ['*'], 'pending_page')->appends($request->query());
+        $approvedWithdrawals = (clone $query)->where('status', 'approved')->paginate(6, ['*'], 'approved_page')->appends($request->query());
+
+        return view('admin.withdraw.manage', compact('pendingWithdrawals', 'approvedWithdrawals'));
     }
 
 

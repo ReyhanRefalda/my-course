@@ -13,7 +13,7 @@
                 </div>
                 <p class="font-medium text-sm text-[#FF6129]">Best courses</p>
             </div>
-            
+
             <div class="flex flex-col">
                 <h2 class="font-bold text-[40px] leading-[60px]">All of our amazing courses</h2>
                 <p class="text-[#6D7786] text-lg -tracking-[2%]">Catching up the on demand skills and high paying career this year</p>
@@ -32,11 +32,11 @@
                             @endforeach
                         </select>
                     </div>
-            
+
                     <div class="w-[200px]">
                         <input type="date" name="created_at" class="p-3 border rounded w-full" value="{{ request('created_at') }}">
                     </div>
-            
+
                     <div class="w-[120px]">
                         <button type="submit" class="p-3 bg-orange-500 text-white rounded w-full hover:bg-orange-700 transition duration-300">
                             Filter
@@ -56,13 +56,13 @@
                             <div class="flex flex-col gap-[10px]">
                                 <a href="{{route('front.details', $course->slug)}}" class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">{{$course->name}}</a>
                                 <div class="flex justify-between items-center">
-                                    <div class="flex items-center gap-[2px]">
+                                    {{-- <div class="flex items-center gap-[2px]">
                                         @for ($i = 0; $i < 5; $i++)
                                             <div>
                                                 <img src="{{asset('assets/icon/star.svg')}}" alt="star">
                                             </div>
                                         @endfor
-                                    </div>
+                                    </div> --}}
                                     <p class="text-right text-[#6D7786]">{{$course->students->count()}}</p>
                                 </div>
                             </div>
@@ -88,9 +88,9 @@
                 </div>
                 @endforelse
 
-                
-                
-                
+
+
+
             </div>
         </div>
     </section>

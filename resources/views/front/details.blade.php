@@ -83,7 +83,10 @@
                 <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]"
                     onclick="openPage('Discussions', this)">Discussions</div>
             </div>
-            <div class="bg-[#F5F8FA] py-[50px]">
+            <div class="
+            {{-- bg-[#F5F8FA] --}}
+            bg-white
+             py-[50px]">
                 <div class="max-w-[1100px] w-full mx-auto flex flex-col gap-[70px]">
                     <div class="flex gap-[50px]">
                         <div class="tabs-container w-[700px] flex shrink-0">
@@ -154,7 +157,7 @@
                             </div>
                         </div>
                         <div class="mentor-sidebar flex flex-col gap-[30px] w-full">
-                            <div class="mentor-info bg-white flex flex-col gap-4 rounded-2xl p-5">
+                            <div class="mentor-info bg-[#F5F8FA] flex flex-col gap-4 rounded-2xl p-5">
                                 <p class="font-bold text-lg text-left w-full">Teacher</p>
                                 <div class="flex items-center justify-between w-full">
                                     <div class="flex items-center gap-3">
