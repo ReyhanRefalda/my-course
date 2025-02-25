@@ -6,13 +6,13 @@
             </h2>
         </div>
     </x-slot>
+
     <div class="min-h-screen bg-gray-100 w-full">
         <div class="bg-white rounded-[30px] shadow-xl w-full p-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-2">Add Article</h2>
             <p class="text-sm text-gray-500 mb-6">Fill in all the required columns</p>
 
-            <form action="{{ route('admin.artikel.store') }}" method="POST" enctype="multipart/form-data"
-                class="space-y-6 w-full">
+            <form action="{{ route('admin.artikel.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6 w-full">
                 @csrf
 
                 <!-- Judul -->
@@ -24,11 +24,27 @@
                     <x-input-error :messages="$errors->get('title')" />
                 </div>
 
+                <!-- Kategori Artikel (Select2) -->
+                <div>
+                    <label for="kategoriart" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                    <select name="kategoriart[]" id="kategoriart"
+                    class="select2 form-control select2-bootstrap-5 shadow-sm w-full" multiple>
+                    @foreach ($kategoriart as $kategori)
+                        <option value="{{ $kategori->id }}" 
+                            {{ in_array($kategori->id, old('kategoriart', [])) ? 'selected' : '' }}>
+                            {{ $kategori->name }}
+                        </option>
+                    @endforeach
+                </select>
+                
+                    <x-input-error :messages="$errors->get('kategoriart')" />
+                </div>
+
+                <!-- Thumbnail -->
                 <div>
                     <label for="tumbnail" class="block text-sm font-medium text-gray-700 mb-1">Thumbnail</label>
                     <input type="file" name="tumbnail" id="tumbnail"
-                        class="w-full border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500"
-                        onchange="previewImage(event)">
+                        class="w-full border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500">
                     <x-input-error :messages="$errors->get('tumbnail')" />
                 </div>
 
@@ -41,7 +57,7 @@
                     <x-input-error :messages="$errors->get('content')" />
                 </div>
 
-                <!-- Status dan Thumbnail -->
+                <!-- Status -->
                 <div>
                     <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                     <select name="status" id="status"
@@ -67,5 +83,6 @@
         </div>
     </div>
 
+    
 
 </x-app-layout>
