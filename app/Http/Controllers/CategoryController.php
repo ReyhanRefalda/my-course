@@ -19,7 +19,7 @@ class CategoryController extends Controller
         $input = request('search');
         $categories = Category::when($input, function ($query, $input) {
             return $query->where('name', 'like', '%' . $input . '%');
-        })->orderByDesc('id')->paginate(5)->appends($request->query());a
+        })->orderByDesc('id')->paginate(5)->appends($request->query());
         return view('admin.categories.index', compact('categories'));
     }
 

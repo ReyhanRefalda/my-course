@@ -20,30 +20,47 @@
             </div>
 
             <!-- Filter Form -->
-            <form action="{{ route('front.course') }}" method="GET" class="flex flex-wrap gap-4 mb-6 items-center bg-white p-4 rounded shadow-md">
-                <div class="flex flex-wrap gap-4">
-                    <div class="w-[200px]">
-                        <select name="category" class="p-3 border rounded w-full">
-                            <option value="">Choose Category</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+            <form action="{{ route('front.course') }}" method="GET"
+                class="flex flex-wrap md:flex-row items-center gap-x-4 mb-6 bg-white p-4 rounded-2xl">
 
-                    <div class="w-[200px]">
-                        <input type="date" name="created_at" class="p-3 border rounded w-full" value="{{ request('created_at') }}">
-                    </div>
+                <!-- Pencarian -->
+                <div class="flex items-center space-x-2 bg-white border border-gray-300 rounded-2xl px-4 py-[2px] shadow-sm w-[300px]">
+                    <button type="submit" class="text-gray-400">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <input type="text" name="search" placeholder="Search Course" value="{{ request('search') }}"
+                        class="block w-full px-0 text-[#525252] bg-[#fff] focus:border-[#fff] sm:text-sm focus:outline-none border-none focus:ring-white">
+                </div>
 
-                    <div class="w-[120px]">
-                        <button type="submit" class="p-3 bg-orange-500 text-white rounded w-full hover:bg-orange-700 transition duration-300">
-                            Filter
-                        </button>
-                    </div>
+                <div class="flex gap-x-4 justify-between">
+                    <!-- Filter Kategori -->
+                    <select name="category"
+                        class="border border-gray-300 rounded-2xl text-sm px-3 py-2 shadow-sm text-gray-700 w-[200px]">
+                        <option value="">Choose Category</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <!-- Filter Tanggal -->
+                    <input type="date" name="created_at"
+                        class="border border-gray-300 text-sm px-3 py-2 rounded-2xl text-gray-700 w-[200px]"
+                        value="{{ request('created_at') }}">
+
+                    <!-- Tombol Filter -->
+                    <button type="submit"
+                        class="px-4 py-2 text-white bg-[#3525B3] rounded-2xl font-bold hover:bg-indigo-800 transition duration-300 ease-in-out w-[120px]">
+                        Filter
+                    </button>
                 </div>
             </form>
+
             <!-- Grid Course List -->
             <div class="grid grid-cols-3 gap-[30px] w-full">
                 @forelse ($courses as $course)
@@ -88,9 +105,9 @@
                 </div>
                 @endforelse
 
-
-
-
+            </div>
+            <div class="py-4 px-12">
+                {{$courses->links() }}
             </div>
         </div>
     </section>

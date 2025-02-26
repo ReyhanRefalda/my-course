@@ -33,82 +33,81 @@ class FrontController extends Controller
 
 
     public function detail(Course $course)
-{
-    $user = auth()->user();
-    $userRole = $user ? $user->getRoleNames()->first() : 'student';
+    {
+        $user = auth()->user();
+        $userRole = $user ? $user->getRoleNames()->first() : 'student';
 
-    // Ambil video berdasarkan role user
-    $courseVideos = $course->course_videos()
-        ->when(in_array($userRole, ['owner', 'teacher']), function ($query) {
-            return $query->withTrashed(); // Tampilkan semua video termasuk yang dihapus
-        })
-        ->when($userRole === 'student', function ($query) {
-            return $query->whereNull('deleted_at'); // Hanya tampilkan video yang tidak dihapus
-        })
-        ->get();
+        // Ambil video berdasarkan role user
+        $courseVideos = $course->course_videos()
+            ->when(in_array($userRole, ['owner', 'teacher']), function ($query) {
+                return $query->withTrashed(); // Tampilkan semua video termasuk yang dihapus
+            })
+            ->when($userRole === 'student', function ($query) {
+                return $query->whereNull('deleted_at'); // Hanya tampilkan video yang tidak dihapus
+            })
+            ->get();
 
-    // Inisialisasi array kosong untuk menghindari error di Blade
-    $watchedVideos = [];
+        // Inisialisasi array kosong untuk menghindari error di Blade
+        $watchedVideos = [];
 
-    // Jika user login, ambil daftar video yang sudah ditonton
-    if ($user) {
-        $watchedVideos = VideoHistories::where('user_id', $user->id)
-            ->where('course_id', $course->id) // `$course` harus ambil ID-nya
-            ->pluck('video_id')
-            ->toArray();
+        // Jika user login, ambil daftar video yang sudah ditonton
+        if ($user) {
+            $watchedVideos = VideoHistories::where('user_id', $user->id)
+                ->where('course_id', $course->id) // `$course` harus ambil ID-nya
+                ->pluck('video_id')
+                ->toArray();
+        }
+
+        return view('front.details', compact('course', 'courseVideos', 'watchedVideos'));
     }
-
-    return view('front.details', compact('course', 'courseVideos', 'watchedVideos'));
-}
-
 
     public function learning($courseId, $courseVideoId)
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    if (
-        !($user->hasRole('owner') ||
-            $user->hasRole('teacher') ||
-            ($user->hasRole('student') && $user->hasActiveSubscription()))
-    ) {
-        return redirect()->route('front.pricing');
+        if (
+            !($user->hasRole('owner') ||
+                $user->hasRole('teacher') ||
+                ($user->hasRole('student') && $user->hasActiveSubscription()))
+        ) {
+            return redirect()->route('front.pricing');
+        }
+
+        // ✅ Ambil semua video kursus, bukan hanya yang ditonton
+        $course = Course::with(['categories', 'course_videos'])
+            ->where('id', $courseId)
+            ->whereNull('deleted_at')
+            ->first();
+
+        if (!$course) {
+            return redirect()->route('front.courses')->with('error', 'Course not found.');
+        }
+
+        // ✅ Ambil video yang sedang ditonton
+        $video = $course->course_videos->where('id', $courseVideoId)->first();
+
+        if (!$video) {
+            return redirect()->route('front.courses')->with('error', 'Video not found.');
+        }
+
+        // ✅ Simpan riwayat tonton hanya untuk student
+        if ($user->hasRole('student') && $user->roles->count() === 1) {
+            $user->courses()->syncWithoutDetaching($course->id);
+
+            VideoHistories::updateOrCreate([
+                'user_id' => $user->id,
+                'course_id' => $courseId,
+                'video_id' => $courseVideoId
+            ], ['watched_at' => now()]);
+        }
+        // ✅ Ambil daftar video yang sudah ditonton user
+        $watchedVideos = VideoHistories::where('user_id', $user->id)
+        ->where('course_id', $courseId)
+        ->pluck('video_id')
+        ->toArray();
+
+        return view('front.learning', compact('course', 'video', 'watchedVideos'));
     }
-
-    // ✅ Ambil semua video kursus, bukan hanya yang ditonton
-    $course = Course::with(['categories', 'course_videos'])
-        ->where('id', $courseId)
-        ->whereNull('deleted_at')
-        ->first();
-
-    if (!$course) {
-        return redirect()->route('front.courses')->with('error', 'Course not found.');
-    }
-
-    // ✅ Ambil video yang sedang ditonton
-    $video = $course->course_videos->where('id', $courseVideoId)->first();
-
-    if (!$video) {
-        return redirect()->route('front.courses')->with('error', 'Video not found.');
-    }
-
-    // ✅ Simpan riwayat tonton hanya untuk student
-    if ($user->hasRole('student') && $user->roles->count() === 1) {
-        $user->courses()->syncWithoutDetaching($course->id);
-
-        VideoHistories::updateOrCreate([
-            'user_id' => $user->id,
-            'course_id' => $courseId,
-            'video_id' => $courseVideoId
-        ], ['watched_at' => now()]);
-    }
-    // ✅ Ambil daftar video yang sudah ditonton user
-    $watchedVideos = VideoHistories::where('user_id', $user->id)
-    ->where('course_id', $courseId)
-    ->pluck('video_id')
-    ->toArray();
-
-    return view('front.learning', compact('course', 'video', 'watchedVideos'));
-}
 
 
 
@@ -201,8 +200,16 @@ class FrontController extends Controller
             $query->whereDate('created_at', $request->created_at);
         }
 
-        $courses = $query->get();
-        $categories = Category::all(); // Ambil semua kategori untuk dropdown
+        // Search hanya berdasarkan nama kursus
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Paginate 9 data per halaman dengan query parameters tetap ada
+        $courses = $query->paginate(9)->appends($request->query());
+
+        // Ambil semua kategori untuk dropdown
+        $categories = Category::all();
 
         return view('front.course', compact('courses', 'categories'));
     }
