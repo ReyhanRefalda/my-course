@@ -208,6 +208,14 @@ class FrontController extends Controller
         // Paginate 9 data per halaman dengan query parameters tetap ada
         $courses = $query->paginate(9)->appends($request->query());
 
+        // Tambahkan status progress/done ke setiap kursus jika user login
+        if (auth()->check()) {
+            $user = auth()->user();
+            foreach ($courses as $course) {
+                $course->status = $user->courseStatus($course->id);
+            }
+        }
+
         // Ambil semua kategori untuk dropdown
         $categories = Category::all();
 

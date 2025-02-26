@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class UserArtikelController extends Controller
 {
+
     public function index()
     {
         $search = request()->query('search');
@@ -55,7 +56,7 @@ class UserArtikelController extends Controller
 
         $artikels = $query->whereNotIn('id', $secondToFifthData->pluck('id')->prepend($lastData->id))
             ->orderBy('id', 'desc')
-            ->paginate(12)
+            ->paginate(9)
             ->withQueryString();
 
         return view('artikel.index', compact('artikels', 'lastData', 'secondToFifthData', 'category'))

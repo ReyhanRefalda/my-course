@@ -105,4 +105,33 @@ class User extends Authenticatable
     // {
     //     return $this->status === 'rejected';
     // }
+
+    public function watchedVideos()
+    {
+        return $this->hasMany(VideoHistories::class, 'user_id');
+    }
+
+    public function courseStatus($courseId)
+    {
+        // Total video dalam kursus
+        $totalVideos = CourseVideo::where('course_id', $courseId)->count();
+
+        // Total video yang sudah ditonton user berdasarkan video_histories
+        $watchedVideos = $this->watchedVideos()
+            ->where('course_id', $courseId) // Filter berdasarkan course_id
+            ->distinct('video_id') // Pastikan hanya menghitung video unik
+            ->count('video_id'); // Hitung jumlah video yang sudah ditonton
+
+        // Jika kursus tidak memiliki video, kembalikan "No Videos"
+        if ($totalVideos === 0) {
+            return 'No Videos';
+        }
+
+        // Jika user belum menonton video sama sekali, jangan tampilkan badge
+        if ($watchedVideos === 0) {
+            return 'Not Watched';
+        }
+
+        return $watchedVideos >= $totalVideos ? 'Done' : 'Progress';
+    }
 }

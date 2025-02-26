@@ -1,62 +1,62 @@
 <x-user>
     <!-- Container -->
-    <div class="max-w-[1200px] mx-auto">
+    <div class="max-w-[1200px] mx-auto mb-6">
 
         {{-- social media --}}
-        <div class="my-4 px-6 py-3 flex justify-between items-center leading-[170%] border-y-2 border-[#3525B3]">
+        <div class="my-4 px-6 py-3 flex flex-wrap justify-center md:justify-between items-center leading-[170%] border-y-2 border-[#3525B3] gap-4">
             <div class="flex items-center gap-6">
                 <h3 class="text-xl font-semibold text-[#3525B3] [letter-spacing:3px;]">FOLLOW US</h3>
                 <a href="https://www.instagram.com/instagram?igsh=cWo0dGRrcG01OGJ0" target="_blank">
                     <img src="{{ asset('assets/socialmedia/instagram-logo.png') }}" alt="instagram"
-                        class="w-12 h-12 p-1 rounded-full [border:1px_solid_#3525B3] hover:[border:1px_solid_#3525B3] hover:bg-[#3525B3] transition-all duration-300">
+                        class="w-12 h-12 p-1 rounded-full border border-[#3525B3] hover:bg-[#3525B3] transition-all duration-300">
                 </a>
                 <a href="https://www.facebook.com/facebook?mibextid=ZbWKwL" target="_blank">
                     <img src="{{ asset('assets/socialmedia/facebook-logo.png') }}" alt="facebook"
-                        class="w-12 h-12 p-1 rounded-full [border:1px_solid_#3525B3] hover:[border:1px_solid_#3525B3] hover:bg-[#3525B3] transition-all duration-300">
+                        class="w-12 h-12 p-1 rounded-full border border-[#3525B3] hover:bg-[#3525B3] transition-all duration-300">
                 </a>
                 <a href="https://x.com/X?t=k2EgR8bQrRihD0sXvDYNSQ&s=08" target="_blank">
                     <img src="{{ asset('assets/socialmedia/X-logo.png') }}" alt="X"
-                        class="w-12 h-12 p-1 rounded-full [border:1px_solid_#3525B3] hover:[border:1px_solid_#3525B3] hover:bg-[#3525B3] transition-all duration-300">
+                        class="w-12 h-12 p-1 rounded-full border border-[#3525B3] hover:bg-[#3525B3] transition-all duration-300">
                 </a>
                 <a href="https://t.me/telegram/366" target="_blank">
                     <img src="{{ asset('assets/socialmedia/telegram-logo.png') }}" alt="telegram"
-                        class="w-12 h-12 p-1 rounded-full [border:1px_solid_#3525B3] hover:[border:1px_solid_#3525B3] hover:bg-[#3525B3] transition-all duration-300">
+                        class="w-12 h-12 p-1 rounded-full border border-[#3525B3] hover:bg-[#3525B3] transition-all duration-300">
                 </a>
             </div>
-            <div class="flex items-center gap-4">
-                <form action="{{ route('artikel.index') }}" method="GET" class="flex items-center max-w-sm mx-auto">
+
+            <div class="flex w-full md:w-auto justify-center">
+                <form action="{{ route('artikel.index') }}" method="GET" class="flex flex-wrap items-center gap-2 w-full max-w-2xl">
                     <!-- Search Input -->
-                    <div class="relative w-full">
+                    <div class="relative flex-1 min-w-[200px]">
                         <input type="text" name="search" id="search" placeholder="Search news..."
-                            class="block w-full px-4 py-2 text-[#3525B3] [border:2px_solid_#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#f7f9fa] sm:text-sm"
+                            class="block w-full px-4 py-2 text-[#3525B3] border-2 border-[#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#3525B3] sm:text-sm"
                             value="{{ request('search') }}" />
                     </div>
-            
+
                     <!-- Date Picker -->
-                    <div class="relative w-full mx-2">
+                    <div class="relative flex-1 min-w-[160px]">
                         <input type="date" name="created_at"
-                            class="block w-full px-4 py-2 text-[#3525B3] [border:2px_solid_#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#f7f9fa] sm:text-sm"
+                            class="block w-full px-4 py-2 text-[#3525B3] border-2 border-[#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#3525B3] sm:text-sm"
                             value="{{ request('created_at') }}">
                     </div>
-            
+
                     <!-- Kategori Dropdown -->
-                    <div class="relative w-full mx-2">
+                    <div class="relative flex-1 min-w-[200px]">
                         <select name="category"
-                            class="block w-full px-4 py-2 text-[#3525B3] [border:2px_solid_#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#f7f9fa] sm:text-sm">
-                            <option value="">Semua Kategori</option>
+                            class="block w-full px-4 py-2 text-[#3525B3] border-2 border-[#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#3525B3] sm:text-sm">
+                            <option value="">All</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}"
-                                    {{ request('category') == $category->id ? 'selected' : '' }}>
+                                <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
-            
+
                     <!-- Search Button -->
                     <button type="submit"
-                        class="p-2.5 ms-2 text-sm font-medium text-[#3525B3] hover:text-[#f7f9fa] bg-[#f7f9fa] rounded-lg border border-[#f7f9fa] hover:border-[#3525B3] hover:bg-[#3525B3] focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all duration-300">
-                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        class="p-3 text-sm font-medium text-[#3525B3] hover:text-[#f7f9fa] bg-[#f7f9fa] rounded-lg border border-[#f7f9fa] hover:border-[#3525B3] hover:bg-[#3525B3] focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all duration-300">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
@@ -65,8 +65,6 @@
                     </button>
                 </form>
             </div>
-            
-            
         </div>
 
         <!-- Headline Section -->
