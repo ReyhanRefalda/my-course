@@ -34,98 +34,173 @@
                     </div>
                 </div>
 
-                <div class="">
+                <div class="relative max-w-[1200px] mx-auto flex flex-col pt-[70px] pb-[50px] px-[100px] gap-[50px] bg-[#F5F8FA] rounded-[32px]">
                     <h1 class="text-2xl font-semibold mb-4">Course History</h1>
 
-                    <div class="grid grid-cols-3 gap-[30px] w-full">
-                        @forelse ($courses as $course)
-                            <div class="course-card">
-                                <div
-                                    class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[32px] bg-white w-full pb-[10px] overflow-hidden ring-1 ring-[#DADEE4] transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
-                                    <a href="{{ route('front.details', $course->slug) }}"
-                                        class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
-                                        <img src="{{ Storage::url($course->thumbnail) }}" class="w-full h-full object-cover"
-                                            alt="thumbnail">
-                                    </a>
-                                    <div class="flex flex-col px-4 gap-[32px]">
-                                        <div class="flex flex-col gap-[10px]">
-                                            <a href="{{ route('front.details', $course->slug) }}"
-                                                class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">
-                                                {{ $course->name}}
-                                             </a>
-                                             <div class="flex justify-between items-center">
-                                             
-                                               
-                                                {{-- <p class="text-right text-[#6D7786]">{{ $course->students->count() }}</p> --}}
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
-                                                <img src="{{ Storage::url($course->teacher->user->avatar) }}"
-                                                    class="w-full h-full object-cover" alt="icon">
-                                            </div>
-                                            <div class="flex flex-col">
-                                                <p class="font-semibold">{{ $course->teacher->user->name }}</p>
-                                                <p class="text-[#6D7786]">{{ $course->teacher->user->occupation }}</p>
+                    <!-- Tombol Navigasi untuk Kursus -->
+                    <button class="btn-prev-kursus absolute left-[-60px] top-1/2 transform -translate-y-1/2 z-30 bg-white p-3 rounded-full shadow-lg pointer-events-auto">
+                        <img src="assets/icon/arrow-right.svg" class="rotate-180 w-6 h-6" alt="Previous">
+                    </button>
+
+                    <div class="relative overflow-hidden" data-aos="fade-up" data-aos-duration="1000">
+                        <!-- Swiper Container untuk Kursus -->
+                        <div class="swiper-container kursus-slider w-full relative pointer-events-none">
+                            <div class="swiper-wrapper pointer-events-auto">
+                                @forelse ($courses as $course)
+                                    <div class="swiper-slide">
+                                        <div class="article-card w-full px-3 pb-[70px]">
+                                            <div class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[20px] bg-white w-full pb-[10px] overflow-hidden transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
+                                                <a href="{{ route('front.details', $course->slug) }}"
+                                                    class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
+                                                    <img src="{{ Storage::url($course->thumbnail) }}"
+                                                        class="w-full h-full object-cover" alt="thumbnail">
+                                                </a>
+                                                <div class="flex flex-col px-4 gap-[10px]">
+                                                    <a href="{{ route('front.details', $course->slug) }}"
+                                                        class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">
+                                                        {{ $course->name }}
+                                                    </a>
+                                                    <div class="flex justify-between items-center">
+                                                        <p class="text-sm text-gray-600 font-semibold">{{ $course->students->count() }} Students</p>
+                                                        <div class="flex items-center gap-2">
+                                                            <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
+                                                                <img src="{{ Storage::url($course->teacher->user->avatar) }}"
+                                                                    class="w-full h-full object-cover" alt="icon">
+                                                            </div>
+                                                            <div class="flex flex-col">
+                                                                <p class="font-semibold">{{ $course->teacher->user->name }}</p>
+                                                                <p class="text-[#6D7786]">{{ $course->teacher->user->occupation }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        @empty
-                        @endforelse
-                    </div>
-
-
-                    <div class="container mx-auto py-6 px-0 mt-4">
-                        <h1 class="text-2xl font-semibold">Lastest Artikel</h1>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4 py-4 px-0">
-                            @forelse ($articles as $article)
-                            <!-- Card -->
-                            <div>
-                                <div class="mb-2 min-h-[340px] overflow-hidden [border-bottom:1px_solid_#FF6129]">
-                                    <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}" class="overflow-hidden">
-                                        <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $article->tumbnail) }}"
-                                            class="w-full h-[190px] object-cover rounded-lg overflow-hidden transition hover:scale-[1.02] duration-300"
-                                            alt="{{ $article->title }}">
-                                    </a>
-                                    <div class="h-[150px] flex flex-col justify-between p-2 overflow-y-hidden">
-                                        <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}"
-                                            class="hover:underline hover:text-[#FF6129] text-[#181818] text[1.3rem] font-bold">
-                                            <h3 class="text-[1.3rem] font-bold">{{ Str::limit($article->title, 47) }}</h3>
-                                        </a>
-                                        <div class="flex justify-between">
-                                            <p class="text-sm text-gray-600 font-semibold hover:text-[#FF6129]">By {{ $article->user->name }}</p>
-                                            <p class="text-sm text-gray-600">
-                                                @if ($article->created_at->diffInHours(now()) < 24)
-                                                    {{ $article->created_at->diffForHumans() }}
-                                                @else
-                                                    {{ $article->created_at->isoFormat('dddd, D MMMM Y') }}
-                                                @endif
-                                            </p>
-                                        </div>
+                                @empty
+                                    <div class="w-full text-center">
+                                        <p class="text-gray-500 mt-4">No courses available</p>
                                     </div>
-                                </div>
+                                @endforelse
                             </div>
-                        @empty
-                            <!-- Empty State -->
-                            <div class="col-span-full text-center">
-                                <div class="flex justify-center">
-                                    <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
-                                        class="w-[150px] md:w-[200px] lg:w-[300px]">
-                                </div>
-                                <p class="text-gray-500 mt-4">No data available</p>
-                            </div>
-                        @endforelse
                         </div>
                     </div>
+
+                    <!-- Tombol Navigasi untuk Kursus -->
+                    <button class="btn-next-kursus absolute right-[-60px] top-1/2 transform -translate-y-1/2 z-30 bg-white p-3 rounded-full shadow-lg pointer-events-auto">
+                        <img src="assets/icon/arrow-right.svg" class="w-6 h-6" alt="Next">
+                    </button>
+                </div>
+
+
+                <div class="relative max-w-[1200px] mx-auto flex flex-col pt-[70px] pb-[50px] px-[100px] gap-[50px] bg-[#F5F8FA] rounded-[32px]">
+                    <h1 class="text-2xl font-semibold mb-4">Article History</h1>
+
+                    <!-- Tombol Navigasi untuk Artikel -->
+                    <button class="btn-prev-artikel absolute left-[-60px] top-1/2 transform -translate-y-1/2 z-30 bg-white p-3 rounded-full shadow-lg pointer-events-auto">
+                        <img src="assets/icon/arrow-right.svg" class="rotate-180 w-6 h-6" alt="Previous">
+                    </button>
+
+                    <div class="relative overflow-hidden" data-aos="fade-up" data-aos-duration="1000">
+                        <!-- Swiper Container untuk Artikel -->
+                        <div class="swiper-container artikel-slider w-full relative pointer-events-none">
+                            <div class="swiper-wrapper pointer-events-auto">
+                                @forelse ($articles as $article)
+                                    <div class="swiper-slide">
+                                        <div class="article-card w-full px-3 pb-[70px]">
+                                            <div class="flex flex-col rounded-t-[12px] rounded-b-[24px] gap-[20px] bg-white w-full pb-[10px] overflow-hidden transition-all duration-300 hover:ring-2 hover:ring-[#FF6129]">
+                                                <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}"
+                                                    class="thumbnail w-full h-[200px] shrink-0 rounded-[10px] overflow-hidden">
+                                                    <img src="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $article->tumbnail) }}"
+                                                        class="w-full h-full object-cover" alt="thumbnail">
+                                                </a>
+                                                <div class="flex flex-col px-4 gap-[10px]">
+                                                    <a href="{{ route('artikel.show', ['slug' => $article->slug]) }}"
+                                                        class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[56px]">
+                                                        {{ Str::limit($article->title, 47) }}
+                                                    </a>
+                                                    <div class="flex justify-between items-center">
+                                                        <p class="text-sm text-gray-600 font-semibold hover:text-[#FF6129]">By {{ $article->user->name }}</p>
+                                                        <p class="text-sm text-gray-600">
+                                                            @if ($article->created_at->diffInHours(now()) < 24)
+                                                                {{ $article->created_at->diffForHumans() }}
+                                                            @else
+                                                                {{ $article->created_at->isoFormat('dddd, D MMMM Y') }}
+                                                            @endif
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="w-full text-center">
+                                        <p class="text-gray-500 mt-4">No data available</p>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Navigasi untuk Artikel -->
+                    <button class="btn-next-artikel absolute right-[-60px] top-1/2 transform -translate-y-1/2 z-30 bg-white p-3 rounded-full shadow-lg pointer-events-auto">
+                        <img src="assets/icon/arrow-right.svg" class="w-6 h-6" alt="Next">
+                    </button>
+                </div>
+
                 </div>
 
         </section>
         <x-footer />
-        <!-- JavaScript -->
+<!-- JavaScript -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
         <script src="{{ asset('build/js/main.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+        <script>
+            // Inisialisasi Swiper untuk Slider Kursus
+            var swiperKursus = new Swiper(".kursus-slider", {
+                slidesPerView: 3,
+                spaceBetween: 30,
+                loop: false,
+                navigation: {
+                    nextEl: ".btn-next-kursus",
+                    prevEl: ".btn-prev-kursus",
+                },
+                on: {
+                    init: function () {
+                        updateNavButtons(this, ".btn-prev-kursus", ".btn-next-kursus");
+                    },
+                    slideChange: function () {
+                        updateNavButtons(this, ".btn-prev-kursus", ".btn-next-kursus");
+                    }
+                },
+            });
+
+            // Inisialisasi Swiper untuk Slider Artikel
+            var swiperArtikel = new Swiper(".artikel-slider", {
+                slidesPerView: 3,
+                spaceBetween: 30,
+                loop: false,
+                navigation: {
+                    nextEl: ".btn-next-artikel",
+                    prevEl: ".btn-prev-artikel",
+                },
+                on: {
+                    init: function () {
+                        updateNavButtons(this, ".btn-prev-artikel", ".btn-next-artikel");
+                    },
+                    slideChange: function () {
+                        updateNavButtons(this, ".btn-prev-artikel", ".btn-next-artikel");
+                    }
+                },
+            });
+
+            // Fungsi untuk menyembunyikan tombol jika di awal atau akhir
+            function updateNavButtons(swiper, prevBtn, nextBtn) {
+                document.querySelector(prevBtn).style.display = swiper.isBeginning ? "none" : "block";
+                document.querySelector(nextBtn).style.display = swiper.isEnd ? "none" : "block";
+            }
+        </script>
 
     </body>
 @endsection

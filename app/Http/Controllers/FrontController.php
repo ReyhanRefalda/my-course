@@ -9,6 +9,7 @@ use App\Models\Package;
 use App\Models\Payment;
 use App\Models\Teacher;
 use App\Models\Category;
+use App\Models\VideoHistories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\SubscribeTransaction;
@@ -32,57 +33,83 @@ class FrontController extends Controller
 
 
     public function detail(Course $course)
-    {
-        // Ambil video kursus dengan logika sesuai role
-        $user = auth()->user();
-        $userRole = $user ? $user->getRoleNames()->first() : 'student';
+{
+    $user = auth()->user();
+    $userRole = $user ? $user->getRoleNames()->first() : 'student';
 
-        $courseVideos = $course->course_videos()
-            ->when($userRole === 'owner', function ($query) {
-                return $query->withTrashed(); // Tampilkan semua video termasuk yang dihapus
-            })
-            ->when($userRole === 'teacher', function ($query) {
-                return $query->withTrashed(); // Tampilkan semua video termasuk yang dihapus
-            })
-            ->when($userRole === 'student', function ($query) {
-                return $query->whereNull('deleted_at'); // Hanya tampilkan video yang tidak dihapus
-            })
-            ->get();
+    // Ambil video berdasarkan role user
+    $courseVideos = $course->course_videos()
+        ->when(in_array($userRole, ['owner', 'teacher']), function ($query) {
+            return $query->withTrashed(); // Tampilkan semua video termasuk yang dihapus
+        })
+        ->when($userRole === 'student', function ($query) {
+            return $query->whereNull('deleted_at'); // Hanya tampilkan video yang tidak dihapus
+        })
+        ->get();
 
-        return view('front.details', compact('course', 'courseVideos'));
+    // Inisialisasi array kosong untuk menghindari error di Blade
+    $watchedVideos = [];
+
+    // Jika user login, ambil daftar video yang sudah ditonton
+    if ($user) {
+        $watchedVideos = VideoHistories::where('user_id', $user->id)
+            ->where('course_id', $course->id) // `$course` harus ambil ID-nya
+            ->pluck('video_id')
+            ->toArray();
     }
+
+    return view('front.details', compact('course', 'courseVideos', 'watchedVideos'));
+}
+
 
     public function learning($courseId, $courseVideoId)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        if (
-            !($user->hasRole('owner') ||
-                $user->hasRole('teacher') ||
-                ($user->hasRole('student') && $user->hasActiveSubscription()))
-        ) {
-            return redirect()->route('front.pricing');
-        }
-
-        $course = Course::with(['categories', 'course_videos' => function ($query) use ($courseVideoId) {
-            $query->where('id', $courseVideoId)->whereNull('deleted_at');
-        }])->where('id', $courseId)->whereNull('deleted_at')->first();
-
-        if (!$course || $course->course_videos->isEmpty()) {
-            return redirect()->route('front.courses')->with('error', 'Course or video not found or has been removed.');
-        }
-
-        $video = $course->course_videos->first();
-
-        // Tambahkan ke pivot hanya untuk student dengan 1 role
-        if ($user->hasRole('student') && $user->roles->count() === 1) {
-            $user->courses()->syncWithoutDetaching($course->id);
-        }
-
-        $categories = $course->categories->pluck('name');
-
-        return view('front.learning', compact('course', 'video', 'categories'));
+    if (
+        !($user->hasRole('owner') ||
+            $user->hasRole('teacher') ||
+            ($user->hasRole('student') && $user->hasActiveSubscription()))
+    ) {
+        return redirect()->route('front.pricing');
     }
+
+    // ✅ Ambil semua video kursus, bukan hanya yang ditonton
+    $course = Course::with(['categories', 'course_videos'])
+        ->where('id', $courseId)
+        ->whereNull('deleted_at')
+        ->first();
+
+    if (!$course) {
+        return redirect()->route('front.courses')->with('error', 'Course not found.');
+    }
+
+    // ✅ Ambil video yang sedang ditonton
+    $video = $course->course_videos->where('id', $courseVideoId)->first();
+
+    if (!$video) {
+        return redirect()->route('front.courses')->with('error', 'Video not found.');
+    }
+
+    // ✅ Simpan riwayat tonton hanya untuk student
+    if ($user->hasRole('student') && $user->roles->count() === 1) {
+        $user->courses()->syncWithoutDetaching($course->id);
+
+        VideoHistories::updateOrCreate([
+            'user_id' => $user->id,
+            'course_id' => $courseId,
+            'video_id' => $courseVideoId
+        ], ['watched_at' => now()]);
+    }
+    // ✅ Ambil daftar video yang sudah ditonton user
+    $watchedVideos = VideoHistories::where('user_id', $user->id)
+    ->where('course_id', $courseId)
+    ->pluck('video_id')
+    ->toArray();
+
+    return view('front.learning', compact('course', 'video', 'watchedVideos'));
+}
+
 
 
 
@@ -161,39 +188,39 @@ class FrontController extends Controller
     public function course(Request $request)
     {
         $query = Course::query();
-    
+
         // Filter berdasarkan kategori yang dipilih
         if ($request->filled('category')) {
             $query->whereHas('categories', function ($q) use ($request) {
                 $q->where('category_id', $request->category);
             });
         }
-    
+
         // Filter berdasarkan tanggal jika dipilih
         if ($request->filled('created_at')) {
             $query->whereDate('created_at', $request->created_at);
         }
-    
+
         $courses = $query->get();
         $categories = Category::all(); // Ambil semua kategori untuk dropdown
-    
+
         return view('front.course', compact('courses', 'categories'));
     }
-    
+
 
     public function progress()
     {
         $user = auth()->user();
-    
+
         // Ambil 9 kursus yang baru diikuti user
         $courses = $user->courses()->latest()->take(9)->get();
-    
+
         // Ambil daftar artikel yang baru dikunjungi dari session
         $visitedArticles = session()->get('visited_articles', []);
-    
+
         // Debugging: Cek isi visitedArticles
         \Log::info('Visited Articles:', $visitedArticles);
-    
+
         // Cek apakah visitedArticles tidak kosong
         if (!empty($visitedArticles)) {
             // Ambil artikel berdasarkan urutan dalam session
@@ -209,7 +236,7 @@ class FrontController extends Controller
                         ->take(9)
                         ->get();
         }
-    
+
         return view('front.progress', compact('courses', 'articles'));
     }
 
