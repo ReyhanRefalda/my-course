@@ -20,6 +20,11 @@ class Category extends Model
     {
         return $this->belongsToMany(Course::class, 'categories_courses', 'category_id', 'course_id');
     }
-    
-    
+
+    public function articles()
+    {
+        return $this->belongsToMany(Course::class, 'article_category', 'category_id', 'article_id');
+    }
+
+
 }

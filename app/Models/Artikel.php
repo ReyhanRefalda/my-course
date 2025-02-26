@@ -29,8 +29,6 @@ class Artikel extends Model
 
     public function kategoriarts(): BelongsToMany
     {
-        return $this->belongsToMany(Kategoriart::class, 'artikel_kategoriart', 'artikel_id', 'kategoriart_id')
-                    ->withTimestamps()
-                    ->withTrashed(); // Tetap menampilkan kategori meskipun sudah dihapus
+        return $this->belongsToMany(Category::class, 'article_category', 'article_id', 'category_id');
     }
 }

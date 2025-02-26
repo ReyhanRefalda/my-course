@@ -29,14 +29,14 @@
                     <label for="kategoriart" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
                     <select name="kategoriart[]" id="kategoriart"
                     class="select2 form-control select2-bootstrap-5 shadow-sm w-full" multiple>
-                    @foreach ($kategoriart as $kategori)
-                        <option value="{{ $kategori->id }}" 
+                    @foreach ($categories as $kategori)
+                        <option value="{{ $kategori->id }}"
                             {{ in_array($kategori->id, old('kategoriart', [])) ? 'selected' : '' }}>
                             {{ $kategori->name }}
                         </option>
                     @endforeach
                 </select>
-                
+
                     <x-input-error :messages="$errors->get('kategoriart')" />
                 </div>
 
@@ -83,6 +83,6 @@
         </div>
     </div>
 
-    
+
 
 </x-app-layout>

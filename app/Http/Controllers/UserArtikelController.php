@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artikel;
-use App\Models\Kategoriart;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class UserArtikelController extends Controller
@@ -13,9 +13,9 @@ class UserArtikelController extends Controller
         $search = request()->query('search');
         $category = request()->query('category');
         $createdAt = request()->query('created_at');
-    
+
         $query = Artikel::where('status', 'publish');
-    
+
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'LIKE', "%$search%")
@@ -24,69 +24,69 @@ class UserArtikelController extends Controller
                     });
             });
         }
-    
+
         if ($createdAt) {
             $query->whereDate('created_at', $createdAt);
         }
-    
-        // Perbaiki pemanggilan relasi dari 'kategoriart' ke 'kategoriarts'
+
+        // Perbaiki pemanggilan relasi dari 'Category' ke 'Categorys'
         if ($category) {
-            $query->whereHas('kategoriarts', function ($q) use ($category) {
-                $q->where('kategoriart.id', $category); // Tambahkan prefix tabel
+            $query->whereHas('Categorys', function ($q) use ($category) {
+                $q->where('Category.id', $category); // Tambahkan prefix tabel
             });
         }
-        
-    
+
+
         $lastData = $query->orderBy('id', 'desc')->latest()->first();
-    
+
         if (!$lastData) {
             return view('artikel.index', [
                 'artikels' => $query->paginate(12)->withQueryString(),
                 'lastData' => null,
                 'secondToFifthData' => collect(),
-                'categories' => Kategoriart::all(), // Ambil semua kategori untuk dropdown
+                'categories' => Category::all(), // Ambil semua kategori untuk dropdown
             ]);
         }
-    
+
         $secondToFifthData = $query->where('id', '!=', $lastData->id)
             ->orderBy('id', 'desc')
             ->take(4)
             ->get();
-    
+
         $artikels = $query->whereNotIn('id', $secondToFifthData->pluck('id')->prepend($lastData->id))
             ->orderBy('id', 'desc')
             ->paginate(12)
             ->withQueryString();
-    
+
         return view('artikel.index', compact('artikels', 'lastData', 'secondToFifthData', 'category'))
-            ->with('categories', Kategoriart::all());
+            ->with('categories', Category::all());
     }
-    
-    
+
+
 
 
 
     public function detail($slug)
     {
         $artikels = Artikel::where('status', 'publish')->where('slug', $slug)->firstOrFail();
-    
+
         // Ambil daftar artikel yang sudah dikunjungi dari session
         $visitedArticles = session()->get('visited_articles', []);
-    
+
         // Jika artikel sudah ada dalam daftar, hapus dari daftar
         if (in_array($artikels->id, $visitedArticles)) {
             $visitedArticles = array_diff($visitedArticles, [$artikels->id]);
         }
-    
+
         // Tambahkan artikel yang sedang dibaca ke posisi teratas
         array_unshift($visitedArticles, $artikels->id);
-    
+
         // Simpan hanya 9 artikel terakhir
         $visitedArticles = array_slice($visitedArticles, 0, 9);
-    
+
         // Simpan kembali ke session
         session()->put('visited_articles', $visitedArticles);
-    
+
         // Cek apakah visited_articles kosong
         if (!empty($visitedArticles)) {
             // Ambil artikel berdasarkan daftar ID yang baru dikunjungi
@@ -101,12 +101,12 @@ class UserArtikelController extends Controller
                 ->take(6)
                 ->get();
         }
-    
+
         return view('artikel.show', compact('artikels', 'artikleSidebar'));
     }
-    
-    
-    
+
+
+
 
     public function lastData()
     {
