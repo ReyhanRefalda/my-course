@@ -18,6 +18,7 @@ use App\Http\Controllers\SubscribeTransactionController;
 use App\Http\Controllers\WithdrawController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Middleware\ProvideRejectionReason;
+use App\Http\Controllers\KategoriArtController;
 
 // Public routes
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
@@ -66,7 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('categories', CategoryController::class)
             ->middleware('role:owner');
-
+        Route::resource('kategoriart', KategoriArtController::class)->except(['show']);
         Route::resource('teachers', TeacherController::class)
             ->middleware('role:owner');
 

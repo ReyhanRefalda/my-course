@@ -12,8 +12,7 @@
             <h2 class="text-2xl font-semibold text-gray-800 mb-2">Edit Article</h2>
             <p class="text-sm text-gray-500 mb-6">Update the necessary fields</p>
 
-            <form action="{{ route('admin.artikel.update', $artikel->id) }}" method="POST" enctype="multipart/form-data"
-                class="space-y-6 w-full">
+            <form action="{{ route('admin.artikel.update', $artikel->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6 w-full">
                 @csrf
                 @method('PUT')
 
@@ -26,6 +25,7 @@
                     <x-input-error :messages="$errors->get('title')" />
                 </div>
 
+                <!-- Thumbnail -->
                 <div>
                     <label for="tumbnail" class="block text-sm font-medium text-gray-700 mb-1">Thumbnail</label>
                     <input type="file" name="tumbnail" id="tumbnail"
@@ -41,21 +41,34 @@
                 <!-- Isi Artikel -->
                 <div>
                     <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Isi Artikel</label>
-                    <input id="content" type="hidden" name="content">
+                    <input id="content" type="hidden" name="content" value="{!! old('content', $artikel->content) !!}">
                     <trix-editor input="content"
-                        class="trix-content border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 min-h-[150px]">{!! old('content', $artikel->content) !!}</trix-editor>
+                        class="trix-content border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 min-h-[150px]"></trix-editor>
                     <x-input-error :messages="$errors->get('content')" />
                 </div>
 
-                <!-- Status dan Thumbnail -->
+                <!-- Kategori -->
+                <div>
+                    <label for="kategoriart" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                    <select name="kategoriart[]" id="kategoriart"
+                        class="select2 form-control select2-bootstrap-5 shadow-sm w-full" multiple>
+                        @foreach ($kategoriart as $kategori)
+                            <option value="{{ $kategori->id }}"
+                                {{ in_array($kategori->id, old('kategoriart', $artikel->kategoriarts->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                {{ $kategori->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('kategoriart')" />
+                </div>
+
+                <!-- Status -->
                 <div>
                     <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                     <select name="status" id="status"
                         class="w-full border border-gray-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500">
-                        <option value="draft" {{ old('status', $artikel->status) == 'draft' ? 'selected' : '' }}>
-                            Draft</option>
-                        <option value="publish" {{ old('status', $artikel->status) == 'publish' ? 'selected' : '' }}>
-                            Publish</option>
+                        <option value="draft" {{ old('status', $artikel->status) == 'draft' ? 'selected' : '' }}>Draft</option>
+                        <option value="publish" {{ old('status', $artikel->status) == 'publish' ? 'selected' : '' }}>Publish</option>
                     </select>
                     <x-input-error :messages="$errors->get('status')" />
                 </div>
@@ -64,7 +77,7 @@
                 <div class="text-right flex justify-end gap-x-2">
                     <a href="{{ route('admin.artikel.index') }}"
                         class="px-6 py-2 bg-gray-600 text-white font-semibold rounded-[30px] shadow hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
-                        Cancle
+                        Cancel
                     </a>
                     <button type="submit"
                         class="px-6 py-2 bg-purple-600 text-white font-semibold rounded-[30px] shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
@@ -74,6 +87,4 @@
             </form>
         </div>
     </div>
-
-
 </x-app-layout>

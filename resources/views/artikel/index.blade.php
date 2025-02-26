@@ -25,14 +25,35 @@
             </div>
             <div class="flex items-center gap-4">
                 <form action="{{ route('artikel.index') }}" method="GET" class="flex items-center max-w-sm mx-auto">
+                    <!-- Search Input -->
                     <div class="relative w-full">
                         <input type="text" name="search" id="search" placeholder="Search news..."
                             class="block w-full px-4 py-2 text-[#3525B3] [border:2px_solid_#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#f7f9fa] sm:text-sm"
                             value="{{ request('search') }}" />
                     </div>
+            
+                    <!-- Date Picker -->
                     <div class="relative w-full mx-2">
-                        <input type="date" name="created_at" class="block w-full px-4 py-2 text-[#3525B3] [border:2px_solid_#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#f7f9fa] sm:text-sm" value="{{ request('created_at') }}">
+                        <input type="date" name="created_at"
+                            class="block w-full px-4 py-2 text-[#3525B3] [border:2px_solid_#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#f7f9fa] sm:text-sm"
+                            value="{{ request('created_at') }}">
                     </div>
+            
+                    <!-- Kategori Dropdown -->
+                    <div class="relative w-full mx-2">
+                        <select name="category"
+                            class="block w-full px-4 py-2 text-[#3525B3] [border:2px_solid_#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#f7f9fa] sm:text-sm">
+                            <option value="">Semua Kategori</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ request('category') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+            
+                    <!-- Search Button -->
                     <button type="submit"
                         class="p-2.5 ms-2 text-sm font-medium text-[#3525B3] hover:text-[#f7f9fa] bg-[#f7f9fa] rounded-lg border border-[#f7f9fa] hover:border-[#3525B3] hover:bg-[#3525B3] focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all duration-300">
                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -44,6 +65,8 @@
                     </button>
                 </form>
             </div>
+            
+            
         </div>
 
         <!-- Headline Section -->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artikel;
+use App\Models\Kategoriart;
 use Illuminate\Http\Request;
 
 class UserArtikelController extends Controller
@@ -12,6 +13,7 @@ class UserArtikelController extends Controller
         $search = request()->query('search');
         $category = request()->query('category');
         $createdAt = request()->query('created_at');
+    
         $query = Artikel::where('status', 'publish');
     
         if ($search) {
@@ -27,13 +29,22 @@ class UserArtikelController extends Controller
             $query->whereDate('created_at', $createdAt);
         }
     
+        // Perbaiki pemanggilan relasi dari 'kategoriart' ke 'kategoriarts'
+        if ($category) {
+            $query->whereHas('kategoriarts', function ($q) use ($category) {
+                $q->where('kategoriart.id', $category); // Tambahkan prefix tabel
+            });
+        }
+        
+    
         $lastData = $query->orderBy('id', 'desc')->latest()->first();
     
         if (!$lastData) {
             return view('artikel.index', [
-                'artikels' => $query->paginate(12),
+                'artikels' => $query->paginate(12)->withQueryString(),
                 'lastData' => null,
-                'secondToFifthData' => collect()
+                'secondToFifthData' => collect(),
+                'categories' => Kategoriart::all(), // Ambil semua kategori untuk dropdown
             ]);
         }
     
@@ -44,10 +55,14 @@ class UserArtikelController extends Controller
     
         $artikels = $query->whereNotIn('id', $secondToFifthData->pluck('id')->prepend($lastData->id))
             ->orderBy('id', 'desc')
-            ->paginate(12);
+            ->paginate(12)
+            ->withQueryString();
     
-        return view('artikel.index', compact('artikels', 'lastData', 'secondToFifthData'));
+        return view('artikel.index', compact('artikels', 'lastData', 'secondToFifthData', 'category'))
+            ->with('categories', Kategoriart::all());
     }
+    
+    
 
 
 
