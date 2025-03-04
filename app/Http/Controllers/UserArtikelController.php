@@ -33,7 +33,7 @@ class UserArtikelController extends Controller
 
         // Perbaiki pemanggilan relasi dari 'Category' ke 'Categorys'
         if ($category) {
-            $query->whereHas('Categorys', function ($q) use ($category) {
+            $query->whereHas('Categories', function ($q) use ($category) {
                 $q->where('Category.id', $category); // Tambahkan prefix tabel
             });
         }
@@ -57,7 +57,7 @@ class UserArtikelController extends Controller
 
         $artikels = $query->whereNotIn('id', $secondToFifthData->pluck('id')->prepend($lastData->id))
             ->orderBy('id', 'desc')
-            ->paginate(9)
+            ->paginate(6)
             ->withQueryString();
 
         return view('artikel.index', compact('artikels', 'lastData', 'secondToFifthData', 'category'))

@@ -220,7 +220,7 @@ class FrontController extends Controller
         }
 
         // Paginate 9 data per halaman dengan query parameters tetap ada
-        $courses = $query->paginate(9)->appends($request->query());
+        $courses = $query->orderbyDesc('created_at')->paginate(6)->appends($request->query());
 
         // Tambahkan status progress/done ke setiap kursus jika user login
         if (auth()->check()) {
@@ -304,7 +304,7 @@ class FrontController extends Controller
             }
 
             // Gunakan parameter unik untuk pagination articles
-            $visitedArticles = $articlesQuery->paginate(2, ['*'], 'articles_page');
+            $visitedArticles = $articlesQuery->paginate(3, ['*'], 'articles_page');
 
             // Ambil daftar kategori
             $categories = Category::all();

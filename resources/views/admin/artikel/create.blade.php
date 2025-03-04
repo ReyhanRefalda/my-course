@@ -25,7 +25,7 @@
                 </div>
 
                 <!-- Kategori Artikel (Select2) -->
-                <div>
+                {{-- <div>
                     <label for="kategoriart" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
                     <select name="kategoriart[]" id="kategoriart"
                     class="select2 form-control select2-bootstrap-5 shadow-sm w-full" multiple>
@@ -38,7 +38,7 @@
                 </select>
 
                     <x-input-error :messages="$errors->get('kategoriart')" />
-                </div>
+                </div> --}}
 
                 <!-- Thumbnail -->
                 <div>

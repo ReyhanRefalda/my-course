@@ -33,10 +33,10 @@ class ArtikelController extends Controller
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('title', 'like', "%{$search}%")
-                        ->orWhere('content', 'like', "%{$search}%")
-                        ->orWhereHas('kategoriarts', function ($query) use ($search) {
-                            $query->where('name', 'like', "%{$search}%");
-                        });
+                        ->orWhere('content', 'like', "%{$search}%");
+                        // ->orWhereHas('category', function ($query) use ($search) {
+                        //     $query->where('name', 'like', "%{$search}%");
+                        // });
                 });
             })
             // Filter status
@@ -71,6 +71,8 @@ class ArtikelController extends Controller
         public function store(ArtikelRequest $request)
         {
             // Proses upload file thumbnail
+            // dd($request->file('tumbnail'));
+
             if ($request->hasFile('tumbnail')) {
                 $image = $request->file('tumbnail');
                 $image_name = time() . '.' . $image->getClientOriginalExtension();

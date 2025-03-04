@@ -5,12 +5,12 @@
             <button id="btn-articles" class="section-btn transition-all duration-300 ease-in-out">Articles</button>
         </div>
         <!-- FILTER FORM -->
-        <form method="GET" action="{{ route('front.tes') }}" class="flex flex-wrap gap-2 items-center bg-gray-100 p-4 rounded-lg">
+        <form method="GET" action="{{ route('front.progress') }}" class="flex flex-wrap gap-2 items-center bg-gray-100 p-4 rounded-lg">
             <!-- Search -->
             <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}" class="px-3 py-2 rounded-lg border border-gray-300 focus:ring focus:ring-orange-400">
 
             <!-- Filter Kategori -->
-            <select name="category" class="px-3 py-2 rounded-lg border border-gray-300 focus:ring focus:ring-orange-400">
+            <select name="category" class="px-3 py-2 rounded-lg border border-gray-300 focus:ring focus:ring-orange-400" id="filter-category">
                 <option value="">All Categories</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
@@ -133,6 +133,7 @@
         const buttons = document.querySelectorAll(".section-btn");
         const sections = document.querySelectorAll(".section");
         const filterStatus = document.getElementById("filter-status");
+        const filterCategory = document.getElementById("filter-category");
 
         // Ambil tab terakhir dari localStorage atau default ke "btn-courses"
         let activeTab = localStorage.getItem("activeTab") || "btn-courses";
@@ -153,6 +154,7 @@
 
             // Tampilkan/hilangkan filter status khusus Courses
             filterStatus.classList.toggle("hidden", buttonId === "btn-articles");
+            filterCategory.classList.toggle("hidden", buttonId === "btn-articles");
 
             // Simpan pilihan tab ke localStorage
             localStorage.setItem("activeTab", buttonId);

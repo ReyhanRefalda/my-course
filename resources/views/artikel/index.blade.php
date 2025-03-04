@@ -41,7 +41,7 @@
                     </div>
 
                     <!-- Kategori Dropdown -->
-                    <div class="relative flex-1 min-w-[200px]">
+                    {{-- <div class="relative flex-1 min-w-[200px]">
                         <select name="category"
                             class="block w-full px-4 py-2 text-[#3525B3] border-2 border-[#3525B3] rounded-lg focus:ring-[#3525B3] focus:border-[#3525B3] sm:text-sm">
                             <option value="">All</option>
@@ -51,7 +51,7 @@
                                 </option>
                             @endforeach
                         </select>
-                    </div>
+                    </div> --}}
 
                     <!-- Search Button -->
                     <button type="submit"
