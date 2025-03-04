@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserArtikelController extends Controller
 {
@@ -70,33 +71,28 @@ class UserArtikelController extends Controller
     public function detail($slug)
     {
         $artikels = Artikel::where('status', 'publish')->where('slug', $slug)->firstOrFail();
+        $user = auth()->user();
 
-        // Ambil daftar artikel yang sudah dikunjungi dari session
-        $visitedArticles = session()->get('visited_articles', []);
-
-        // Jika artikel sudah ada dalam daftar, hapus dari daftar
-        if (in_array($artikels->id, $visitedArticles)) {
-            $visitedArticles = array_diff($visitedArticles, [$artikels->id]);
+        if ($user) {
+            // Pastikan tabel pivot memiliki nama yang benar (misalnya 'article_histories')
+            DB::table('article_histories')->updateOrInsert(
+                ['article_id' => $artikels->id, 'user_id' => $user->id],
+                ['updated_at' => now(), 'created_at' => now()] // Perbarui timestamps
+            );
         }
 
-        // Tambahkan artikel yang sedang dibaca ke posisi teratas
-        array_unshift($visitedArticles, $artikels->id);
+        // Ambil daftar artikel yang dikunjungi oleh user
+        $visitedArticles = $user->articles()->limit(9)->pluck('artikel.id');
 
-        // Simpan hanya 9 artikel terakhir
-        $visitedArticles = array_slice($visitedArticles, 0, 9);
-
-        // Simpan kembali ke session
-        session()->put('visited_articles', $visitedArticles);
-
-        // Cek apakah visited_articles kosong
-        if (!empty($visitedArticles)) {
-            // Ambil artikel berdasarkan daftar ID yang baru dikunjungi
+        // Ambil artikel berdasarkan daftar ID yang sudah dikunjungi
+        if ($visitedArticles->isNotEmpty()) {
             $artikleSidebar = Artikel::whereIn('id', $visitedArticles)
-                ->orderByRaw("FIELD(id, " . implode(',', $visitedArticles) . ")")
+                ->where('status', 'publish')
+                ->orderByRaw("FIELD(id, " . implode(',', $visitedArticles->toArray()) . ")")
                 ->take(6)
                 ->get();
         } else {
-            // Jika tidak ada artikel yang dikunjungi, tampilkan artikel terbaru
+            // Jika tidak ada history, ambil artikel terbaru
             $artikleSidebar = Artikel::where('status', 'publish')
                 ->latest()
                 ->take(6)

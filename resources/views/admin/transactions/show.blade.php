@@ -72,6 +72,13 @@
                     </div>
                 </div>
                 @if ($subscribeTransaction->is_paid)
+                <hr class="my-5">
+                    <div class="flex justify-end items-center gap-x-4">
+                        <a href="{{ route('admin.subscribe_transactions.index') }}"
+                            class="font-bold py-4 px-6 bg-orange-500 text-white rounded-full hover:bg-orange-400 transition-all duration-300">
+                            Back
+                        </a>
+                    </div>
                 @else
                     <hr class="my-5">
                     <div class="flex justify-end items-center gap-x-4">

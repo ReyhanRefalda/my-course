@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\SubscribeTransaction;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreSubscribeTransactionRequest;
+use Illuminate\Support\Facades\Log;
 
 class FrontController extends Controller
 {
@@ -58,6 +59,14 @@ class FrontController extends Controller
                 ->toArray();
         }
 
+        if ($user->hasRole('student') && $user->roles->count() === 1) {
+            // Menyimpan history kursus ke tabel pivot (jika ada tabel pivot `course_user`)
+            DB::table('course_students')->updateOrInsert(
+                ['user_id' => $user->id, 'course_id' => $course->id],
+                ['updated_at' => now(), 'created_at' => now()]
+            );
+        }
+
         return view('front.details', compact('course', 'courseVideos', 'watchedVideos'));
     }
 
@@ -92,19 +101,24 @@ class FrontController extends Controller
 
         // ✅ Simpan riwayat tonton hanya untuk student
         if ($user->hasRole('student') && $user->roles->count() === 1) {
-            $user->courses()->syncWithoutDetaching($course->id);
+            // Menyimpan history kursus ke tabel pivot (jika ada tabel pivot `course_user`)
+            DB::table('course_students')->updateOrInsert(
+                ['user_id' => $user->id, 'course_id' => $courseId],
+                ['updated_at' => now(), 'created_at' => now()]
+            );
 
-            VideoHistories::updateOrCreate([
-                'user_id' => $user->id,
-                'course_id' => $courseId,
-                'video_id' => $courseVideoId
-            ], ['watched_at' => now()]);
+            // Menyimpan history video ke tabel `video_histories`
+            DB::table('video_histories')->updateOrInsert(
+                ['user_id' => $user->id, 'course_id' => $courseId, 'video_id' => $courseVideoId],
+                ['watched_at' => now(), 'updated_at' => now()]
+            );
         }
+
         // ✅ Ambil daftar video yang sudah ditonton user
         $watchedVideos = VideoHistories::where('user_id', $user->id)
-        ->where('course_id', $courseId)
-        ->pluck('video_id')
-        ->toArray();
+            ->where('course_id', $courseId)
+            ->pluck('video_id')
+            ->toArray();
 
         return view('front.learning', compact('course', 'video', 'watchedVideos'));
     }
@@ -126,7 +140,7 @@ class FrontController extends Controller
     {
         $package = Package::findOrFail($packageId);
         $payment = Payment::first();
-        // $payments = Payment::all();
+        // $payments = Payment::all();s
         if (!$payment) {
             abort(404, 'Payment details not found.');
         }
@@ -223,38 +237,85 @@ class FrontController extends Controller
     }
 
 
-    public function progress()
+    public function progress(Request $request)
     {
-        $user = auth()->user();
+        {
+            $user = auth()->user();
 
-        // Ambil 9 kursus yang baru diikuti user
-        $courses = $user->courses()->latest()->take(9)->get();
+            // Ambil parameter filter dari request
+            $search = $request->input('search');
+            $categoryFilter = $request->input('category');
+            $dateFilter = $request->input('date');
+            $statusFilter = $request->input('status'); // Khusus kursus
 
-        // Ambil daftar artikel yang baru dikunjungi dari session
-        $visitedArticles = session()->get('visited_articles', []);
+            // **AMBIL COURSES YANG PERNAH DIIKUTI USER + FILTER**
+            $coursesQuery = $user->courses()->orderByPivot('updated_at');
 
-        // Debugging: Cek isi visitedArticles
-        \Log::info('Visited Articles:', $visitedArticles);
+            // Search berdasarkan nama kursus
+            if ($search) {
+                $coursesQuery->where('name', 'LIKE', "%{$search}%");
+            }
 
-        // Cek apakah visitedArticles tidak kosong
-        if (!empty($visitedArticles)) {
-            // Ambil artikel berdasarkan urutan dalam session
-            $articles = Artikel::whereIn('id', $visitedArticles)
-                        ->where('status', 'publish') // Pastikan hanya artikel yang diterbitkan
-                        ->orderByRaw("FIELD(id, " . implode(',', $visitedArticles) . ")")
-                        ->take(9)
-                        ->get();
-        } else {
-            // Jika tidak ada artikel yang dikunjungi, ambil artikel terbaru
-            $articles = Artikel::where('status', 'publish')
-                        ->latest()
-                        ->take(9)
-                        ->get();
+            // Filter berdasarkan kategori
+            if ($categoryFilter) {
+                $coursesQuery->whereHas('categories', function ($query) use ($categoryFilter) {
+                    $query->where('categories.id', $categoryFilter);
+                });
+            }
+
+            // Filter berdasarkan tanggal
+            if ($dateFilter) {
+                $coursesQuery->whereDate('courses.created_at', $dateFilter);
+            }
+
+            // Jika ada filter status, gunakan collection & custom pagination
+            if ($statusFilter) {
+                $filteredCourses = $coursesQuery->get()->filter(function ($course) use ($statusFilter, $user) {
+                    return $user->courseStatus($course->id) === $statusFilter;
+                });
+
+                $courses = new \Illuminate\Pagination\LengthAwarePaginator(
+                    $filteredCourses->forPage(request('courses_page', 1), 2), // Gunakan parameter unik
+                    $filteredCourses->count(),
+                    4,
+                    request('courses_page', 1),
+                    ['path' => request()->url(), 'query' => request()->query()]
+                );
+            } else {
+                $courses = $coursesQuery->paginate(4, ['*'], 'courses_page'); // Gunakan parameter unik
+            }
+
+            // Tambahkan status untuk tiap course
+            if (auth()->check()) {
+                foreach ($courses as $course) {
+                    $course->status = $user->courseStatus($course->id);
+                }
+            }
+
+            // **AMBIL ARTICLES YANG PERNAH DIKUNJUNGI + FILTER**
+            $articlesQuery = $user->articles()->orderByPivot('created_at', 'desc');
+
+            if ($search) {
+                $articlesQuery->where('title', 'LIKE', "%{$search}%");
+            }
+
+            if ($dateFilter) {
+                $articlesQuery->whereDate('articles.created_at', $dateFilter);
+            }
+
+            // Gunakan parameter unik untuk pagination articles
+            $visitedArticles = $articlesQuery->paginate(2, ['*'], 'articles_page');
+
+            // Ambil daftar kategori
+            $categories = Category::all();
+
+            return view('front.progress', compact('courses', 'visitedArticles', 'categories'));
         }
-
-        return view('front.progress', compact('courses', 'articles'));
     }
 
+    public function tes(Request $request) {
+
+    }
 
     public function search(Request $request)
     {

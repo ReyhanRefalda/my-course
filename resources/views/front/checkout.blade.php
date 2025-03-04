@@ -136,7 +136,8 @@
                         title: 'Payment is being processed!',
                         text: 'Your payment is under review. Please wait a moment.',
                         icon: 'info',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: 'blue'
                     }).then(() => {
                         // Submit the form after alert
                         document.getElementById("paymentForm").submit();

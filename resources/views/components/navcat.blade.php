@@ -12,11 +12,11 @@
         <li>
             <a href="{{ route('artikel.index') }}" class="font-semibold">Article</a>
         </li>
-        @if (!Auth::check() || (Auth::check() && !Auth::user()->hasActiveSubscription()))
+        {{-- @if (!Auth::check() || (Auth::check() && !Auth::user()->hasActiveSubscription())) --}}
             <li>
                 <a href="{{ route('front.pricing') }}" class="font-semibold">Pricing</a>
             </li>
-        @endif
+        {{-- @endif --}}
         @auth
             @if (Auth::user()->hasRole('student') && !Auth::user()->hasRole('teacher') && !Auth::user()->hasRole('owner'))
                 <li>
@@ -48,7 +48,7 @@
                         @elseif($remainingDays === 0)
                             <span class="text-[#FF6129] text-sm">Last Day!</span>
                         @endif
-                   
+
                     @endif
                     <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
                         @if (Auth::user()->hasRole('owner'))
@@ -68,7 +68,7 @@
             <a class="w-12 h-12 relative flex items-center justify-center hs-dropdown-toggle cursor-pointer align-middle rounded-full">
                 <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
                     alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
-                   
+
                     @if ($notificationCount > 0)
                         <span class="absolute top-0 right-0 text-xs bg-red-500 text-white rounded-full px-2 py-1">{{ $notificationCount }}</span>
                     @endif

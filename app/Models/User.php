@@ -134,4 +134,8 @@ class User extends Authenticatable
 
         return $watchedVideos >= $totalVideos ? 'Done' : 'Progress';
     }
+
+    public function articles() {
+        return $this->belongsToMany(Artikel::class, 'article_histories', 'user_id', 'article_id');
+    }
 }
