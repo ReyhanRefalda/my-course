@@ -65,7 +65,7 @@ class User extends Authenticatable
     public function hasActiveSubscription()
     {
         $latestSubscription = $this->subscribe_transactions()
-            ->where('is_paid', true)
+            ->where('status', '=', 'approved')
             ->where('expired_at', '>=', Carbon::now())
             ->latest('expired_at')
             ->first();
@@ -76,7 +76,7 @@ class User extends Authenticatable
     public function getActiveSubscription()
     {
         return $this->subscribe_transactions()
-            ->where('is_paid', true)
+            ->where('status', '=', 'approved')
             ->where('expired_at', '>=', now())
             ->latest('expired_at')
             ->first();

@@ -12,7 +12,7 @@ class SubscribeTransaction extends Model
 
     protected $fillable = [
         'total_amount',
-        'is_paid',
+        'status',
         'user_id',
         'proof',
         'subscription_start_date',
@@ -23,7 +23,7 @@ class SubscribeTransaction extends Model
     protected $casts = [
         'subscription_start_date' => 'datetime',
         'expired_at' => 'datetime',
-    ];    
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);

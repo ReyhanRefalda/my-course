@@ -20,7 +20,7 @@
         @auth
             @if (Auth::user()->hasRole('student') && !Auth::user()->hasRole('teacher') && !Auth::user()->hasRole('owner'))
                 <li>
-                    <a href="{{ route('front.progress') }}" class="font-semibold">Progress</a>
+                    <a href="{{ route('front.progress') }}" class="font-semibold">Opened</a>
                 </li>
             @endif
         @endauth
@@ -95,10 +95,10 @@
                         </div>
                     </div>
                     @if (Auth::user()->hasRole('student'))
-                        <h4 class="text-gray-800 font-semibold mb-3">Notifications</h4>
+                        <h4 class="text-gray-800 font-semibold mb-3">Payment Updates</h4>
                         @foreach ($unreadNotifications as $notification)
                             <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
-                                <i class="ti ti-bell text-[20px] text-white"></i>
+                                <i class="ti ti-credit-card text-[20px] text-[#FF6129]"></i>
                                 <a href="{{ route('notifications.index') }}" class="font-medium">{{ $notification->data['message'] }}</a>
                             </div>
                         @endforeach

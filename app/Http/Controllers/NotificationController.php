@@ -20,7 +20,7 @@ class NotificationController extends Controller
     public function showNotifications()
     {
         $user = Auth::user();
-        $notifications = $user->notifications;  // Ambil semua notifikasi
+        $notifications = $user->notifications()->paginate(5); // Tambahkan paginate
 
         return view('notifications.index', compact('notifications'));
     }

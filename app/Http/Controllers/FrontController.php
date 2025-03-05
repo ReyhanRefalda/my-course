@@ -140,28 +140,40 @@ class FrontController extends Controller
     {
         $package = Package::findOrFail($packageId);
         $payment = Payment::first();
-        // $payments = Payment::all();s
+
         if (!$payment) {
             abort(404, 'Payment details not found.');
         }
 
-        if (Auth::check() && Auth::user()->hasActiveSubscription()) {
-            $user = Auth::user();
-            $currentPackage = $user->subscribe_transactions()
-                ->where('is_paid', true)
-                ->where('expired_at', '>=', now())
-                ->latest('expired_at')
-                ->first()->package;
-            // dd($currentPackage);
+        $hasPendingTransaction = false;
 
-            // Jika paket yang dipilih sama atau lebih rendah dari paket aktif
-            if ($package->harga <= $currentPackage->harga) {
-                return redirect()->route('front.pricing');
+        if (Auth::check()) {
+            $user = Auth::user();
+            $pendingTransaction = $user->subscribe_transactions()
+                ->where('status', 'pending')
+                ->latest()
+                ->first();
+
+            if ($pendingTransaction) {
+                $hasPendingTransaction = true;
+            }
+
+            if ($user->hasActiveSubscription()) {
+                $currentPackage = $user->subscribe_transactions()
+                    ->where('status', 'approved')
+                    ->where('expired_at', '>=', now())
+                    ->latest('expired_at')
+                    ->first()->package;
+
+                if ($package->harga <= $currentPackage->harga) {
+                    return redirect()->route('front.pricing');
+                }
             }
         }
+        // dd($hasPendingTransaction);
 
-        return view('front.checkout', compact('package', 'payment'));
-    }
+        return view('front.checkout', compact('package', 'payment', 'hasPendingTransaction'));
+}
 
     public function checkout_store(StoreSubscribeTransactionRequest $request)
     {
@@ -183,7 +195,7 @@ class FrontController extends Controller
 
             $validated['user_id'] = $user->id;
             $validated['total_amount'] = $package->harga;
-            $validated['is_paid'] = false;
+            $validated['status'] = 'pending';
 
             $transaction = SubscribeTransaction::create($validated);
         });
