@@ -12,21 +12,24 @@ return new class extends Migration
     public function up()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            // Hapus primary key lama (jika ada)
-            $table->dropPrimary();
-    
-            // Ubah kolom `id` menjadi UUID
-            $table->uuid('id')->primary()->change(); // Mengubah tipe kolom menjadi UUID dan menetapkan sebagai primary key baru
+            // Ubah kolom `id` menjadi UUID tanpa menggunakan `change()`
+            $table->dropColumn('id');
+        });
+
+        Schema::table('notifications', function (Blueprint $table) {
+            $table->uuid('id')->primary(); // Tambahkan kembali kolom `id` sebagai UUID dan primary key
         });
     }
-    
+
     public function down()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            // Mengembalikan kolom id ke tipe integer dan primary key sebelumnya
-            $table->increments('id')->primary()->change();
+            $table->dropColumn('id'); // Hapus kolom `id` yang UUID
+        });
+
+        Schema::table('notifications', function (Blueprint $table) {
+            $table->increments('id'); // Tambahkan kembali kolom `id` sebagai auto-increment primary key
         });
     }
-    
-    
+
 };

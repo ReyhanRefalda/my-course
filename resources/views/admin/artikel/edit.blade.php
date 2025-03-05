@@ -48,19 +48,19 @@
                 </div>
 
                 <!-- Kategori -->
-                <div>
+                {{-- <div>
                     <label for="kategoriart" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
                     <select name="kategoriart[]" id="kategoriart"
                         class="select2 form-control select2-bootstrap-5 shadow-sm w-full" multiple>
-                        @foreach ($kategoriart as $kategori)
-                            <option value="{{ $kategori->id }}"
-                                {{ in_array($kategori->id, old('kategoriart', $artikel->kategoriarts->pluck('id')->toArray())) ? 'selected' : '' }}>
-                                {{ $kategori->name }}
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ in_array($category->id, old('kategoriarts', $artikel->kategoriarts->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                {{ $category->name }}
                             </option>
                         @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('kategoriart')" />
-                </div>
+                </div> --}}
 
                 <!-- Status -->
                 <div>

@@ -137,7 +137,7 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/progress', [FrontController::class, 'progress'])->name('front.progress');
+    Route::get('/tes', [FrontController::class, 'tes'])->name('front.tes');
 });
-
 // Authentication routes
 require __DIR__ . '/auth.php';

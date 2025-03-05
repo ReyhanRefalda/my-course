@@ -13,8 +13,8 @@ class Kategoriart extends Model
     protected $table = 'kategoriart';
     protected $fillable = ['name', 'icon'];
 
-    public function artikels(): BelongsToMany
-    {
-        return $this->belongsToMany(Artikel::class, 'artikel_kategoriart', 'kategoriart_id', 'artikel_id');
-    }
+    // public function artikels(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Artikel::class, 'artikel_kategoriart', 'kategoriart_id', 'artikel_id');
+    // }
 }

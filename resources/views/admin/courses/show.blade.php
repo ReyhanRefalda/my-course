@@ -119,6 +119,12 @@
                         </div>
                     </div>
                 @endforeach
+                <!-- Pagination -->
+                <div class="mt-4">
+                    <div class="mt-6">
+                        {{ $courseVideos->links() }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

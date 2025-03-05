@@ -1,6 +1,6 @@
 <x-user>
-    <div class="container max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <h2 class="font-semibold text-2xl mb-6 text-gray-800">📩 Notifications</h2>
+    <div class="container max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-5">
+        <h2 class="font-semibold text-2xl mb-6 text-gray-800">History Payment</h2>
 
         @if ($notifications->isEmpty())
             <div class="text-center py-6">
@@ -12,10 +12,16 @@
                     <div class="p-4 border border-gray-300 rounded-lg flex justify-between items-start bg-gray-50 hover:bg-gray-100 transition">
                         <div>
                             <p class="font-medium text-gray-800">{{ $notification->data['message'] }}</p>
+
+                            {{-- Tampilkan reason jika statusnya rejected --}}
+                            @if (isset($notification->data['status']) && $notification->data['status'] === 'rejected')
+                                <p class="text-red-600 text-sm mt-1">Reason: {{ $notification->data['reason'] }}</p>
+                            @endif
+
                             <span class="text-sm text-gray-500">{{ $notification->created_at->diffForHumans() }}</span>
                         </div>
                         <div class="flex flex-col items-end">
-                            <span class="text-sm px-3 py-1 rounded-full 
+                            <span class="text-sm px-3 py-1 rounded-full
                                 @if ($notification->read_at) bg-green-100 text-green-700 @else bg-red-100 text-red-700 @endif">
                                 @if ($notification->read_at)
                                     ✅ Read
@@ -24,7 +30,7 @@
                                 @endif
                             </span>
                             @if (!$notification->read_at)
-                                <a href="{{ route('notifications.markAsRead', $notification->id) }}" 
+                                <a href="{{ route('notifications.markAsRead', $notification->id) }}"
                                     class="mt-2 text-blue-600 text-sm font-semibold hover:underline">
                                     Mark as Read
                                 </a>
@@ -32,6 +38,11 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+
+            {{-- Tambahkan pagination --}}
+            <div class="mt-6">
+                {{ $notifications->links() }}
             </div>
         @endif
     </div>

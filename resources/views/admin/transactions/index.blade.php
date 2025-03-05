@@ -39,6 +39,7 @@
             <option value="PENDING" {{ request('status') == 'PENDING' ? 'selected' : '' }}>Pending</option>
             <option value="ACTIVE" {{ request('status') == 'ACTIVE' ? 'selected' : '' }}>Active</option>
             <option value="EXPIRED" {{ request('status') == 'EXPIRED' ? 'selected' : '' }}>Expired</option>
+            <option value="REJECTED" {{ request('status') == 'REJECTED' ? 'selected' : '' }}>Rejected</option>
         </select>
 
         <!-- Submit Button -->
@@ -91,20 +92,21 @@
                                         {{ $transaction->created_at->isoFormat('ddd, D/MM/YYYY') }}
                                     </td>
                                     <td class="px-2 py-2 text-center text-sm">
-                                        @if (!$transaction->is_paid)
-                                            <span
-                                                class="text-sm font-bold py-2 px-3 rounded-full bg-[#FFCB94] text-[#FF6129]">
+                                        @if ($transaction->status === 'pending')
+                                            <span class="text-sm font-bold py-2 px-3 rounded-full bg-[#FFCB94] text-[#FF6129]">
                                                 PENDING
                                             </span>
-                                        @elseif ($transaction->is_paid && now()->lessThanOrEqualTo($transaction->expired_at))
-                                            <span
-                                                class="text-sm font-bold py-2 px-3 rounded-full text-[#009C0A] bg-[#BBFFC7]">
+                                        @elseif ($transaction->status === 'approved' && now()->lessThanOrEqualTo($transaction->expired_at))
+                                            <span class="text-sm font-bold py-2 px-3 rounded-full text-[#009C0A] bg-[#BBFFC7]">
                                                 ACTIVE
                                             </span>
-                                        @else
-                                            <span
-                                                class="text-sm font-bold py-2 px-3 rounded-full bg-[#fda2a2] text-red-700">
+                                        @elseif ($transaction->status === 'approved' && now()->greaterThan($transaction->expired_at))
+                                            <span class="text-sm font-bold py-2 px-3 rounded-full bg-[#fda2a2] text-red-700">
                                                 EXPIRED
+                                            </span>
+                                        @elseif ($transaction->status === 'rejected')
+                                            <span class="text-sm font-bold py-2 px-3 rounded-full bg-gray-400 text-gray-800">
+                                                REJECTED
                                             </span>
                                         @endif
                                     </td>
@@ -118,6 +120,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="mt-6">
+                        {{ $transactions->links() }}
+                    </div>
                 @endif
             </div>
         </div>

@@ -20,7 +20,7 @@
         @auth
             @if (Auth::user()->hasRole('student') && Auth::user()->roles->count() === 1)
                 <li>
-                    <a href="{{ route('front.progress') }}" class="font-semibold">Progress</a>
+                    <a href="{{ route('front.progress') }}" class="font-semibold">Opened</a>
                 </li>
             @endif
         @endauth
@@ -47,7 +47,7 @@
                         @elseif($remainingDays === 0)
                             <span class="text-[#FF6129] text-sm">Last Day!</span>
                         @endif
-                    
+
                     @endif
                     <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
                         @if (Auth::user()->hasRole('owner'))
@@ -67,7 +67,7 @@
             <a class="w-12 h-12 relative flex items-center justify-center hs-dropdown-toggle cursor-pointer align-middle rounded-full">
                 <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
                     alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
-                   
+
                     @if ($notificationCount > 0)
                         <span class="absolute top-0 right-0 text-xs bg-red-500 text-white rounded-full px-2 py-1">{{ $notificationCount }}</span>
                     @endif
@@ -94,10 +94,10 @@
                         </div>
                     </div>
                     @if (Auth::user()->hasRole('student'))
-                        <h4 class="text-gray-800 font-semibold mb-3">Notifications</h4>
+                        <h4 class="text-gray-800 font-semibold mb-3">Payment Updates</h4>
                         @foreach ($unreadNotifications as $notification)
                             <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
-                                <i class="ti ti-bell text-[20px] text-white"></i>
+                                <i class="ti ti-credit-card text-[20px] text-[#FF6129]"></i>
                                 <a href="{{ route('notifications.index') }}" class="font-medium">{{ $notification->data['message'] }}</a>
                             </div>
                         @endforeach

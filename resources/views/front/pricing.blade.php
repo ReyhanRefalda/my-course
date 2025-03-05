@@ -4,7 +4,7 @@
     <div id="hero-section" class="max-w-[1200px] mx-auto w-full h-[536px] flex flex-col gap-10 pb-[50px] bg-[url('{{ asset('assets/background/Hero-Banner.png') }}')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden relative">
         <x-nav/>
     </div>
-    <section class="max-w-[1100px] w-full mx-auto absolute -translate-x-1/2 left-1/2 top-[170px]">
+    <section class="max-w-[1100px] w-full mx-auto absolute -translate-x-1/2 left-1/2 top-[170px] mb10">
         <div class="flex flex-col gap-[30px] items-center">
             <div class="gradient-badge w-fit p-[8px_16px] rounded-full border border-[#FED6AD] flex items-center gap-[6px]">
                 <div>
@@ -81,24 +81,24 @@
             </div>
         </div>
     </section>
-    <section id="Zero-to-Success" class="h-[885px] mt-[264px] max-w-[1200px] mx-auto flex flex-col justify-end py-[70px] px-[50px] gap-[30px] bg-[#F5F8FA] rounded-[32px]">
+    <section id="Zero-to-Success" class="h-[25px] mt-[264px] max-w-[1200px] mx-auto flex flex-col justify-end py-[70px] px-[50px] gap-[30px] bg-[#F5F8FA] rounded-[32px]">
         <div class="flex flex-col gap-[30px] items-center text-center">
             <div class="gradient-badge w-fit p-[8px_16px] rounded-full border border-[#FED6AD] flex items-center gap-[6px]">
-                <div>
+                {{-- <div>
                     <img src="{{asset('assets/icon/medal-star.svg')}}" alt="icon">
                 </div>
-                <p class="font-medium text-sm text-[#FF6129]">Zero to Success People</p>
+                <p class="font-medium text-sm text-[#FF6129]">Zero to Success People</p> --}}
             </div>
             <div class="flex flex-col">
-                <h2 class="font-bold text-[40px] leading-[60px]">Happy & Success Students</h2>
-                <p class="text-[#6D7786] text-lg -tracking-[2%]">Acquiring skills and new high paying career become much easier</p>
+                {{-- <h2 class="font-bold text-[40px] leading-[60px]">Happy & Success Students</h2>
+                <p class="text-[#6D7786] text-lg -tracking-[2%]">Acquiring skills and new high paying career become much easier</p> --}}
             </div>
         </div>
-        <div class="testi w-full overflow-hidden flex flex-col gap-6 relative">
+        {{-- <div class="testi w-full overflow-hidden flex flex-col gap-6 relative">
             <div class="fade-overlay absolute z-10 h-full w-[50px] bg-gradient-to-r from-[#F5F8FA] to-[#F5F8FA00]"></div>
             <div class="fade-overlay absolute right-0 z-10 h-full w-[50px] bg-gradient-to-r from-[#F5F8FA00] to-[#F5F8FA]"></div>
             <div class="group/slider flex flex-nowrap w-max items-center">
-                <div class="testi-container animate-[slideToL_50s_linear_infinite] group-hover/slider:pause-animate flex gap-6 pl-6 items-center flex-nowrap">
+                {{-- <div class="testi-container animate-[slideToL_50s_linear_infinite] group-hover/slider:pause-animate flex gap-6 pl-6 items-center flex-nowrap">
                     <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
@@ -203,8 +203,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="logo-container animate-[slideToL_50s_linear_infinite] group-hover/slider:pause-animate flex gap-6 pl-6 items-center flex-nowrap ">
+                </div> --}}
+                {{-- <div class="logo-container animate-[slideToL_50s_linear_infinite] group-hover/slider:pause-animate flex gap-6 pl-6 items-center flex-nowrap ">
                     <div class="test-card w-[300px] flex flex-col h-full bg-white rounded-xl gap-3 p-5">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
@@ -525,7 +525,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </section>
     <section id="FAQ" class="max-w-[1200px] mx-auto flex flex-col py-[70px] px-[100px]">
         <div class="flex justify-between items-center">

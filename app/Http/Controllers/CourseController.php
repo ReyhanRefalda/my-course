@@ -21,7 +21,7 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
@@ -59,11 +59,11 @@ class CourseController extends Controller
             });
         }
 
-        $courses = $query->paginate(10);
+        $courses = $query->paginate(5)->appends($request->query());
 
         // Ambil data untuk dropdown filter
         $categories = Category::all();
-        $teachers = Teacher::with('user')->get();
+        $teachers = Teacher::with('user')->get()->unique('user_id');
 
         return view('admin.courses.index', compact('courses', 'categories', 'teachers'));
     }
@@ -163,7 +163,7 @@ class CourseController extends Controller
             ->when($userRole === 'teacher', function ($query) {
                 return $query->withTrashed();
             })
-            ->get();
+            ->paginate(5);
 
         $categories = Category::all();
 

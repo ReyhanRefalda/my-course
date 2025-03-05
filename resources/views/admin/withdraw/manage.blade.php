@@ -16,8 +16,8 @@
         </div>
 
         <form action="{{ route('admin.withdraw.manage') }}" method="GET" class="flex items-center space-x-4 mb-4">
-            <div
-                class="flex items-center space-x-2 bg-white border border-gray-300 rounded-[30px] px-4 py-[2px] shadow-sm">
+            <!-- Search Input -->
+            <div class="flex items-center space-x-2 bg-white border border-gray-300 rounded-[30px] px-4 py-[2px] shadow-sm">
                 <button type="submit" class="text-gray-400">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -26,26 +26,42 @@
                     </svg>
                 </button>
                 <input type="text" name="search" placeholder="Search Name..." value="{{ request('search') }}"
-                    class="block w-full px-4 text-[#898D93] bg-[#fff] [border:2px_solid_#fff] focus:ring-[#fff] focus:border-[#fff] sm:text-sm">
+                    class="block w-full px-4 text-[#898D93] bg-[#fff] border-2 border-white focus:ring-white focus:border-white sm:text-sm">
             </div>
+
+            <!-- Filter by Date -->
+            <input type="date" name="date" value="{{ request('date') }}"
+                class="block px-4 py-2 bg-white border border-gray-300 rounded-[30px] text-[#898D93] shadow-sm">
+
+            <!-- Sort Options -->
+            <select name="sort" class="block px-4 py-2 bg-white border border-gray-300 rounded-[30px] text-[#898D93] shadow-sm">
+                <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Newest</option>
+                <option value="highest" {{ request('sort') == 'highest' ? 'selected' : '' }}>Highest Amount</option>
+                <option value="lowest" {{ request('sort') == 'lowest' ? 'selected' : '' }}>Lowest Amount</option>
+            </select>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                class="px-4 py-2 bg-[#5628c2] text-white rounded-[30px] hover:bg-[#481fa7] focus:outline-none">Filter</button>
         </form>
     </div>
 
     <div>
         @role('owner')
-            @if ($withdrawals->isEmpty())
+            @if ($pendingWithdrawals->isEmpty() && $approvedWithdrawals->isEmpty())
                 <div class="text-center">
                     <div class="col-12 text-center flex justify-center">
                         <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data" class="img-fluid"
                             style="width: clamp(150px, 50vw, 300px);">
                     </div>
-                    <p class="pb-4 text-gray-500">No data avilable</p>
+                    <p class="pb-4 text-gray-500">No data available</p>
                 </div>
             @else
                 {{-- pending section --}}
-                <div id="section-pending" class="section grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach ($withdrawals as $withdrawal)
-                        @if ($withdrawal->status === 'pending')
+                <div id="section-pending" class="section">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach ($pendingWithdrawals as $pending)
+                        @if ($pending->status === 'pending')
                             <div
                                 class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                                 <!-- Card Header -->
@@ -59,7 +75,7 @@
                                     <div class="flex justify-between items-center">
                                         <span class="text-gray-700 font-semibold text-md">Name:</span>
                                         <span class="text-[#3525B3] font-bold text-md">
-                                            {{ $withdrawal->user->name }}
+                                            {{ $pending->user->name }}
                                         </span>
                                     </div>
 
@@ -67,7 +83,7 @@
                                     <div class="flex justify-between items-center">
                                         <span class="text-gray-700 font-semibold text-md">Amount:</span>
                                         <span class="text-[#FF6129] font-bold text-md">
-                                            Rp {{ number_format($withdrawal->amount, 0, ',', '.') }}
+                                            Rp {{ number_format($pending->amount, 0, ',', '.') }}
                                         </span>
                                     </div>
 
@@ -75,7 +91,7 @@
                                     <div class="flex justify-between items-center">
                                         <span class="text-gray-700 font-semibold text-md">Account Number:</span>
                                         <span class="text-gray-700 font-bold text-md">
-                                            {{ $withdrawal->account_number }}
+                                            {{ $pending->account_number }}
                                         </span>
                                     </div>
 
@@ -84,12 +100,12 @@
                                         <span class="text-gray-700 font-semibold text-md">Status:</span>
                                         <span
                                             class="px-4 py-1 text-sm font-semibold rounded-full text-[#FF6129] bg-[#FFCB94]">
-                                            {{ ucfirst($withdrawal->status) }}
+                                            {{ ucfirst($pending->status) }}
                                         </span>
                                     </div>
 
                                     <!-- Upload Proof -->
-                                    <form action="{{ route('admin.withdraw.approve', $withdrawal->id) }}" method="POST"
+                                    <form action="{{ route('admin.withdraw.approve', $pending->id) }}" method="POST"
                                         enctype="multipart/form-data" class="space-y-4">
                                         @csrf
                                         @method('PUT')
@@ -97,9 +113,9 @@
                                             class="flex items-center gap-4 border border-dashed border-[#FF6129] rounded-full">
                                             <button type="button"
                                                 class="upload-btn w-[100px] h-[100px] rounded-full overflow-hidden border border-gray-200"
-                                                data-id="{{ $withdrawal->id }}">
+                                                data-id="{{ $pending->id }}">
                                                 <img class="file-thumbnail object-cover w-full h-full"
-                                                    data-id="{{ $withdrawal->id }}"
+                                                    data-id="{{ $pending->id }}"
                                                     src="{{ asset('assets/icon/Mediamodifier-Design.svg') }}"
                                                     alt="Preview">
                                             </button>
@@ -108,18 +124,18 @@
                                                 <p class="text-xs text-gray-500">Use a clear and professional image.</p>
                                                 <button type="button"
                                                     class="replace-photo-btn font-semibold text-sm text-[#FF6129] hover:underline hidden"
-                                                    data-id="{{ $withdrawal->id }}">
+                                                    data-id="{{ $pending->id }}">
                                                     Replace Photo
                                                 </button>
                                             </div>
                                             <input type="file" class="proof-file hidden" name="proof_file"
-                                                data-id="{{ $withdrawal->id }}" accept="image/*">
+                                                data-id="{{ $pending->id }}" accept="image/*">
                                         </div>
                                         <x-input-error :messages="$errors->get('proof_file')" />
 
                                         <button type="button"
                                             class="w-full py-3 bg-[#3525B3] hover:bg-opacity-90 text-white font-bold rounded-lg shadow-md"
-                                            data-action="{{ route('admin.withdraw.approve', $withdrawal->id) }}"
+                                            data-action="{{ route('admin.withdraw.approve', $pending->id) }}"
                                             data-title="Confirm Approval"
                                             data-message="Are you sure you want to approve this withdrawal?"
                                             onclick="openModal(this)">
@@ -128,14 +144,14 @@
                                     </form>
 
                                     <!-- Reject Button -->
-                                    <form action="{{ route('admin.withdraw.reject', $withdrawal->id) }}" method="POST">
+                                    <form action="{{ route('admin.withdraw.reject', $pending->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
 
                                         <!-- Reject Button -->
                                         <button type="button"
                                             class="w-full py-3 bg-[#FF6129] hover:opacity-90 text-white font-bold rounded-lg shadow-md"
-                                            data-action="{{ route('admin.withdraw.reject', $withdrawal->id) }}"
+                                            data-action="{{ route('admin.withdraw.reject', $pending->id) }}"
                                             data-title="Confirm Rejection"
                                             data-message="Are you sure you want to reject this withdrawal?"
                                             onclick="openModal(this)">
@@ -151,76 +167,88 @@
                             </div>
                         @endif
                     @endforeach
+                    </div>
+                    <div class="mt-6 w-full flex justify-center">
+                        {{ $pendingWithdrawals->links() }}
+                    </div>
                 </div>
 
 
                 {{-- approved section --}}
-                <div id="section-approved" class="section hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach ($withdrawals as $withdrawal)
-                        @if ($withdrawal->status === 'approved')
-                            <div
-                                class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                                <!-- Card Header -->
-                                <div class="bg-[#3525B3] text-white text-center py-3 font-bold">
-                                    Approved Withdrawal
+                <div id="section-approved" class="section hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach ($approvedWithdrawals as $withdrawal)
+                            @if ($withdrawal->status === 'approved')
+                                <div
+                                    class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <!-- Card Header -->
+                                    <div class="bg-[#3525B3] text-white text-center py-3 font-bold">
+                                        Approved Withdrawal
+                                    </div>
+
+                                    <!-- Card Body -->
+                                    <div class="p-6 space-y-4">
+                                        <!-- Name Section -->
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-700 font-semibold text-lg">Name:</span>
+                                            <span class="text-[#3525B3] font-bold text-lg">
+                                                {{ $withdrawal->user->name }}
+                                            </span>
+                                        </div>
+
+                                        <!-- Amount Section -->
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-700 font-semibold text-lg">Amount:</span>
+                                            <span class="text-[#FF6129] font-bold text-lg">
+                                                Rp {{ number_format($withdrawal->amount, 0, ',', '.') }}
+                                            </span>
+                                        </div>
+
+                                        <!-- Account Number Section -->
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-700 font-semibold text-md">Account Number:</span>
+                                            <span class="text-gray-700 font-bold text-md">
+                                                {{ $withdrawal->account_number }}
+                                            </span>
+                                        </div>
+
+                                        <!-- Status Section -->
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-700 font-semibold text-lg">Status:</span>
+                                            <span
+                                                class="px-4 py-1 text-sm font-semibold rounded-full text-green-600 bg-green-100 shadow-md">
+                                                {{ ucfirst($withdrawal->status) }}
+                                            </span>
+                                        </div>
+
+                                        <!-- Proof Section -->
+                                        <div class="text-center space-y-3">
+                                            <strong class="block text-[#3525B3] font-semibold">Proof:</strong>
+                                            @if ($withdrawal->proof_file)
+                                                <img src="{{ asset('storage/' . $withdrawal->proof_file) }}"
+                                                    alt="Proof Photo"
+                                                    class="w-full h-[200px] object-cover rounded-lg border border-gray-200 shadow-sm">
+                                            @else
+                                                <p class="text-gray-500">No proof provided.</p>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <!-- Card Footer -->
+                                    <div class="bg-gray-100 p-4 text-center text-sm text-gray-500">
+                                        This withdrawal has been approved. Thank you for trusting us!
+                                    </div>
                                 </div>
+                            @endif
+                        @endforeach
+                    </div>
 
-                                <!-- Card Body -->
-                                <div class="p-6 space-y-4">
-                                    <!-- Name Section -->
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-gray-700 font-semibold text-lg">Name:</span>
-                                        <span class="text-[#3525B3] font-bold text-lg">
-                                            {{ $withdrawal->user->name }}
-                                        </span>
-                                    </div>
-
-                                    <!-- Amount Section -->
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-gray-700 font-semibold text-lg">Amount:</span>
-                                        <span class="text-[#FF6129] font-bold text-lg">
-                                            Rp {{ number_format($withdrawal->amount, 0, ',', '.') }}
-                                        </span>
-                                    </div>
-
-                                    <!-- Account Number Section -->
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-gray-700 font-semibold text-md">Account Number:</span>
-                                        <span class="text-gray-700 font-bold text-md">
-                                            {{ $withdrawal->account_number }}
-                                        </span>
-                                    </div>
-
-                                    <!-- Status Section -->
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-gray-700 font-semibold text-lg">Status:</span>
-                                        <span
-                                            class="px-4 py-1 text-sm font-semibold rounded-full text-green-600 bg-green-100 shadow-md">
-                                            {{ ucfirst($withdrawal->status) }}
-                                        </span>
-                                    </div>
-
-                                    <!-- Proof Section -->
-                                    <div class="text-center space-y-3">
-                                        <strong class="block text-[#3525B3] font-semibold">Proof:</strong>
-                                        @if ($withdrawal->proof_file)
-                                            <img src="{{ asset('storage/' . $withdrawal->proof_file) }}"
-                                                alt="Proof Photo"
-                                                class="w-full h-[200px] object-cover rounded-lg border border-gray-200 shadow-sm">
-                                        @else
-                                            <p class="text-gray-500">No proof provided.</p>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <!-- Card Footer -->
-                                <div class="bg-gray-100 p-4 text-center text-sm text-gray-500">
-                                    This withdrawal has been approved. Thank you for trusting us!
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
+                    <!-- Pagination -->
+                    <div class="mt-6 w-full flex justify-center">
+                        {{ $approvedWithdrawals->links() }}
+                    </div>
                 </div>
+
 
                 <!-- Modal -->
                 <div id="confirmation-modal"

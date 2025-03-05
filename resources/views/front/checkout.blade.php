@@ -119,6 +119,14 @@
             }
         }
 
+        $(document).ready(function () {
+            var hasPendingTransaction = @json($hasPendingTransaction);
+
+            if (hasPendingTransaction) {
+                showProcessingModal();
+            }
+        });
+
         function confirmPayment() {
             Swal.fire({
                 title: 'Are you sure you want to make this payment?',
@@ -131,16 +139,23 @@
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Display alert that payment is being processed
-                    Swal.fire({
-                        title: 'Payment is being processed!',
-                        text: 'Your payment is under review. Please wait a moment.',
-                        icon: 'info',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        // Submit the form after alert
-                        document.getElementById("paymentForm").submit();
-                    });
+                    showProcessingModal(true);
+                }
+            });
+        }
+
+        function showProcessingModal(submitForm = false) {
+            Swal.fire({
+                title: 'Payment is being processed!',
+                text: 'Your payment is under review. Please wait a moment.',
+                icon: 'info',
+                confirmButtonText: 'OK',
+                confirmButtonColor: 'blue'
+            }).then(() => {
+                if (submitForm) {
+                    document.getElementById("paymentForm").submit();
+                } else {
+                    window.location.href = "{{ route('front.pricing') }}";
                 }
             });
         }

@@ -40,7 +40,9 @@ class UserController extends Controller
         $users = $query->with(['subscribe_transactions' => function ($q) {
             $q->where('is_paid', true)
                 ->orderBy('expired_at', 'desc');
-        }])->paginate(6);
+        }])
+        ->paginate(5)
+        ->appends($request->query());
 
         return view('admin.user.index', compact('users'));
     }

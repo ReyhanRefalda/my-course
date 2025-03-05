@@ -34,24 +34,40 @@
                             </a>
                         </div>
                         @forelse ($courseVideos as $video)
-                        <div class="group p-[12px_16px] flex items-center gap-[10px] bg-[#E9EFF3] rounded-full hover:bg-[#3525B3] transition-all duration-300">
-                            <div class="text-black group-hover:text-white transition-all duration-300">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11.97 2C6.44997 2 1.96997 6.48 1.96997 12C1.96997 17.52 6.44997 22 11.97 22C17.49 22 21.97 17.52 21.97 12C21.97 6.48 17.5 2 11.97 2ZM14.97 14.23L12.07 15.9C11.71 16.11 11.31 16.21 10.92 16.21C10.52 16.21 10.13 16.11 9.76997 15.9C9.04997 15.48 8.61997 14.74 8.61997 13.9V10.55C8.61997 9.72 9.04997 8.97 9.76997 8.55C10.49 8.13 11.35 8.13 12.08 8.55L14.98 10.22C15.7 10.64 16.13 11.38 16.13 12.22C16.13 13.06 15.7 13.81 14.97 14.23Z" fill="currentColor" />
-                                </svg>
-                            </div>
-                            <a href="{{ route('front.learning', [$course, 'courseVideoId' => $video->id]) }}">
-                                <p class="font-semibold group-hover:text-white transition-all duration-300">{{ $video->name }}</p>
-                            </a>
-                        </div>
-                    @empty
-                        <p class="text-gray-500">Tidak ada video yang tersedia.</p>
-                    @endforelse
+    @if(!$video->deleted_at)
+        @php
+            $currentVideoId = Route::current()->parameter('courseVideoId');
+            $isActive = $currentVideoId == $video->id;
+            $isWatched = auth()->check() && in_array($video->id, $watchedVideos); // ✅ Pastikan user login sebelum cek history
+        @endphp
+
+        <div class="group p-[12px_16px] flex items-center gap-[10px] {{$isActive ? 'bg-[#3525B3]' : 'bg-[#E9EFF3]'}} rounded-full hover:bg-[#3525B3] transition-all duration-300">
+            <div class="{{$isActive ? 'text-white' : 'text-black'}} group-hover:text-white transition-all duration-300">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.97 2C6.44997 2 1.96997 6.48 1.96997 12C1.96997 17.52 6.44997 22 11.97 22C17.49 22 21.97 17.52 21.97 12C21.97 6.48 17.5 2 11.97 2ZM14.97 14.23L12.07 15.9C11.71 16.11 11.31 16.21 10.92 16.21C10.52 16.21 10.13 16.11 9.76997 15.9C9.04997 15.48 8.61997 14.74 8.61997 13.9V10.55C8.61997 9.72 9.04997 8.97 9.76997 8.55C10.49 8.13 11.35 8.13 12.08 8.55L14.98 10.22C15.7 10.64 16.13 11.38 16.13 12.22C16.13 13.06 15.7 13.81 14.97 14.23Z" fill="currentColor"/>
+                </svg>
+            </div>
+            <a href="{{ route('front.learning', [$course, 'courseVideoId' => $video->id]) }}">
+                <p class="font-semibold group-hover:text-white transition-all duration-300 {{$isActive ? 'text-white' : 'text-black'}}">
+                    {{$video->name}}
+                </p>
+            </a>
+
+            {{-- ✅ Tambahkan centang jika user login & sudah menonton --}}
+            @if ($isWatched)
+                <img src="{{ asset('assets/icon/tick-circle.svg') }}" alt="Watched" class="w-6 h-6">
+            @endif
+        </div>
+    @endif
+@empty
+    <p>No videos available.</p>
+@endforelse
+
                     </div>
                 </div>
             </div>
         </section>
-        <section id="Video-Resources" class="flex flex-col mt-5">
+        <section id="Video-Resources" class="flex flex-col mt-5 mb-5">
             <div class="max-w-[1100px] w-full mx-auto flex flex-col gap-3">
                 <h1 class="title font-extrabold text-[30px] leading-[45px]">{{ $course->name }}</h1>
                 <div class="flex items-center gap-5">
@@ -83,7 +99,10 @@
                 <div class="tablink font-semibold text-lg h-[47px] transition-all duration-300 cursor-pointer hover:text-[#FF6129]"
                     onclick="openPage('Discussions', this)">Discussions</div>
             </div>
-            <div class="bg-[#F5F8FA] py-[50px]">
+            <div class="
+            {{-- bg-[#F5F8FA] --}}
+            bg-white
+             py-[50px]">
                 <div class="max-w-[1100px] w-full mx-auto flex flex-col gap-[70px]">
                     <div class="flex gap-[50px]">
                         <div class="tabs-container w-[700px] flex shrink-0">
@@ -137,7 +156,7 @@
                                     </p>
                                     <div class="flex gap-6 w-fit">
                                         <a href="https://discord.gg/JsGNBjmTKE"
-                                            class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]">Join
+                                            class="text-white font-semibold rounded-[30px] p-[16px_32px] bg-[#FF6129] transition-all duration-300 hover:shadow-[0_10px_20px_0_#FF612980]" target="_blank">Join
                                             Forum</a>
                                     </div>
                                 </div>
@@ -154,7 +173,7 @@
                             </div>
                         </div>
                         <div class="mentor-sidebar flex flex-col gap-[30px] w-full">
-                            <div class="mentor-info bg-white flex flex-col gap-4 rounded-2xl p-5">
+                            <div class="mentor-info bg-[#F5F8FA] flex flex-col gap-4 rounded-2xl p-5">
                                 <p class="font-bold text-lg text-left w-full">Teacher</p>
                                 <div class="flex items-center justify-between w-full">
                                     <div class="flex items-center gap-3">
@@ -169,11 +188,11 @@
                                             <p class="text-sm text-[#6D7786]">{{ $course->teacher->user->occupation }}</p>
                                         </div>
                                     </div>
-                                    <a href=""
-                                        class="p-[4px_12px] rounded-full bg-[#FF6129] font-semibold text-xs text-white text-center">Follow</a>
+                                    {{-- <a href=""
+                                        class="p-[4px_12px] rounded-full bg-[#FF6129] font-semibold text-xs text-white text-center">Follow</a> --}}
                                 </div>
                             </div>
-                            <div class="bg-white flex flex-col gap-5 rounded-2xl p-5">
+                            {{-- <div class="bg-white flex flex-col gap-5 rounded-2xl p-5">
                                 <p class="font-bold text-lg text-left w-full">Unlock Badges</p>
 
                                 <div class="flex items-center gap-3">
@@ -207,10 +226,10 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
-                    <div id="Screenshots" class="flex flex-col gap-3">
+                    {{-- <div id="Screenshots" class="flex flex-col gap-3">
                         <h3 class="title-section font-bold text-xl leading-[30px] ">Students Portfolio</h3>
                         <div class="grid grid-cols-4 gap-5">
                             <div class="rounded-[20px] overflow-hidden w-full h-[200px] hover:shadow-[0_10px_20px_0_#0D051D20] transition-all duration-300"
@@ -238,11 +257,11 @@
                                     alt="image">
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>
-        <section id="FAQ" class="max-w-[1200px] mx-auto flex flex-col py-[70px] px-[100px]">
+        {{-- <section id="FAQ" class="max-w-[1200px] mx-auto flex flex-col py-[70px] px-[100px]">
             <div class="flex justify-between items-center">
                 <div class="flex flex-col gap-[30px]">
                     <div
@@ -320,7 +339,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <x-footer />
 
         <!-- JavaScript -->
