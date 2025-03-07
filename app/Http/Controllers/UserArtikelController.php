@@ -72,19 +72,21 @@ class UserArtikelController extends Controller
     {
         $artikels = Artikel::where('status', 'publish')->where('slug', $slug)->firstOrFail();
         $user = auth()->user();
-
+    
+        // Jika user login, simpan riwayat artikel yang dibaca
         if ($user) {
-            // Pastikan tabel pivot memiliki nama yang benar (misalnya 'article_histories')
             DB::table('article_histories')->updateOrInsert(
                 ['article_id' => $artikels->id, 'user_id' => $user->id],
-                ['updated_at' => now(), 'created_at' => now()] // Perbarui timestamps
+                ['updated_at' => now(), 'created_at' => now()]
             );
+    
+            // Ambil daftar artikel yang dikunjungi oleh user
+            $visitedArticles = $user->articles()->limit(9)->pluck('artikel.id');
+        } else {
+            $visitedArticles = collect(); // Jika tidak login, buat koleksi kosong
         }
-
-        // Ambil daftar artikel yang dikunjungi oleh user
-        $visitedArticles = $user->articles()->limit(9)->pluck('artikel.id');
-
-        // Ambil artikel berdasarkan daftar ID yang sudah dikunjungi
+    
+        // Ambil artikel yang pernah dikunjungi, atau ambil artikel terbaru jika belum ada
         if ($visitedArticles->isNotEmpty()) {
             $artikleSidebar = Artikel::whereIn('id', $visitedArticles)
                 ->where('status', 'publish')
@@ -92,13 +94,12 @@ class UserArtikelController extends Controller
                 ->take(6)
                 ->get();
         } else {
-            // Jika tidak ada history, ambil artikel terbaru
             $artikleSidebar = Artikel::where('status', 'publish')
                 ->latest()
                 ->take(6)
                 ->get();
         }
-
+    
         return view('artikel.show', compact('artikels', 'artikleSidebar'));
     }
 

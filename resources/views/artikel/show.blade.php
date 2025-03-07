@@ -50,13 +50,14 @@
                 <header class="mb-4 lg:mb-6 not-format">
                     <address class="flex items-center mb-6 not-italic">
                         <div class="inline-flex items-center mr-3 text-sm text-gray-900">
-                            @if ($artikels->user->avatar)
-                                <img src="{{ Storage::url($artikels->user->avatar) }}"
-                                    alt="{{ $artikels->user->avatar }}" class="w-10 h-10 rounded-full mr-2" />
+                            @if (!empty($artikels->user) && !empty($artikels->user->avatar))
+                                <img src="{{ asset($artikels->user->avatar) }}" alt="User Avatar"
+                                    class="w-10 h-10 rounded-full mr-2" />
                             @else
-                                <img src="{{ asset('aset/default-profile.png') }}" alt="Default profile"
+                                <img src="{{ asset('images/avatars-default.jpeg') }}" alt="Default profile"
                                     class="w-10 h-10 rounded-full mr-2" />
                             @endif
+
                             <div>
                                 <a href="#" rel="author"
                                     class="text-lg font-bold text-gray-800">{{ $artikels->user->name }}</a>

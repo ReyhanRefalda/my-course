@@ -33,8 +33,10 @@
             </div>
             <a
                 class="relative flex items-center justify-center hs-dropdown-toggle cursor-pointer align-middle rounded-full">
-                <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
-                    alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
+                <img src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('images/avatars-default.jpeg') }}" 
+     alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
+
+           
             </a>
 
             <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[30px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
@@ -42,8 +44,9 @@
                 <div class="card-body p-0 py-2">
                     <div class="grid grid-cols-[1fr_2fr] gap-2 p-4 justify-center items-center">
                         <div class="w-[80px] h-[80px] rounded-full overflow-hidden">
-                            <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
-                                alt="Profile Picture" class="object-cover w-full h-full rounded-full">
+                            <img src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('images/avatars-default.jpeg') }}" 
+                            alt="Profile Picture" class="object-cover w-18 h-18 rounded-full">
+                       
                         </div>
                         <div class="flex flex-col gap-1">
                             <h2 class="text-xl font-bold text-gray-900">{{ Auth::user()->name }}</h2>

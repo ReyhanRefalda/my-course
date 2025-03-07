@@ -14,39 +14,45 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::whereDoesntHave('roles', function ($q) {
-            $q->where('name', 'teacher');
-        });
-
+        $query = User::query();
+    
+        // Ambil user yang memiliki role 'student' tetapi tidak memiliki role 'teacher'
         $query->whereHas('roles', function ($q) {
             $q->where('name', 'student');
+        })->whereDoesntHave('roles', function ($q) {
+            $q->where('name', 'teacher');
         });
-
+    
+        // Filter pencarian jika ada input di search
         if ($request->filled('search')) {
-            $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                    ->orWhere('email', 'like', "%$search%");
             });
         }
-
+    
+        // Filter untuk hanya menampilkan user yang memiliki subscription aktif
         if ($request->filled('subscription')) {
             $query->whereHas('subscribe_transactions', function ($q) {
-                $q->where('is_paid', true)
+                $q->where('status', 'approved')
                     ->where('expired_at', '>=', \Carbon\Carbon::now());
             });
         }
-
+    
         // Ambil data user dengan relasi subscription
         $users = $query->with(['subscribe_transactions' => function ($q) {
-            $q->where('is_paid', true)
+            $q->where('status', 'approved')
                 ->orderBy('expired_at', 'desc');
         }])
         ->paginate(5)
         ->appends($request->query());
-
+    
         return view('admin.user.index', compact('users'));
     }
-
+    
+    
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -68,28 +74,30 @@ class UserController extends Controller
      */
     public function show(Request $request, User $user)
     {
-        $query = User::whereDoesntHave('roles', function ($q) {
-            $q->where('name', 'teacher');
-        });
-
+        $query = User::query();
+    
+        // Hanya ambil user dengan role 'student'
         $query->whereHas('roles', function ($q) {
             $q->where('name', 'student');
         });
-
+    
+        // Filter untuk hanya menampilkan user yang memiliki subscription aktif
         if ($request->filled('subscription')) {
             $query->whereHas('subscribe_transactions', function ($q) {
-                $q->where('is_paid', true)
+                $q->where('status', 'approved') // Menggunakan 'status' menggantikan 'is_paid'
                     ->where('expired_at', '>=', \Carbon\Carbon::now());
             });
         }
-
+    
+        // Ambil data user dengan relasi subscription
         $users = $query->with(['subscribe_transactions' => function ($q) {
-            $q->where('is_paid', true)
+            $q->where('status', 'approved') // Perubahan dari 'is_paid' ke 'status'
                 ->orderBy('expired_at', 'desc');
         }])->get();
-
+    
         return view('admin.user.show', compact('user'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.
