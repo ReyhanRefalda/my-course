@@ -108,23 +108,25 @@ class DashboardController extends Controller
 
         // Top Performers Teacher
         $topPerformingTeachers = Teacher::with(['courses.students'])
-            ->get()
-            ->map(function ($teacher) {
-                $totalCourses = $teacher->courses->count();
-                $totalViewers = $teacher->courses->sum(function ($course) {
-                    return $course->students->count();
-                });
-
-                return [
-                    'teacher_name' => $teacher->user->name,
-                    'total_courses' => $totalCourses,
-                    'total_viewers' => $totalViewers,
-                    'teacher_email' => $teacher->user->email,
-                    'teacher_avatar' => $teacher->user->avatar,
-                ];
-            })
-            ->sortByDesc('total_viewers')
-            ->take(5);
+        ->where('status', 'approved') // Hanya ambil teacher yang disetujui
+        ->get()
+        ->map(function ($teacher) {
+            $totalCourses = $teacher->courses->count();
+            $totalViewers = $teacher->courses->sum(function ($course) {
+                return $course->students->count();
+            });
+    
+            return [
+                'teacher_name' => $teacher->user->name,
+                'total_courses' => $totalCourses,
+                'total_viewers' => $totalViewers,
+                'teacher_email' => $teacher->user->email,
+                'teacher_avatar' => $teacher->user->avatar,
+            ];
+        })
+        ->sortByDesc('total_viewers')
+        ->take(5);
+    
 
         // other data for owner
         $courses = Course::count();

@@ -102,10 +102,10 @@
                                     <td class="px-4 py-3 text-center">
                                         Rp{{ number_format($transaction->total_amount, 0, ',', '.') }}
                                     </td>
-                                    <td
-                                        class="px-4 py-3 text-center font-semibold {{ $transaction->is_paid ? 'text-green-600' : 'text-red-600' }}">
-                                        {{ $transaction->is_paid ? 'Paid' : 'Unpaid' }}
+                                    <td class="px-4 py-3 text-center font-semibold {{ $transaction->status === 'approved' ? 'text-green-600' : 'text-red-600' }}">
+                                        {{ $transaction->status === 'approved' ? 'IsPaid' : 'UnPaid' }}
                                     </td>
+                                    
                                     <td class="px-4 py-3 text-center">
                                         {{ $transaction->subscription_start_date->format('d M Y') }}
                                     </td>

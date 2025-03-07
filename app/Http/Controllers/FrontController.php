@@ -36,37 +36,36 @@ class FrontController extends Controller
     public function detail(Course $course)
     {
         $user = auth()->user();
-        $userRole = $user ? $user->getRoleNames()->first() : 'student';
-
+        $userRole = $user ? $user->getRoleNames()->first() : 'guest'; // Ubah default jadi 'guest'
+    
         // Ambil video berdasarkan role user
         $courseVideos = $course->course_videos()
-            ->when(in_array($userRole, ['owner', 'teacher']), function ($query) {
-                return $query->withTrashed(); // Tampilkan semua video termasuk yang dihapus
-            })
-            ->when($userRole === 'student', function ($query) {
-                return $query->whereNull('deleted_at'); // Hanya tampilkan video yang tidak dihapus
+            ->when($user && in_array($userRole, ['owner', 'teacher']), function ($query) {
+                return $query->withTrashed(); // Tampilkan semua video jika pemilik/guru
+            }, function ($query) {
+                return $query->whereNull('deleted_at'); // Hanya tampilkan video aktif untuk student & guest
             })
             ->get();
-
-        // Inisialisasi array kosong untuk menghindari error di Blade
+    
+        // Default array kosong untuk menghindari error di Blade
         $watchedVideos = [];
-
+    
         // Jika user login, ambil daftar video yang sudah ditonton
         if ($user) {
             $watchedVideos = VideoHistories::where('user_id', $user->id)
-                ->where('course_id', $course->id) // `$course` harus ambil ID-nya
+                ->where('course_id', $course->id)
                 ->pluck('video_id')
                 ->toArray();
         }
-
-        if ($user->hasRole('student') && $user->roles->count() === 1) {
-            // Menyimpan history kursus ke tabel pivot (jika ada tabel pivot `course_user`)
+    
+        // Jika user login dan hanya memiliki role 'student', simpan ke course_students
+        if ($user && $user->hasRole('student') && $user->roles->count() === 1) {
             DB::table('course_students')->updateOrInsert(
                 ['user_id' => $user->id, 'course_id' => $course->id],
                 ['updated_at' => now(), 'created_at' => now()]
             );
         }
-
+    
         return view('front.details', compact('course', 'courseVideos', 'watchedVideos'));
     }
 
@@ -251,80 +250,87 @@ class FrontController extends Controller
 
     public function progress(Request $request)
     {
-        {
-            $user = auth()->user();
-
-            // Ambil parameter filter dari request
-            $search = $request->input('search');
-            $categoryFilter = $request->input('category');
-            $dateFilter = $request->input('date');
-            $statusFilter = $request->input('status'); // Khusus kursus
-
-            // **AMBIL COURSES YANG PERNAH DIIKUTI USER + FILTER**
-            $coursesQuery = $user->courses()->orderByPivot('updated_at');
-
-            // Search berdasarkan nama kursus
-            if ($search) {
-                $coursesQuery->where('name', 'LIKE', "%{$search}%");
-            }
-
-            // Filter berdasarkan kategori
-            if ($categoryFilter) {
-                $coursesQuery->whereHas('categories', function ($query) use ($categoryFilter) {
-                    $query->where('categories.id', $categoryFilter);
-                });
-            }
-
-            // Filter berdasarkan tanggal
-            if ($dateFilter) {
-                $coursesQuery->whereDate('courses.created_at', $dateFilter);
-            }
-
-            // Jika ada filter status, gunakan collection & custom pagination
-            if ($statusFilter) {
-                $filteredCourses = $coursesQuery->get()->filter(function ($course) use ($statusFilter, $user) {
-                    return $user->courseStatus($course->id) === $statusFilter;
-                });
-
-                $courses = new \Illuminate\Pagination\LengthAwarePaginator(
-                    $filteredCourses->forPage(request('courses_page', 1), 2), // Gunakan parameter unik
-                    $filteredCourses->count(),
-                    4,
-                    request('courses_page', 1),
-                    ['path' => request()->url(), 'query' => request()->query()]
-                );
-            } else {
-                $courses = $coursesQuery->paginate(4, ['*'], 'courses_page'); // Gunakan parameter unik
-            }
-
-            // Tambahkan status untuk tiap course
-            if (auth()->check()) {
-                foreach ($courses as $course) {
-                    $course->status = $user->courseStatus($course->id);
-                }
-            }
-
-            // **AMBIL ARTICLES YANG PERNAH DIKUNJUNGI + FILTER**
-            $articlesQuery = $user->articles()->orderByPivot('created_at', 'desc');
-
-            if ($search) {
-                $articlesQuery->where('title', 'LIKE', "%{$search}%");
-            }
-
-            if ($dateFilter) {
-                $articlesQuery->whereDate('articles.created_at', $dateFilter);
-            }
-
-            // Gunakan parameter unik untuk pagination articles
-            $visitedArticles = $articlesQuery->paginate(3, ['*'], 'articles_page');
-
-            // Ambil daftar kategori
-            $categories = Category::all();
-
-            return view('front.progress', compact('courses', 'visitedArticles', 'categories'));
+        $user = auth()->user();
+    
+        // Ambil parameter filter dari request
+        $search = $request->input('search');
+        $categoryFilter = $request->input('category');
+        $dateFilter = $request->input('date');
+        $statusFilter = $request->input('status'); // Khusus kursus
+    
+        // **AMBIL COURSES YANG PERNAH DIIKUTI USER + FILTER**
+        $coursesQuery = $user->courses()->orderByPivot('updated_at');
+    
+        // Search berdasarkan nama kursus
+        if ($search) {
+            $coursesQuery->where('name', 'LIKE', "%{$search}%");
         }
+    
+        // Filter berdasarkan kategori
+        if ($categoryFilter) {
+            $coursesQuery->whereHas('categories', function ($query) use ($categoryFilter) {
+                $query->where('categories.id', $categoryFilter);
+            });
+        }
+    
+        // Filter berdasarkan tanggal ditonton
+        if ($dateFilter) {
+            $coursesQuery->whereIn('courses.id', function ($query) use ($user, $dateFilter) {
+                $query->select('vh.course_id')
+                    ->from('video_histories as vh')
+                    ->where('vh.user_id', $user->id)
+                    ->whereDate('vh.watched_at', $dateFilter)
+                    ->groupBy('vh.course_id');
+            });
+            
+        }
+    
+        // Jika ada filter status, gunakan collection & custom pagination
+        if ($statusFilter) {
+            $filteredCourses = $coursesQuery->get()->filter(function ($course) use ($statusFilter, $user) {
+                return $user->courseStatus($course->id) === $statusFilter;
+            });
+    
+            $courses = new \Illuminate\Pagination\LengthAwarePaginator(
+                $filteredCourses->forPage(request('courses_page', 1), 2), // Gunakan parameter unik
+                $filteredCourses->count(),
+                4,
+                request('courses_page', 1),
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
+        } else {
+            $courses = $coursesQuery->paginate(4, ['*'], 'courses_page'); // Gunakan parameter unik
+        }
+    
+        // Tambahkan status untuk tiap course
+        foreach ($courses as $course) {
+            $course->status = $user->courseStatus($course->id);
+        }
+    
+        // **AMBIL ARTICLES YANG PERNAH DIKUNJUNGI + FILTER**
+        $articlesQuery = $user->articles()->orderByPivot('created_at', 'desc');
+    
+        // Search berdasarkan judul artikel
+        if ($search) {
+            $articlesQuery->where('title', 'LIKE', "%{$search}%");
+        }
+    
+        // Filter berdasarkan tanggal dikunjungi
+        if ($dateFilter) {
+            $articlesQuery->join('article_histories as ah', 'artikel.id', '=', 'ah.article_id')
+                          ->where('ah.user_id', $user->id)
+                          ->whereDate('ah.created_at', $dateFilter);
+        }
+    
+        // Gunakan parameter unik untuk pagination articles
+        $visitedArticles = $articlesQuery->paginate(3, ['*'], 'articles_page');
+    
+        // Ambil daftar kategori
+        $categories = Category::all();
+    
+        return view('front.progress', compact('courses', 'visitedArticles', 'categories'));
     }
-
+    
     public function tes(Request $request) {
 
     }

@@ -1,4 +1,12 @@
-<x-user>
+@extends('../layouts.master')
+
+@section('content')
+<body class="text-black font-poppins pt-10 pb-[50px]">
+    <div id="hero-section"
+        class="max-w-[1200px] mx-auto w-full flex flex-col gap-10 bg-[url('{{ asset('assets/background/Hero-Banner.png') }}')] bg-center bg-no-repeat bg-cover rounded-[32px] overflow-hidden">
+        <x-navcat />
+    </div>
+
     <div class="container max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-5">
         <h2 class="font-semibold text-2xl mb-6 text-gray-800">History Payment</h2>
 
@@ -46,4 +54,5 @@
             </div>
         @endif
     </div>
-</x-user>
+</body>
+@endsection

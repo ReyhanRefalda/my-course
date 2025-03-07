@@ -27,7 +27,8 @@ class RolePermissionSeeder extends Seeder
         $userOwner = User::create([
             'name' => 'superadmin',
             'occupation' => 'CEO',
-            'avatar' => 'images/default-avatar.png',
+          'avatar' => 'images/avatars-default.jpeg',
+
             'email' => 'team@mycourse.com',
             'balance'=> 0,
             'password' => bcrypt('teamutama'),
