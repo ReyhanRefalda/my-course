@@ -21,7 +21,7 @@
                             class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring focus:ring-orange-400 focus:outline-none shadow-sm">
                     </div>
 
-                    
+
                     <div class="flex-1">
                         <input type="date" name="date" value="{{ request('date') }}"
                             class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring focus:ring-orange-400 focus:outline-none shadow-sm">
@@ -41,7 +41,7 @@
                     </div>
 
                     <!-- Filter Tanggal -->
-                  
+
 
                     <!-- Filter Status -->
                     <div class="flex-1">
@@ -85,11 +85,11 @@
                                 </a>
                                 <div class="flex flex-col px-4 gap-3 h-full flex-grow">
                                     <div class="flex flex-col gap-2 flex-grow">
-                                        <a href="{{ route('front.details', $course->slug) }}" 
+                                        <a href="{{ route('front.details', $course->slug) }}"
                                             class="font-semibold text-lg line-clamp-2 hover:line-clamp-none min-h-[48px] overflow-hidden">
                                             {{ $course->name }}
                                         </a>
-                        
+
                                         <!-- Menampilkan kategori sebagai badge -->
                                         <div class="flex flex-wrap gap-1">
                                             @foreach ($course->categories as $category)
@@ -98,14 +98,14 @@
                                                 </span>
                                             @endforeach
                                         </div>
-                        
+
                                         <!-- Bagian views dan jumlah siswa + Status Badge -->
                                         <div class="flex justify-between items-center mt-auto">
                                             <div class="flex items-center gap-1 text-[#6D7786]">
                                                 <i class="ti ti-eye"></i>
                                                 <p class="text-[#6D7786]">{{ $course->students->count() }}</p>
                                             </div>
-                        
+
                                             <!-- Tampilkan Badge Progress atau Done jika user login -->
                                             @if (auth()->check())
                                                 @php
@@ -120,7 +120,7 @@
                                             @endif
                                         </div>
                                     </div>
-                        
+
                                     <div class="flex items-center gap-2">
                                         <div class="w-8 h-8 flex shrink-0 rounded-full overflow-hidden">
                                             <img src="{{ Storage::url($course->teacher->user->avatar) }}" class="w-full h-full object-cover" alt="icon">
@@ -133,7 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         @empty
                             <div class="col-span-10 flex flex-col items-center justify-center text-center">
                                 <div class="w-full flex justify-center">
@@ -144,14 +144,14 @@
                             </div>
                         @endforelse
                     </div>
-                
+
                     <!-- Pagination -->
                     <div class="py-4 flex justify-end">
                         {{ $courses->appends(request()->query())->links() }}
                     </div>
                 </div>
-                
-                
+
+
 
 
                 <!-- SECTION ARTICLES -->
@@ -162,14 +162,14 @@
                             <div class="course-card w-full">
                                 <div
                                     class="flex flex-col rounded-lg bg-white w-full pb-2 ring-1 ring-gray-300 hover:ring-2 hover:ring-orange-500">
-                                    <x-artikel-list title="{{ $artikel->title }}"
+                                    <x-artikel-list title="{{ Str::limit($artikel->title, 50) }}"
                                         image="{{ asset(getenv('CUSTOM_TUMBNAIL_LOCATION') . '/' . $artikel->tumbnail) }}"
                                         user="{{ $artikel->user->name }}"
                                         link="{{ route('artikel.show', ['slug' => $artikel->slug]) }}" :date="$artikel->created_at" />
                                 </div>
                             </div>
                         @empty
-                       
+
                         <div class="col-span-10 flex flex-col items-center justify-center text-center">
                             <div class="w-full flex justify-center">
                                 <img src="{{ asset('assets/images/background/no-data.jpg') }}" alt="No Data"
@@ -177,7 +177,7 @@
                             </div>
                             <p class="text-gray-500 mt-2">No Data available</p>
                         </div>
-                  
+
                         @endforelse
                     </div>
                     <div class="py-4 flex justify-end">

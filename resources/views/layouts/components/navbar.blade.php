@@ -20,21 +20,21 @@
                 <h3 class="text-xl font-bold mb-1">{{ Auth::user()->name }}</h3>
                 {{-- role user  owner, teacher, or student --}}
                 <p class="text-[12px] text-white bg-[#FF6129] rounded-full px-4 py-1 text-center font-semibold">
-                        @if (Auth::user()->hasRole('owner'))
-                            <span class="badge badge-success">Owner</span>
-                        @elseif (Auth::user()->hasRole('teacher') && Auth::user()->teacher?->status === 'pending')
-                            <span class="badge badge-warning">Pending</span>
-                        @elseif(Auth::user()->hasRole('teacher'))
-                            <span class="badge badge-warning">Teacher</span>
-                        @elseif (Auth::user()->hasActiveSubscription())
-                            <span class="badge badge-primary">PRO</span>
-                        @endif
+                    @if (Auth::user()->hasRole('owner'))
+                        <span class="badge badge-success">Owner</span>
+                    @elseif (Auth::user()->hasRole('teacher') && Auth::user()->teacher?->status === 'pending')
+                        <span class="badge badge-warning">Pending</span>
+                    @elseif(Auth::user()->hasRole('teacher'))
+                        <span class="badge badge-warning">Teacher</span>
+                    @elseif (Auth::user()->hasActiveSubscription())
+                        <span class="badge badge-primary">PRO</span>
+                    @endif
                 </p>
             </div>
             <a
                 class="relative flex items-center justify-center hs-dropdown-toggle cursor-pointer align-middle rounded-full">
                 <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
-     alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
+                    alt="Profile Picture" class="object-cover w-12 h-12 rounded-full">
             </a>
 
             <div class="card hs-dropdown-menu transition-[opacity,margin] border border-gray-300 rounded-[30px] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
@@ -43,7 +43,7 @@
                     <div class="grid grid-cols-[1fr_2fr] gap-2 p-4 justify-center items-center">
                         <div class="w-[80px] h-[80px] rounded-full overflow-hidden">
                             <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : asset('images/avatar-default.png') }}"
-     alt="Profile Picture" class="object-cover w-18 h-18 rounded-full">
+                                alt="Profile Picture" class="object-cover w-18 h-18 rounded-full">
 
                         </div>
                         <div class="flex flex-col gap-1">
