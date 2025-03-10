@@ -84,6 +84,20 @@
                         <i class="ti ti-settings text-[30px]"></i>
                         <a href="{{ route('profile.edit') }}" class="font-medium">Account Setting</a>
                     </div>
+
+                    @if (Auth::user()->hasRole('student'))
+                    <a href="{{ route('notifications.index') }}" class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                        <i class="ti ti-notification text-[30px]"></i> {{-- Ikon Payment --}}
+                        <h4 class="font-semibold">Notification</h4>
+                    </a>
+
+                    @foreach ($unreadNotifications as $notification)
+                        <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                            <i class="ti ti-bell text-[30px]"></i> {{-- Ikon Notifikasi --}}
+                            <a href="{{ route('notifications.index') }}" class="font-medium">{{ Str::limit($notification->data['message'], 20) }}</a>
+                        </div>
+                    @endforeach
+
                     <div class="mt-[7px] mb-2 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
                         <i class="ti ti-logout text-[30px]"></i>
                         <div class="">
@@ -93,21 +107,9 @@
                             </form>
                         </div>
                     </div>
-                    @if (Auth::user()->hasRole('student'))
-                    <a href="{{ route('notifications.index') }}" class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
-                        <i class="ti ti-credit-card text-[30px] text-gray-800"></i> {{-- Ikon Payment --}}
-                        <h4 class="font-semibold">Payment Updates</h4>
-                    </a>
-                
-                    @foreach ($unreadNotifications as $notification)
-                        <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
-                            <i class="ti ti-bell text-[20px] text-[#FF6129]"></i> {{-- Ikon Notifikasi --}}
-                            <a href="{{ route('notifications.index') }}" class="font-medium">{{ $notification->data['message'] }}</a>
-                        </div>
-                    @endforeach
                 @endif
-                
-                
+
+
                 </div>
             </div>
         </div>

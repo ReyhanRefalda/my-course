@@ -21,10 +21,10 @@ return new class extends Migration
             $table->softDeletes(); // Untuk menghapus notifikasi jika diperlukan
         });
     }
-    
+
     public function down()
     {
         Schema::dropIfExists('notifications');
     }
-    
+
 };

@@ -85,6 +85,13 @@
                         <i class="ti ti-settings text-[30px]"></i>
                         <a href="{{ route('profile.edit') }}" class="font-medium">Account Setting</a>
                     </div>
+                    @if (Auth::user()->hasRole('student'))
+                        <!-- Payment Updates -->
+                        <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
+                            <i class="ti ti-notification text-[30px]"></i>
+                            <a href="{{ route('notifications.index') }}" class="font-medium text-gray-800 hover:text-[#FF6129]">Notification</a>
+                        </div>
+                    @endif
                     <div class="mt-[7px] mb-2 flex justify-start items-center gap-x-1 text-gray-800 hover:text-[#FF6129]">
                         <i class="ti ti-logout text-[30px]"></i>
                         <div class="">
@@ -94,17 +101,9 @@
                             </form>
                         </div>
                     </div>
-                    
-                    @if (Auth::user()->hasRole('student'))
-                        <!-- Payment Updates -->
-                        <div class="mt-[7px] mb-4 flex justify-start items-center gap-x-1">
-                            <i class="ti ti-credit-card text-[30px]"></i>
-                            <a href="{{ route('notifications.index') }}" class="font-medium text-gray-800 hover:text-[#FF6129]">Payment Updates</a>
-                        </div>
-                    @endif
                 </div>
             </div>
-            
+
         </div>
     </div>
 @endauth
