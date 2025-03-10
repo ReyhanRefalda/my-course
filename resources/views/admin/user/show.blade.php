@@ -97,20 +97,18 @@
                         <tbody>
                             @foreach ($user->subscribe_transactions as $transaction)
                                 <tr class="border-b hover:bg-gray-100 transition">
-                                    <td class="px-4 py-3 text-center">{{ $transaction->package->name ?? 'Unknown' }}
-                                    </td>
+                                    <td class="px-4 py-3 text-center">{{ $transaction->package->name ?? 'Unknown' }}</td>
                                     <td class="px-4 py-3 text-center">
                                         Rp{{ number_format($transaction->total_amount, 0, ',', '.') }}
                                     </td>
                                     <td class="px-4 py-3 text-center font-semibold {{ $transaction->status === 'approved' ? 'text-green-600' : 'text-red-600' }}">
                                         {{ $transaction->status === 'approved' ? 'IsPaid' : 'UnPaid' }}
                                     </td>
-                                    
                                     <td class="px-4 py-3 text-center">
-                                        {{ $transaction->subscription_start_date->format('d M Y') }}
+                                        {{ $transaction->subscription_start_date ? $transaction->subscription_start_date->format('d M Y') : '-' }}
                                     </td>
                                     <td class="px-4 py-3 text-center">
-                                        {{ $transaction->expired_at->format('d M Y') }}
+                                        {{ $transaction->expired_at ? $transaction->expired_at->format('d M Y') : '-' }}
                                     </td>
                                 </tr>
                             @endforeach
